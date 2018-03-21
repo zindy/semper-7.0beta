@@ -1,0 +1,36 @@
+C Semper 6 system module PRUCOP
+C
+      LOGICAL FUNCTION PRUCOP(SRCDEV,DSTDEV,SRCBLK,DSTBLK,NBLOCK)
+C
+C Copies blocks from one part of the disc to another
+C
+      INCLUDE 'COMMON'
+C
+      LOGICAL DISC
+C
+      INTEGER*4 SRCBLK,DSTBLK,SBLKN,DBLKN
+      INTEGER SRCDEV,DSTDEV,I,NBLOCK
+C
+      INTEGER BUFF(LNBLK4/LNINT)
+      EQUIVALENCE (BUFF,RB3)
+C
+      PRUCOP = .TRUE.
+C
+C Copy blocks
+C
+      SBLKN = SRCBLK
+      DBLKN = DSTBLK
+      IF (SBLKN.NE.DBLKN .OR. SRCDEV.NE.DSTDEV) THEN
+         DO 10 I = 1,NBLOCK
+            IF (DISC(1,SRCDEV,LNBLK4,BUFF,SBLKN,NFMBYT,NFMBYT)) GOTO 20
+            SBLKN = SBLKN + 1
+            IF (DISC(2,DSTDEV,LNBLK4,BUFF,DBLKN,NFMBYT,NFMBYT)) GOTO 20
+            DBLKN = DBLKN + 1
+   10    CONTINUE
+      ENDIF
+      PRUCOP = .FALSE.
+   20 RETURN
+C
+C Copyright (C) 1987,1988,1989:  Synoptics Ltd,  All Rights Reserved
+C
+      END

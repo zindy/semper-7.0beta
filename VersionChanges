@@ -1,0 +1,48 @@
+This file is a quick summary of what I know to be the differences between the current release
+(Semper 7) and the NU version (based on release 6.1) and the prior SGI version (6.34).
+
+Semper 6.1
+
+1) Numerous changes in file names. For instance, vd has become syntax. 
+2) Log files are no longer automatically created -- they have to be allocated. Need to use "echo 
+log" rather than "log" to produce output. 
+3) Default suffixes have changed. For instance, we used ".disc" but the current version has a 
+default of ".dsk" if you don't set one. 
+4) The "plo" key was local to the NU implimentation of semper and is not in the current version. It 
+would be nice to add it, but it is probably easier just to redo partitions. 
+5) The cursor is not so nice -- the 'good' NU cursor needs to be implimented. 
+6) Popup window help works (in linux, not in cygwin at present), but unfortunately is not correctly 
+keyworded. Try help /mon XYZ 
+7) Quite a few new features, for instance the ability to change the cache size and have an 
+effective disc in memory is now implimented. This is probably slower than the NU implimentation 
+where all discs were in memory. 
+8) Several commands not implimented, and may never be:
+        mic 	Use "input raw byte" instead (perhaps with byte swapping) with an offset to skip the
+		header.
+        enter   No substitute
+        pput    For the moment use "output tiff"; I don't know why it won't work!
+        get 	Maybe can be done using "input raw fp" or "input raw complex", probably not. 
+9) Some new commands, for instance "unix" which sometimes runs a unix command (sometimes hangs the 
+window).
+10) Clumsy popup window, alas (LDM opinion), rather than a straightforward terminal. No scrollback,
+although up/down arrows for history work. 
+11)Best implimentation is with integer*4. It is possible to do integer*2, but (LDM opinion) not a 
+good idea. 
+12)Perhaps more accurate than HP's (less accurate than Apollo's, but that's really old history). 
+13)Moving images from older semper discs to the new ones may be tricky -- MAKE COPIES! Probably 
+best it to try and unformatted write (see help) then move them. This might work, although there may 
+be an issue with byte swapping. There is a command dskconv (installed to 
+/usr/local/semper-7.0b/bin) which might work, e.g. "dskconv Mydisc.disc"
+
+Semper 6.34
+
+1) Full color is default mode -- most modern machines don't have anything else.
+2) Some commands such as hrems may well be broken.
+3) SGI locals not implimented.
+4) See comments above about integer*2
+5) Conversion should be easier using dskconv (see above) UNLESS you have integer images. You have 
+to do a raw output of these and then use "input raw i2" to retrieve them. Note: the keys "i2" and 
+"i4" to the input/output commands are not currently documented (I'm not good at writing 
+documentation).
+
+LDM, Aug 17, 2005.

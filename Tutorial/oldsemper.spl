@@ -1,0 +1,2266 @@
+COPYRIGHT()
+type 'Semper 6 library file'
+type 'Copyright (C) 1988: Synoptics Ltd,  All Rights Reserved'
+type 'Copyright (C) 1988-93: Northwestern UNiversity, All Rights Reserved'
+end
+
+CARBON()
+! Runs a simple C simulation - assuming that Lib Em has already been setup
+type 'Running a carbon simulation from -sch to 1.67 sch in steps of sch/3'
+plo=1
+Ask 'Astigmatism/nm [RETURN=0]: ' astig
+If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+Ask 'Beam tilt/mrad [RETURN=0]: ' tilt
+If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+Ask 'Objective aperture radius/mrad [RETURN=infinite]: ' oaradius
+Unless set(oar) jump Pn1
+  Ask '..displacement magnitude/mrad [RETURN=0]: ' oadisp
+  Ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+PN1:
+ Ask 'Magnitude of uniform specimen drift/nm [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/nm (rms) [RETURN=0]: ' vibr
+ type 'Calculating ...'
+ cre 100 siz 128 val 0 ; noi 100 width 0.1
+ fou 100 ; min=-0.1 max=0.1
+ for j -3,5 ; def=sch*j/3 ; ctf mul 100 j+104 phy ; sel j+104
+ ps j+104 j+114 ; full j+114 ;
+ ima j+104 ;   title add text 'C defocus ',def ; let j+104 title ;
+ loo
+ type 'Montage of Images'
+ sur 101 ;  sta=101 end=109 col=3 ; xoff=256 ; lib mon
+ partition 10 siz 512 pos 256,0 ; cre dis:10 siz 512 ; del 200 ; cop dis:10 200 
+ type 'Power spectra'
+ sur 111 ;  sta=111 end=119 col=3 ;max=max/10 ; xof=-256 ; lib mon
+ partition 10 size 512 pos -256,0 ; cre dis:10 siz 512; del 201 ; cop dis:10 201
+ 201 dis:2 ; 200 dis:3 ; unset xof
+end
+
+PARTICLE()
+! Runs a simple particle simulation - assuming that Lib Em has already been setup
+type 'Running a linear particle simulation from 0 to 2.67 sch in steps of sch/3'
+erase part 1 ;
+Ask 'Fringe spacing in Angstroms [RETURN=2.5]: ' fr
+unless set(fr) fr = 2.5
+Ask 'Amplitude of fringes [RETURN=0.25]: ' apf
+
+stold = step ;
+! Make sure that step is not too small
+fr = fr/(step*10) ; 
+if fr > 3 jump k1
+type 'Note: Decreasing step to avoid undersampling of fringes'
+step = step*fr/4 ; fr = 4 ; k1:
+
+unless set(apf) apf = 0.25
+Ask 'Astigmatism/nm [RETURN=0]: ' astig
+If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+Ask 'Beam tilt/mrad [RETURN=0]: ' tilt
+If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+Ask 'Objective aperture radius/mrad [RETURN=infinite]: ' oaradius
+Unless set(oar) jump Pn2
+  Ask '..displacement magnitude/mrad [RETURN=0]: ' oadisp
+  Ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+PN2:
+ Ask 'Magnitude of uniform specimen drift/nm [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/mrad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/nm (rms) [RETURN=0]: ' vibr
+ cre 300 siz 128 val 0
+ calc cos(2*pi*x/fr)+cos(2*pi*y/fr) to 300 ; 
+type 'Lattice mockup ' ; 300 dis:1
+ mas 300 rad 30 val 0 ; type 'Pseudo Particle ' ; 300 dis:1
+ cre 301 siz 128 val 0.9 ; mas 301 rad 30 val 1 ;
+ calc :301+apf*c(0,:300) to 301 ; type 'Complex particle ' ;301 dis:1 ; 
+ fou 301 302 ; sur 302 ; max=-min ; type 'Fourier Transform'
+  302 pre dis:1 
+ type '' ; type 'Showing images as they are calculated '
+  for j -3,5 ; def=sch*j/3+sch ; a = j+306 ; ctf mul 302 a phy wave ; ima a ; 
+ calc msq (:a) to 999; min=0.8 max=1.2
+ cop 999 a fp; sel a ;  title add text 'Defocus ',def ; 
+ let a title ;
+
+ dis a dis:1; loo
+ sur 303 ; sta=303 end=311 col=3 ;xof=256 ; lib mon ; unset xof
+cre dis:1 siz 420 ; mark text 'Montage of Linear Images' below
+step = stold
+ type 'Try Lib CPARTICLE for case with carbon background '
+end
+
+CPARTICLE()
+ plo=1
+! Runs a simple particle simulation - assuming that Lib Em has already been setup
+type 'Running a linear particle simulation from 0 to 2.67 sch in steps of sch/3'
+type 'Carbon background used'
+Ask 'Fringe spacing in Angstroms [RETURN=2.5]: ' fr
+unless set(fr) fr = 2.5
+
+stold = step ;
+! Make sure that step is not too small
+fr = fr/(step*10) ; 
+if fr > 3 jump k2
+type 'Note: Decreasing step to avoid undersampling of fringes'
+step = step*fr/4 ; fr = 4 ; 
+k2:
+
+Ask 'Amplitude of fringes [RETURN=0.25]: ' apf
+unless set(apf) apf = 0.25
+erase part 1 ;
+Ask 'Astigmatism/nm [RETURN=0]: ' astig
+If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+Ask 'Beam tilt/mrad [RETURN=0]: ' tilt
+If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+Ask 'Objective aperture radius/mrad [RETURN=infinite]: ' oaradius
+Unless set(oar) jump Pn3
+  Ask '..displacement magnitude/mrad [RETURN=0]: ' oadisp
+  Ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+PN3:
+ Ask 'Magnitude of uniform specimen drift/nm [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/nm (rms) [RETURN=0]: ' vibr
+ cre 400 siz 128 val 0
+ calc cos(2*pi*x/fr)+cos(2*pi*y/fr) to 400 ; 
+type 'Lattice mockup ' ; 400 dis:1
+ mas 400 rad 30 val 0 ; type 'Pseudo Particle ' ; 400 dis:1
+ cre 401 siz 128 val 0.9 ; mas 401 rad 30 val 1 ;
+ calc :401+apf*c(0,:400) to 401 ; type 'Complex particle ' ;401 dis:1 ; 
+ cre 402 siz 128 val 0 ; noi 402 wid 0.1 ; calc :401 + C(0,:402) to 401 ;
+ type 'Noise added to simulation ' ; 401 dis:1
+ fou 401 402 ; sur 402 ; max=-min ; type 'Fourier Transform'
+  402 pre dis:1 ;
+ type 'Showing images as they are calculated ' ;
+  for j -3,5 ; def=sch*j/3+sch ; a = j+406 ; ctf mul 402 a phy wave ; ima a ; 
+ calc msq (:a) to 999; min=0.8 max=1.2 ; ps 999 j+415 ; full j+415
+ cop 999 a fp; sel a ;  title add text 'Defocus ',def ; 
+ let a title ;
+
+ dis a dis:1; loo
+ erase dis:1
+ sur 403 ; sta=403 end=411 col=3 ;xof=-256 ; lib mon
+
+ type 'Power spectra'
+ sta=412 end=420 col=3 ;max=500 xof=256; lib mon
+ unset xof sta end col 
+ step = stold
+ type 'Try Lib CP2nd for non-linear test (slow) '
+end
+
+CP2nd()
+ plo=1
+! Runs a simple particle simulation - assuming that Lib Em has already been setup
+type 'Running a linear particle simulation from 0 to 2.67 sch in steps of sch/3'
+type 'Carbon background used, non linear imaging also'
+type 'Note: convergence 0 used; only focal spread term'
+oldsw = swidth ; swidth = 0 ; oldew = ewidth ; ewidth = 0 ;
+
+Ask 'Fringe spacing in Angstroms [RETURN=2.5]: ' fr
+unless set(fr) fr = 2.5
+Ask 'Amplitude of fringes [RETURN=0.25]: ' apf
+unless set(apf) apf = 0.25
+
+stold = step ;
+! Make sure that step is not too small
+fr = fr/(step*10) ; 
+if fr > 3 jump k3
+type 'Note: Decreasing step to avoid undersampling of fringes'
+step = step*fr/4 ; fr = 4 ; 
+k3:
+
+erase part 1 ;
+Ask 'Astigmatism/nm [RETURN=0]: ' astig
+If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+Ask 'Beam tilt/mrad [RETURN=0]: ' tilt
+If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+Ask 'Objective aperture radius/mrad [RETURN=infinite]: ' oaradius
+Unless set(oar) jump Pn5
+  Ask '..displacement magnitude/mrad [RETURN=0]: ' oadisp
+  Ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+PN5:
+ Ask 'Magnitude of uniform specimen drift/nm [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/nm (rms) [RETURN=0]: ' vibr
+ cre 500 siz 128 val 0
+ calc cos(2*pi*x/fr)+cos(2*pi*y/fr) to 500 ; 
+type 'Lattice mockup ' ; 500 dis:1
+ mas 500 rad 30 val 0 ; type 'Pseudo Particle ' ; 500 dis:1
+ cre 501 siz 128 val 0.9 ; mas 501 rad 30 val 1 ;
+ calc :501+apf*c(0,:500) to 501 ; type 'Complex particle ' ;501 dis:1 ; 
+ cre 502 siz 128 val 0 ; noi 502 wid 0.1 ; calc :501 + C(0,:502) to 501 ;
+ type 'Noise added to simulation ' ; 501 dis:1
+ fou 501 502 ; sur 502 ; max=-min ; type 'Fourier Transform'
+  502 pre dis:1 
+
+type 'Doing linear case '
+ plo=1 ; swidth = 0
+ ewidth = oldew
+ for j -3,5 ; def=sch*j/3+sch ; a = j+515 ; ctf mul 502 a phy wave ; 
+ ima a ; 
+ calc msq (:a) to 999; min=0.8 max=1.2 ;
+ cop 999 a fp; sel a ;  title add text 'Defocus ',def ; 
+ let a title ; title add text ', Linear case ' ;
+ dis a dis:1; loo
+
+ sur 512
+ type 'Montage of linear results'
+ sta=512 end=520 col=3 ; lib mon
+cre dis:1 siz 420 ; mark text 'Montage of Linear Results' below
+ 
+
+ ewidth = 0
+ type '' ; type 'Showing non-linear images as they are calculated '
+type 'This will take a little time !'
+  a = 0
+  for k -6,6
+      a = a + exp(-k*k/8) ; loo ; bn=a
+  for j -3,5 ; d = sch*j/3+sch ; a = j+506 ; 
+ cre 999 siz 128 val 0 ; for k -6,6 ; def = d + k*oldew/2 ;
+ ctf mul 502 998 phy wave ; ima 998 ; 
+ calc :999 + exp(-k*k/8)*msq (:998) to 999; loo ;
+ min=0.8 max=1.2 ; 
+ calc ( :999 )/bn  to a fp; sel a ;  title add text 'Defocus ',d ; 
+ let a title ; title add text ', Non-Linear case' ; dis a dis:1 ; loo ;
+
+ sur 503 full nover ;  type 'Montage of results' ; max=mean+3*sd min=mean-3*sd
+ sta=503 end=511 col=3 xof=256 ;lib mon ; 
+ sur 512 full nover; max=mean+3*sd min=mean-3*sd; sta=512 end=520 col=3 xof=-256; lib mon
+unset sta end xof col
+
+swidth = oldsw ; ewidth = oldew ; step = stold
+end
+
+H9000()
+! Sets up microscope parameters for H9000
+type 'Setting CTF parameters for H9000 with phys also set'
+phy=yes
+kv = 300
+cs = 0.9
+local $a,$b
+$a=kv*1e3 $b=cs*1e6 lam=$a*1.60206e-4/9.1083/2.99793^2
+lam=6.62517/root(2*1.60206*9.1083*$a*(1+lam/2))
+sch=root($b*lam) gl=$b^.25*lam^.75
+Type 'Sch=',sch,'nm   Gl=',gl,'nm   Gl/Sch=',gl/sch*1e3,'mrad'
+step=0.05
+type 'Real Space pixel size 0.5 Angstroms '
+def=sch ; type 'Defocus set at ', sch, ' nm'
+swidth = 0.5 ; ewidth = 8
+Type 'Rms beam convergence/mrad ', swidth
+type 'Rms focus spread/nm ', ewidth
+end
+
+HF2000()
+! Sets up microscope parameters for HF2000 (?)
+type 'Setting approximate CTF parameters for HF2000 with phys also set'
+phy=yes
+kv = 200
+cs = 1.2
+local $a,$b
+$a=kv*1e3 $b=cs*1e6 lam=$a*1.60206e-4/9.1083/2.99793^2
+lam=6.62517/root(2*1.60206*9.1083*$a*(1+lam/2))
+sch=root($b*lam) gl=$b^.25*lam^.75
+Type 'Sch=',sch,'nm   Gl=',gl,'nm   Gl/Sch=',gl/sch*1e3,'mrad'
+step=0.05
+type 'Real Space pixel size 0.5 Angstroms '
+def=sch ; type 'Defocus set at ', sch, ' nm'
+swidth = 0.5 ; ewidth = 4
+Type 'Rms beam convergence/mrad ', swidth
+type 'Rms focus spread/nm ', ewidth
+end
+
+ROW()
+! Types all pixels in row 'ROW'
+local $a,$b
+if set(row) $a=row; unless set(row) ask 'Row number? ' $a
+pcb; if form=3 jump complex
+for $b x1,x2; type $b,#7,p($b,$a); loop $b; return
+complex:
+for $b x1,x2; type $b,#7,re($b,$a),#20,im($b,$a); loop $b
+end
+
+COL()
+! Types all pixels in col 'COL'
+local $a,$b
+if set(col) $a=col; unl set(col) ask 'Col number? ' $a
+pcb; if form=3 jump complex
+for $b y2,y1; type $b,#7,p($a,$b); loop $b; return
+complex:
+for $b y2,y1; type $b,#7,re($a,$b),#20,im($a,$b); loop $b
+end
+
+MOLECULE()
+! Generates a small test picture in 'IN'
+Local $a
+If set(IN) $a=IN; Unl set(IN) ask 'Picture number for molecule? ' $a
+Create $a size 32
+Calc exp(-rr/100) +
++ 1.5*exp(-((x-12)^2+(y-12)^2)/4) +
++ 1.5*exp(-((x+12)^2+(y-12)^2)/4) +
++ 1.5*exp(-((x+9)^2+(y+4)^2)/4) +
++ 1.5*exp(-((x-9)^2+(y+4)^2)/4) +
++ 1.5*exp(-(x^2+(y+12)^2)/4)
+Calc :$a +
++ 0.8*exp(-(x^2+(y-5)^2)/2.25) +
++ 0.8*exp(-(x^2+(y+5)^2)/2.25) +
++ 0.8*exp(-((x-5)^2+y^2)/2.25) +
++ 0.8*exp(-((x+5)^2+y^2)/2.25)
+end
+
+LATTICE()
+! Define lattice vectors U,V via display cursor
+Local $a,$b,$c,$d,$e
+Type 'Mark an origin'; xwires nover; W=X,Y
+Mark pos W,W2 text 'O'; Mark pos W,W2 mkmode 5
+Type 'Mark some other point you can index'; xwires; $a=x-w,y-w2
+Ask  '  and enter its indices (e.g. 4,1): ' $b,$b2
+la1:
+Type 'Mark another (independent) point'; xwires; $c=x-w,y-w2
+Ask  '             and enter its indices: ' $d,$d2
+$e=$d*$b2-$b*$d2; Unless $e jump la1
+U=($b2*$c-$d2*$a)/$e,($b2*$c2-$d2*$a2)/$e
+V=($d*$a-$b*$c)/$e,($d*$a2-$b*$c2)/$e
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+Mark posn W+U,W2+U2 text 'U'; Mark posn W+V,W2+V2 text 'V'
+! $b=$b+1 $c=$c+1 $d=fix($b/2) $e=fix(($c-1)/2)
+Lattice mark dis
+end
+
+PARTITIONS()
+! Define partitions dividing up display frame conveniently
+Local $a,$b,$c,$d,$e,$f,$x,$y,$p,$p2
+Ask 'First partition number to be used: ' $d
+Ask 'Number of columns,rows wanted: ' $a,$b
+$c=1
+Ask 'Size of display: ' $f,$f2
+$e=$d; $p=fix($f/$a),fix($f2/$b)
+l:
+for $y=1,$b
+ for $x=1,$a
+   partn $d frame $c size $p,$p2 posn ($x-1)*$f/$a,(1-$y)*$f2/$b top left
+   $d=$d+1
+ loop $x
+loop $y
+show partitions $e,$d-1
+! view frame $f; ! for n $e,$d-1; ! mark partition dis:n ; ! loo
+end
+
+
+INVERT()
+! Inverts U,V for inverse extraction of unit cell size UCS[,UC2]
+local $a,$a2,$b,$c,$d,$e,$f
+unset $a2; if set(uc2) $a2=uc2
+if set(ucs) $a=ucs; unl set(ucs) ask 'Unit cell dim(s)? ' $a,$a2
+unless set($a2) $a2=$a
+$b=U $c=U2 $d=V $e=V2 $f=$b*$e-$c*$d
+U=$e*$a/$f,-$c*$a2/$f V=-$d*$a/$f,$b*$a2/$f lib $r
+end
+
+$r()
+! local output routine for INVERT and RECIPROCAL
+type 'New vectors: U=',U,',',U2
+type '             V=',V,',',V2
+end
+
+RECIPROCAL()
+! Obtains reciprocal vectors from U,V given pic size UCS
+Local $b,$c,$d,$e,$f
+if set(ucs) $f=ucs; unl set(ucs) ask 'Picture size? ' $f
+$b=U $c=U2 $d=V $e=V2 $f=$f/mod($b*$e-$d*$c)
+U=$e*$f,-$d*$f V=-$c*$f,$b*$f lib $r
+end
+
+EM()
+! Sets up microscope parameters interactively
+ Ask 'Physical units rather than reduced? [yes/no; RETURN=yes] ' phy
+ Unless set(phy) jump phy; if phy jump phy
+
+Reduced:
+ unset phy
+ type 'Note: sampling = pixel size in reduced units'
+ Ask 'Image plane sampling interval/Gl [half max F-plane period]: ' step
+ unless set(step) return
+ Ask 'Defocus/(Sch) (underfocus positive) [RETURN=0]: ' defocus
+ Ask 'Astigmatism/(Sch) [RETURN=0]: ' astig
+ If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+ Ask 'Rms beam convergence/(Gl/Sch) [RETURN=0]: ' swidth
+ Ask 'Rms beam convergence anisotropy/(Gl/Sch) [RETURN=0]: ' swd
+ If set(swd) if swd +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' sphi
+ Ask 'Rms focus spread/(Sch) [RETURN=0]: ' ewidth
+ Ask 'Beam tilt/(Gl/Sch) [RETURN=0]: ' tilt
+ If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+ Ask 'Objective aperture radius/(Gl/Sch) [RETURN=infinite]: ' oaradius
+ Unless set(oar) jump next
+  Ask '..displacement magnitude/(Gl/Sch or mRad) [RETURN=0]: ' oadisp
+  Ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+Next:
+ Ask 'Magnitude of uniform specimen drift/Gl [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/Gl (rms) [RETURN=0]: ' vibr
+ return
+
+Physical:
+Local $a,$b
+Ask 'Voltage/kV, Spherical aberration/mm: ' kv,cs
+$a=kv*1e3 $b=cs*1e6 lam=$a*1.60206e-4/9.1083/2.99793^2
+lam=6.62517/root(2*1.60206*9.1083*$a*(1+lam/2))
+sch=root($b*lam) gl=$b^.25*lam^.75
+Type 'Sch=',sch,'nm   Gl=',gl,'nm   Gl/Sch=',gl/sch*1e3,'mrad'
+type 'Note: sampling = pixel size in nm'
+Ask 'Image plane sampling interval/nm [half max F-plane period]: ' step
+  unless set(step) return
+Ask 'Defocus/nm (underfocus positive) [RETURN=0]: ' defocus
+Ask 'Astigmatism/nm [RETURN=0]: ' astig
+If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+Ask 'Rms beam convergence/mrad [RETURN=0]: ' swidth
+Ask 'Rms beam convergence anisotropy/mrad [RETURN=0]: ' swd
+If set(swd) if swd +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' sphi
+Ask 'Rms focus spread/nm [RETURN=0]: ' ewidth
+Ask 'Beam tilt/mrad [RETURN=0]: ' tilt
+If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+Ask 'Objective aperture radius/mrad [RETURN=infinite]: ' oaradius
+Unless set(oar) jump Pnext
+  Ask '..displacement magnitude/mrad [RETURN=0]: ' oadisp
+  Ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+PNext:
+ Ask 'Magnitude of uniform specimen drift/nm [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/nm (rms) [RETURN=0]: ' vibr
+ return
+end
+
+ELLIPSE()
+! Masks N1 to N2 outside ellipse radius R,R2 angle THETA
+Local $a,$b,$c,$d,$e
+If set(N1) $a=N1; unl set(N1) ask 'From picture: ' $a
+If set(N2) $b=N2; unl set(N2) ask 'To picture: ' $b
+If set(R) $c=R; unl set(R) ask 'Semimajor axis: ' $c
+If set(R2) $d=R2; unl set(R2) ask 'Semiminor axis: ' $d
+If set(THE) $e=THE
+  unl set(THE) ask 'Azimuth of major axis (anticl. from +X): ' $e
+c=cos($e) s=sin($e); calc :$a*(((x*c+y*s)/$c)^2+((y*c-x*s)/$d)^2<1) to $b
+return
+end
+
+MELLIPSE()
+! Marks ellipse radius R,R2 angle THETA
+Local $a,$b,$c,$d,$e $x0 $x1 $y0 $y1 $cz $sz $xt $yt $np
+If set(R) $c=R; unl set(R) ask 'Semimajor axis: ' $c
+If set(R2) $d=R2; unl set(R2) ask 'Semiminor axis: ' $d
+If set(THE) $e=THE
+unl set(THE) ask 'Azimuth of major axis (anticl. from +X): ' $e
+$np=90
+$cz=cos($e) $sz=sin($e)
+$x0=$c*$cz $y0=$c*$sz
+for je pi/$np,2*pi,pi/$np
+$xt=$c*cos(je) $yt=$d*sin(je)
+$x1=$xt*$cz-$yt*$sz $y1=$yt*$cz+$xt*$sz
+MARK LINE POSITION $X0,$Y0 TO $X1,$Y1
+$x0=$x1 $y0=$y1
+loo
+
+return
+end
+
+GRAB() 
+! get an image from within ITEX with averager
+local $a $b
+for j 1,5 ; clf fra j ; loop
+slp typ 3 ; grb fra 3
+ask 'Output picture ? ' $a
+ask 'Number of frames ? ' $b
+acc nfr $b pic $a
+slp typ 3 ; grb fra 3
+return
+end
+
+MRANGE() ; ! Surveys pictures 'STA' to 'END', setting min,max
+local $a $b $c $d
+if set(sta) $A=sta; unless set(sta) ask 'Series starts at: ' $a
+if set(end) $B=end; unless set(end) ask 'Series ends at: ' $b
+sur $a nover ; $c=min $d=max
+for j $a+1,$b ; sur j nover ; if max>$d $d=max
+if min<$c $c=min ; loo
+max=$d min=$c
+return
+end
+
+MON() 
+! Montages pictures 'STA' to 'END' on screen (down) size DX by DY
+local $a $b $c $d $e $f $g $h $j $a0 $a1 $a2 $a3 $bb $n $nn $a6 $xs
+era frame ; erase=no
+if set(sta) $A=sta; unless set(sta) ask 'Series starts at: ' $a
+if set(end) $B=end; unless set(end) ask 'Series ends at: ' $b
+$bb=$b
+pcb $a
+IF SET(dx) $a3=dx; UNLESS SET(dx) $a3=ncol
+IF SET(dy) $a4=dy; UNLESS SET(dy) $a4=nrow
+$a6=$a3 ; if form=3 $a3=$a3*2 
+if set(col) $a0=col; unless set(col) ask 'Number in each column ' $a0
+$n=round(512/$a3)
+$nn=round(($b-$a+1)/$a0)
+$n=min($n,$nn)
+$g=512;
+$f=$b+1;SEL $a;$b=$a4;$c=round($g/$b) $b=4/$c $c=$b*($c-1)/2 $b=($a4+2)/128
+! TRY THIS ; $c=2-$a4/256-max(0,(512-$a0*($a4+2))/(256))
+$h=$a3; $j=round($g/$h) $h=4/$j $j=$h*($j-1)/2
+! TRY THIS ; $j=2-$a3/256 ; $h=($a3+2)/128 ; $j=2-$h/2
+$e=$j $d=-$c $a1=0 $a2=(4-$a0*$b)/2 ; if $a2<0 $a2=0
+$e=$e-(512-$n*($a3+2))/256
+! $d=$d+$a2
+$xs=0
+if set(xof) $xs=xof
+lm1: 
+ partition 10 size $a3,$a4 position -128*$e+$xs,-128*$d
+ if ($a>$bb)jump lm3
+ ext $a dis:10 size $a6,$a4
+$a=$a+1 $d=$d+$b $a1=$a1+1
+IF ($a1<$a0) JUMP Lm1
+$e=$e-$h $d=-$c $a1=0;JUMP Lm1;
+lm3:
+uns noe 
+return
+end
+
+MON2() 
+! Montages pictures 'STA' to 'END' on screen (down) size DX by DY
+local $a $b $c $d $e $f $g $h $j $a0 $a1 $a2 $a3 $bb $n $nn
+era frame ; erase=no
+if set(sta) $A=sta; unless set(sta) ask 'Series starts at: ' $a
+if set(end) $B=end; unless set(end) ask 'Series ends at: ' $b
+$bb=$b
+pcb $a
+IF SET(dx) $a3=dx; UNLESS SET(dx) $a3=ncol
+IF SET(dy) $a4=dy; UNLESS SET(dy) $a4=nrow
+ask 'Number in each column ' $a0
+$n=round(512/$a3)
+$nn=round(($b-$a+1)/$a0)
+$n=min($n,$nn)
+$g=512;
+$f=$b+1;SEL $a;$b=$a4;$c=round($g/$b) $b=4/$c $c=$b*($c-1)/2 $b=($a4+2)/128
+! TRY THIS ; $c=2-$a4/256-max(0,(512-$a0*($a4+2))/(256))
+$h=$a3; $j=round($g/$h) $h=4/$j $j=$h*($j-1)/2
+! TRY THIS ; $j=2-$a3/256 ; $h=($a3+2)/128 ; $j=2-$h/2
+$e=$j $d=-$c $a1=0 $a2=(4-$a0*$b)/2 ; if $a2<0 $a2=0
+$e=$e-(512-$n*($a3+2))/256
+! $d=$d+$a2
+lm1: partition 10 size $a3,$a4 position -128*$e,-128*$d
+ if ($a>$bb)jump lm3
+ sur $a ;ext $a dis:10 size $a3,$a4
+$a=$a+1 $d=$d+$b $a1=$a1+1
+IF ($a1<$a0) JUMP Lm1
+$e=$e-$h $d=-$c $a1=0;! IF ($e>-$c-.02)*($a<$f) JUMP Lm1; jump lm1
+lm3:
+uns noe 
+return
+end
+
+MONB() 
+! Montages pictures 'STA' to 'END' on screen (down) size DX by DY
+! Takes screen size from user as msize if not already set
+local $a $b $c $d $e $f $g $h $j $a0 $a1 $a2 $a3 $bb $n $nn $a6
+local $n1 $n2 $n3
+if set(msize) $n1=msize ; unless set(msize) ask 'Display size ' $n1
+msize=$n1 $n2=$n1/2 $n3=$n1/4
+era frame ; erase=no
+if set(sta) $A=sta; unless set(sta) ask 'Series starts at: ' $a
+if set(end) $B=end; unless set(end) ask 'Series ends at: ' $b
+$bb=$b
+pcb $a
+IF SET(dx) $a3=dx; UNLESS SET(dx) $a3=ncol
+IF SET(dy) $a4=dy; UNLESS SET(dy) $a4=nrow
+$a6=$a3 ; if form=3 $a3=$a3*2 
+if set(col) $a0=col; unless set(col) ask 'Number in each column ' $a0
+$n=round($n1/$a3)
+$nn=round(($b-$a+1)/$a0)
+$n=min($n,$nn)
+$g=$n1;
+$f=$b+1;SEL $a;$b=$a4;$c=round($g/$b) $b=4/$c $c=$b*($c-1)/2 $b=($a4+2)/$n3
+! TRY THIS ; $c=2-$a4/$n2-max(0,($n1-$a0*($a4+2))/($n2))
+$h=$a3; $j=round($g/$h) $h=4/$j $j=$h*($j-1)/2
+! TRY THIS ; $j=2-$a3/$n2 ; $h=($a3+2)/$n3 ; $j=2-$h/2
+$e=$j $d=-$c $a1=0 $a2=(4-$a0*$b)/2 ; if $a2<0 $a2=0
+$e=$e-($n1-$n*($a3+2))/$n2
+! $d=$d+$a2
+lb1: partition 10 size $a3,$a4 position -$n3*$e,-$n3*$d
+ if ($a>$bb)jump lb3
+ ext $a dis:10 size $a6,$a4
+$a=$a+1 $d=$d+$b $a1=$a1+1
+IF ($a1<$a0) JUMP lb1
+$e=$e-$h $d=-$c $a1=0;JUMP lb1;
+lb3:
+uns noe 
+return
+end
+
+DEMO()
+! Demonstrate display
+read 997 name 'testpic.dat'
+
+echo noterminal; display to dis:2 ; ! Display Suzy in Partition 2
+fir sub lap to dis:3 ; ! Use an fir filter to Partition 3
+his to dis:4 ; ! Display histogram in Partition 4
+ramps partition 5 ; ! ramps in Partition 5
+! Demonstrate false color
+view dis:2 lut 2 ; wait 1 
+! Demonstrate highlighting
+lut 2 create false highlight 100,150 blue
+view dis:2 lut 2 ; wait 1 ; view dis:2 lut 1
+echo noterminal;
+return
+end
+
+DIS()
+! Demonstrate display
+TYPE; TYPE 'Display exerciser';
+          TYPE '-----------------'; TYPE
+echo noterminal
+read 997 name 'testpic.dat'
+
+! Produce modest smooth picture
+   plo=1 x=8 y=10
+   MAGNIFY 4997 4999 SIZE 20 TIMES 4 @xy
+   TYPE 'Displaying Suzy in partition 2'; sel 4997; DISPLAY to 1002
+   TYPE 'Magnifying Suzy''s eye to partition 3'; sel 4999; DISPLAY to 1003
+   TYPE 'Superposing contour lines'; CONTOUR PRESET NOERASE LEVELS 4
+   TYPE 'Y-modulation of eye in partition 4'; 
+   YMOD PRESET to 1004
+   TYPE 'Line scan through eye in partition 4'; 
+   EXTRACT TO 4998 size 120,1 ; sel 4998 ; dis to 1005
+   TYPE 'Histogram in partition 2 on right'
+   plo=2 ; erase frame ; HISTOGRAM 4997 to 1002 
+
+! Test cursor
+   erase=no   
+   type 'Displaying Suzie in partition 1 using plo=2'
+   PLO=2 ; DIS 4997 TO DIS:1
+   TYPE 'Cursor - mark top left, bottom right of subregion'
+   XWIRES region 
+   MAG TO 1004 TIME 3 @XY SIZE R,R2
+
+   type 'Testing bit blting and display acess'
+   type 'Copying from partition 1 to 2'
+   copy 1001 to 1003 noerase
+   type 'Transposing partition 2'
+   tra dis ;
+   type 'Using software zoom'
+   zoo tim 4 ; plo=1
+   erase=yes
+
+TYPE; TYPE 'Display exerciser complete'; TYPE; 
+echo noterminal; 
+return
+end
+
+DITEX()
+! Demonstrate display of itex
+TYPE; TYPE 'Display exerciser for ITEX';
+          TYPE '-----------------'; TYPE
+echo noterminal
+read 997 name 'testpic.dat'
+
+! Produce modest smooth picture
+   plo=5 x=8 y=10
+   MAGNIFY 4997 4999 SIZE 20 TIMES 4 @xy
+   TYPE 'Displaying Suzy in partition 2'; sel 4997; DISPLAY to 1002
+   TYPE 'Magnifying Suzy''s eye to partition 3'; sel 4999; DISPLAY to 1003
+   TYPE 'Superposing contour lines'; CONTOUR PRESET NOERASE LEVELS 4
+   TYPE 'Y-modulation of eye in partition 4'; 
+   YMOD PRESET to 1004
+   TYPE 'Line scan through eye in partition 5'; 
+   EXTRACT TO 4998 size 120,1 ; sel 4998 ; dis to 1005
+   erase=yes
+
+TYPE; TYPE 'Display exerciser complete'; TYPE; 
+echo noterminal; 
+return
+end
+
+paste() 
+! Pastes pictures 'STA' to 'FIN' in picture (down) size DX by DY
+local $a $b $gx $gy $j $a0 $a1 $a2 $a3 $x $y $p $v
+if set(sta) $A=sta; unless set(sta) ask 'Series starts at: ' $a
+if set(fin) $B=fin; unless set(fin) ask 'Series ends at: ' $b
+$bb=$b
+pcb $a
+IF SET(dx) $a3=dx; UNLESS SET(dx) $a3=ncol
+IF SET(dy) $a4=dy; UNLESS SET(dy) $a4=nrow
+if set(col) $a0=col; unless set(col) ask 'Number in each column ' $a0
+!size of new picture
+$gx=($a3+6)*round(($b-$a+1)/$a0)-6;
+$gy=($a4+6)*$a0-6
+if set(pc) $p=pc; unless set(pc) ask 'Output to: ' $p
+if set(bck) $v=bck ; unless set(bck) $v=min
+ext $a $p siz $gx,$gy ; calc $v to $p ; 
+! cre $p siz $gx,$gy val $v 
+$n=$a
+$x=-$gx/2+$a3/2+3
+
+lp2:
+$y= $gy/2-$a4/2-3
+$j=0
+lp1:ext $n 999 siz $a3,$a4 ; paste 999 to $p pos $x,$y; $j = $j+1 ;
+type $x,$y
+ $y = $y - $a4 - 3 ; $n=$n+1 ; 
+if ($n > $b ) jump lp3 ; if ($j < $a0 ) jump lp1 ;
+$x = $x + $a3 + 3 ; if ($n < $b ) jump lp2 ;
+lp3: ! dis $p ; 
+return
+end
+
+intensity()
+local $a $b $if $f $ff
+if set(in) $a=in; unless set(in) ask 'Calibrant picture ' $a
+if set(off) $b=off; unless set(off) ask 'Expt Data ' $b
+fou $a 999 ; fou $b 998 ; calc :999*cc(:998) to 999 ; ima 999;
+sur 999 full nover siz 4 ; $if=max;
+sur $a full nover ; $f=mean;
+calc (:$a)*(:$a) to 997 ; sur 997 full nover ; $ff=mean;
+sur $b full nover ; $i=mean;
+pcb $a ; val=($if/ncols/nrows-$i*$f)/($ff-$f*$f);
+type 'Matching value ',val;
+return
+end
+
+mcomp()
+!Compensation for microdensitometer, FP output
+local $a $b
+if set(in) $a=in; unless set(in) ask 'Input picture ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+!This seems to be roughly correct
+cre 999 siz 3,1 ; p -1,0=-1/pi,1+2/pi,-1/pi
+fir $a with 999 to $b fp
+return
+end
+
+mcomp2()
+!Compensation for microdensitometer, byte output
+local $a $b
+if set(in) $a=in; unless set(in) ask 'Input picture ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+!This seems to be roughly correct
+cre 999 siz 3,1 ; p -1,0=-1/pi,1+2/pi,-1/pi
+fir $a with 999 to 998 fp ; min=0 max=255 ; sca 998 $b preset byte
+del 998
+return
+end
+
+mcompt2()
+!Compensation for microdensitometer, byte output-test
+local $a $b $c
+if set(in) $a=in; unless set(in) ask 'Input picture ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+cre 999 siz 7 ; sel 999 ;
+p -3,-3=0.004,0.005,-0.003,-0.040,-0.003,0.005,0.004
+p -3,-2=0.008,-0.026,0.014,0.116,0.014,-0.026,0.008
+p -3,-1=0.007,0.010,0.026,-0.682,0.026,0.010,0.007
+p -3, 0=-0.072,0.261,-1.128,3.912,-1.128,0.261,-0.072
+p -3, 1=0.007,0.010,0.026,-0.682,0.026,0.010,0.007
+p -3, 2=0.008,-0.026,0.014,0.116,0.014,-0.026,0.008
+p -3, 3=0.004,0.005,-0.003,-0.040,-0.003,0.005,0.004
+sur 999 full nover ; $c=p(0,0) ; p 0,0=$c+(1-mean*49)
+fir $a with 999 to 998 fp ; min=0 max=255 ; sca 998 $b preset byte
+del 998
+return
+end
+
+mgrain()
+!Compensation for film pixel size (approx)-test
+!deconvolution by 1/(1+(1.36*q*d)^2) d=grain size (25 microns)
+if set(in) $a=in; unless set(in) ask 'Input picture ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+cre 999 siz 3,3 ; sel 999 ;
+p -1,-1=    0  ,-0.012,    0
+p -1, 0= -0.012, 1.036, -0.012
+p -1, 1=    0  ,-0.012    ,0
+fir $a with 999 to $b fp ;
+return
+end
+
+mcompt()
+!Compensation for film pixel size (approx) and scan
+local $a $b $c
+if set(in) $a=in; unless set(in) ask 'Input picture ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+cre 999 siz 7 ; sel 999 ;
+p -3,-3=0.004,0.005,-0.003,-0.040,-0.003,0.005,0.004
+p -3,-2=0.008,-0.026,0.014,0.116,0.014,-0.026,0.008
+p -3,-1=0.007,0.010,0.026,-0.682,0.026,0.010,0.007
+p -3, 0=-0.072,0.261,-1.128,3.912,-1.128,0.261,-0.072
+p -3, 1=0.007,0.010,0.026,-0.682,0.026,0.010,0.007
+p -3, 2=0.008,-0.026,0.014,0.116,0.014,-0.026,0.008
+p -3, 3=0.004,0.005,-0.003,-0.040,-0.003,0.005,0.004
+sur 999 full nover ; calc :999/mean/49 to 999
+fir $a with 999 to $b fp ;
+return
+end
+
+mask()
+!Overlays using y-reflection
+key ; find cm rad 4 @xy ; a=x b=y ;
+cut in 999 siz 16 pos a,-b ; turn 999 upsidedown
+paste 999 dis:1 @x,y ; paste 999 in @xy 
+return
+end
+
+mask2()
+!Overlays using transpose
+key ; find cm rad 4 @xy ; a=x b=y ;
+cut in 999 siz 16 pos b,a ; tra 999
+paste 999 dis:1 @xy ; paste 999 in @xy 
+return
+end
+
+efit()
+!Fits an exponential noise for a 1024x1024 PS and subtracts to out
+local $a $b  $t1 $t2
+if set(in) $a=in; unless set(in) ask 'Input ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+pcb $a
+$t1=round(ncol*0.4) $t2=round(ncol*0.7)
+cut $a siz $t1,1 pos $t2,0 to 999
+calc ln(max(1,:999)) to 999
+fit 999 ;
+c=exp(c-a*$t2)
+Type 'For ',$a,' Fit of ',c,'*exp(',a,'*x)'
+cop $a to $b
+calc :$a-c*exp(a*x) to $b
+return
+end
+
+gfit()
+!Fits an gaussian noise for a 1024x1024 PS and subtracts to out
+local $a $b $e1 $e2 $a12 $a22 $det $t1 $t2 
+if set(in) $a=in; unless set(in) ask 'Input ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+pcb $a
+$t1=round(ncol*0.4) $t2=round(ncol*0.7)
+cut $a siz 200,1 pos $t2,0 to 999
+calc ln(max(1,:999)) to 999
+sur 999 full nover ; $e1=mean
+calc :999*(x+$t2)^2 to 998 ; sur 998 full nover ; $e2=mean
+calc (x+$t2)^2 to 998 ; sur 998 full nover ; $a12=mean
+calc (x+$t2)^4 to 998 ; sur 998 full nover ; $a22=mean
+$det=$a22-$a12*$a12
+c=($e1*$a22-$e2*$a12)/$det
+a=($e2     -$e1*$a12)/$det 
+c=exp(c)
+Type 'For ',$a,' Fit of ',c,'*exp(',a,'*x*x)'
+cop $a to $b
+calc :$a-c*exp(a*x*x) to $b
+return
+end
+efit2()
+!Fits an exponential noise for a 1024x1024 PS and leaves it in out
+local $a $b  $t1 $t2
+if set(in) $a=in; unless set(in) ask 'Input ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+pcb $a
+$t1=round(ncol*0.4) $t2=round(ncol*0.7)
+cut $a siz $t1,1 pos $t2,0 to 999
+calc ln(max(1,:999)) to 999
+fit 999 ;
+c=exp(c-a*$t2)
+Type 'For ',$a,' Fit of ',c,'*exp(',a,'*x)'
+cop $a to $b
+calc c*exp(a*x) to $b
+return
+end
+
+gfit2()
+!Fits an gaussian noise for a 1024x1024 PS and leaves it in out
+local $a $b $e1 $e2 $a12 $a22 $det $t1 $t2 
+if set(in) $a=in; unless set(in) ask 'Input ' $a
+if set(out) $b=out; unless set(out) ask 'Output ' $b
+pcb $a
+$t1=round(ncol*0.4) $t2=round(ncol*0.7)
+cut $a siz 200,1 pos $t2,0 to 999
+calc ln(max(1,:999)) to 999
+sur 999 full nover ; $e1=mean
+calc :999*(x+$t2)^2 to 998 ; sur 998 full nover ; $e2=mean
+calc (x+$t2)^2 to 998 ; sur 998 full nover ; $a12=mean
+calc (x+$t2)^4 to 998 ; sur 998 full nover ; $a22=mean
+$det=$a22-$a12*$a12
+c=($e1*$a22-$e2*$a12)/$det
+a=($e2     -$e1*$a12)/$det 
+c=exp(c)
+Type 'For ',$a,' Fit of ',c,'*exp(',a,'*x*x)'
+cop $a to $b
+calc c*exp(a*x*x) to $b
+return
+end
+
+flcfit()
+! Loop over an FFT, using find and flc to get intensities/phases
+local $a $b $c $j $k $d $e $t $r
+if set(r1) $a=r1 ; unless set(r1) ask 'Range for u ' r1
+if set(r2) $b=r2 ; unless set(r2) ask 'Range for v ' r2
+if set(off)  $c=off; unless set(off) ask 'Expt Data ' off
+unless set(sn) ask 'S/N Ratio ' sn
+! Get X1,X2,Y1,Y2 for current picture
+pcb off
+! Loop over v
+$k=-r2
+A0:
+! Loop over u
+$j=-r1
+A1:
+!Indices of the point
+$j=round($j) $k=round($k)
+$e=$j*u+$k*v ; $f=$j*u2+$k*v2 ;
+! Jump out if too large/small for picture
+if $e < x1 jump T1
+if $e > x2 jump T1
+if $f < y1 jump T1
+if $f > y2 jump T1 
+
+! Search for exact peak position from local PS
+ext off 999 siz 32 pos $e,$f ; ori res 999
+calc :999*cc(:999) to 998 fp ;
+sel 998 ; trap=-1 find rad 3 ite cm
+trap=-1 find rad 2 ite @xy cm
+if rc=-1 jump T1
+
+! Reject position if too far off
+$t=mod(x,y) ; if $t > 3 jump T1
+
+! Get the value, report it and mark display (errors trapped)
+unset t,t2
+sel off ; trap=-1 flc snr sn pos $e+x,$f+y nover;
+if set(t) type 'Lattice point and Value: ', $j,$k,t,t2
+if set(t) trap=-1 mark pos $e+x,$f+y;
+
+! End of loops
+T1:
+$j=$j+1
+if $j < r1+1 jump A1
+$k=$k+1
+if $k < r2+1 jump A0
+type 'Done with fitting'
+unset off
+return
+end
+
+flcfit2()
+! Loop over an FFT, using find and flc to get intensities/phases
+local $a $b $c $j $k $d $e $t $r $out $a1 $a2 $b1 $b2
+if set(r1) $a=r1 ; unless set(r1) ask 'Range for u ' r1
+if set(r2) $b=r2 ; unless set(r2) ask 'Range for v ' r2
+if set(off)  $c=off; unless set(off) ask 'Expt Data ' off
+unless set(sn) ask 'S/N Ratio ' sn
+unless set(rd) rd=3.0
+rd=min(3,rd)
+if set(out) $out=out ; unless set(out) ask 'Output picture ' $out
+if set(a1) $a1=a1 ; unless set(a1) ask 'X vector 1 for output' $a1
+if set(a2) $a2=a2 ; unless set(a2) ask 'Y vector 1 for output' $a2
+if set(b1) $b1=b1 ; unless set(b1) ask 'X vector 2 for output' $b1
+if set(b2) $b2=b2 ; unless set(b2) ask 'Y vector 2 for output' $b2
+! Get X1,X2,Y1,Y2 for current picture
+pcb off
+! Loop over v
+$k=-r2
+A0:
+! Loop over u
+$j=-r1
+A1:
+!Indices of the point
+$j=round($j) $k=round($k)
+$e=$j*u+$k*v ; $f=$j*u2+$k*v2 ;
+! Jump out if too large/small for picture
+if $e < x1 jump T1
+if $e > x2 jump T1
+if $f < y1 jump T1
+if $f > y2 jump T1 
+
+! Search for exact peak position from local PS
+ext off 999 siz 32 pos $e,$f ; ori res 999
+calc :999*cc(:999) to 998 fp ;
+sel 998 ; trap=-1 find rad 3 ite cm
+trap=-1 find rad 2 ite @xy cm
+if rc=-1 jump T1
+
+! Reject position if too far off
+$t=mod(x,y) ; if $t > rd jump T1
+
+! Get the value, report it and mark display (errors trapped)
+unset t,t2
+sel off ; trap=-1 flc snr sn pos $e+x,$f+y nover;
+unless set(t) jump T1
+type 'Lattice point and Value: ', $j,$k,t,t2
+trap=-1 mark pos $e+x,$f+y;
+sel $out ; trap=-1 p  $j*$a1+$k*$a2, $j*$b1+$k*$b2=t,t2
+          trap=-1 p -$j*$a1-$k*$a2,-$j*$b1-$k*$b2=t,-t2
+! End of loops
+T1:
+$j=$j+1
+if $j < r1+1 jump A1
+$k=$k+1
+if $k < r2+1 jump A0
+type 'Done with fitting'
+unset off
+return
+end
+
+
+LAT()
+! Define lattice vectors U,V via display cursor
+Local $a,$b,$c,$d,$e
+w=0 w2=0
+Type 'Mark some point you can index'; xwires; 
+find cm ite rad 4 @xy ; find cm ite rad 4 @xy ; mark @xy
+$a=x-w,y-w2
+Ask  '  and enter its indices (e.g. 4,1): ' $b,$b2
+la1:
+Type 'Mark another (independent) point'; xwires; 
+find cm ite rad 4 @xy ; find cm ite rad 4 @xy ; mark @xy
+$c=x-w,y-w2
+Ask  '             and enter its indices: ' $d,$d2
+$e=$d*$b2-$b*$d2; Unless $e jump la1
+U=($b2*$c-$d2*$a)/$e,($b2*$c2-$d2*$a2)/$e
+V=($d*$a-$b*$c)/$e,($d*$a2-$b*$c2)/$e
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+! $b=$b+1 $c=$c+1 $d=fix($b/2) $e=fix(($c-1)/2)
+Lattice mark dis
+end
+
+LATREF()
+! Define lattice vectors U,V via display cursor, & refine
+Local $a,$b,$c,$d,$e, $hh $hk $kk $xh $xk $yh $yk $n $det $h $k
+w=0 w2=0
+Type 'Mark some point you can index'; xwires; 
+find cm ite rad 4 @xy ; find cm ite rad 4 @xy ; mark @xy
+$a=x-w,y-w2
+Ask  '  and enter its indices (e.g. 4,1): ' $b,$b2
+la1:
+Type 'Mark another (independent) point'; xwires; 
+find cm ite rad 4 @xy ; find cm ite rad 4 @xy ; mark @xy
+$c=x-w,y-w2
+Ask  '             and enter its indices: ' $d,$d2
+$e=$d*$b2-$b*$d2; Unless $e jump la1
+U=($b2*$c-$d2*$a)/$e,($b2*$c2-$d2*$a2)/$e
+V=($d*$a-$b*$c)/$e,($d*$a2-$b*$c2)/$e
+Type 'Initial estimates'
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+! $b=$b+1 $c=$c+1 $d=fix($b/2) $e=fix(($c-1)/2)
+Lattice mark dis
+! Now we refine these
+type 'I am marking the origin for you '
+mkmode=2 mksize=8 ; mark
+Type 'Enter via key/xwires pts, ending near origin'
+$hh=0 $hk=0 $kk=0 $xh=0 $xk=0 $yh=0 $yk=0
+$det=u*v2-v*u2 $mn=min(mod(u,u2),mod(v,v2))/1.5
+mksize=5 mkmode=1
+R0: key ; if mod(x,y)<$mn jump R1
+find cm ite rad 4 @xy ; find cm ite rad 4 @xy ; mark @xy
+! Indices of the point in terms of existing lattice
+$h = (x*v2-y*v)/$det $k = (y*u-x*u2)/$det
+$h= round($h) $k=round($k)
+type 'Found pt ',$h,$k
+! Add to the averages for matrices
+$hh=$hh+$h*$h $hk=$hk+$h*$k $kk=$kk+$k*$k
+$xh=$xh+$h*x $xk=$xk+$k*x 
+$yh=$yh+$h*y $yk=$yk+$k*y
+jump R0
+R1: ! Now solve 2x2 matrix for u,u2,v,v2
+$det=$hh*$kk-$hk*$hk
+u= ($kk*$xh - $hk*$xk)/$det 
+v= ($hh*$xk - $hk*$xh)/$det 
+u2= ($kk*$yh - $hk*$yk)/$det 
+v2= ($hh*$yk - $hk*$yh)/$det 
+Type 'Refined estimates'
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+
+end
+LATREF2()
+! Refines lattice by marking the display with existing values
+Local $a,$b,$c,$d,$e, $hh $hk $kk $xh $xk $yh $yk $n $det $h $k
+w=0 w2=0
+Type 'Initial estimates'
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+! $b=$b+1 $c=$c+1 $d=fix($b/2) $e=fix(($c-1)/2)
+Lattice mark dis
+! Now we refine these
+type 'I am marking the origin for you '
+mkmode=2 mksize=8 ; mark
+Type 'Enter via key/xwires pts, ending near origin'
+$hh=0 $hk=0 $kk=0 $xh=0 $xk=0 $yh=0 $yk=0
+$det=u*v2-v*u2 $mn=min(mod(u,u2),mod(v,v2))/1.5
+mksize=5 mkmode=1
+R0: key ; if mod(x,y)<$mn jump R1
+find cm ite rad 4 @xy ; find cm ite rad 4 @xy ; mark @xy
+! Indices of the point in terms of existing lattice
+$h = (x*v2-y*v)/$det $k = (y*u-x*u2)/$det
+$h= round($h) $k=round($k)
+type 'Found pt ',$h,$k
+! Add to the averages for matrices
+$hh=$hh+$h*$h $hk=$hk+$h*$k $kk=$kk+$k*$k
+$xh=$xh+$h*x $xk=$xk+$k*x 
+$yh=$yh+$h*y $yk=$yk+$k*y
+jump R0
+R1: ! Now solve 2x2 matrix for u,u2,v,v2
+$det=$hh*$kk-$hk*$hk
+u= ($kk*$xh - $hk*$xk)/$det 
+v= ($hh*$xk - $hk*$xh)/$det 
+u2= ($kk*$yh - $hk*$yk)/$det 
+v2= ($hh*$yk - $hk*$yh)/$det 
+Type 'Refined estimates'
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+
+end
+
+! Semper common program library additions: HREM locals only
+
+  Posnver() ! Locates posn(s)in current plist 'near' X,Y and verifies
+! -------
+local h,k,x1,x2,y1,y2,z1,z2
+pcb; plfind @xy
+if  k=0   typ '    Posn number: ',h
+unl k=0   typ '    Posn number: ',h,k
+          typ '    Coordinates: ',p(h,k,0),',',p(h,k,1)
+unl z2<2  typ '         Weight: ',p(h,k,2)
+unl z2<4  typ '        Indices: ',p(h,k,3),',',p(h,k,4)
+unl z2<6  typ '  Original posn: ',p(h,k,5),',',p(h,k,6)
+unl z2<8  typ '   Displacement: ',p(h,k,7),',',p(h,k,8)
+unl z2<9  typ '       Rotation: ',p(h,k,9),#30,'= ',p(h,k,9)*180/pi,'deg'
+unl z2<10 typ '  Magnification: ',p(h,k,10)
+unl z2<11 typ '        Stretch: ',p(h,k,11)
+unl z2<12 typ '   Stretch dirn: ',p(h,k,12),#30,'= ',p(h,k,12)*180/pi,'deg'
+unl z2<13 typ '         Serial: ',p(h,k,13)
+end
+
+
+  Fituv() ! Fit u,v to distorted lattice by averaging values
+! -----     fitted to several subregions in turn
+Type 'FITUV averages fitted lattice base vectors over several regions.'
+Type 'For each region, you mark one central (lattice) posn and one border'
+Type 'point; to quit, mark any small empty region'; Type
+
+Ask 'Plist to be fitted ' pl
+If ~set(u&u2) ask 'Estimated base vector U ' u,u2
+If ~set(v&v2) ask 'Estimated base vector V ' v,v2
+Lib veruv
+
+! Initialise vector and vec-modulus accumulators
+um=0 vm=0 ux=0 uy=0 vx=0 vy=0 p=0
+
+! Fit next region
+Next: Xwires line; Unset theta; Mark @circle; w=x,y
+Trap=77 Base pl to 999 @cir; if rc=77 jump coda
+! type '-- U=',u,u2,' V=',v,v2
+mark with 999 mkm 4 mks 5
+
+! Accumulate vectors and vec-moduli
+! - moduli accumulated separately since mod(average) is biassed low
+um=um+mod(u,u2) vm=vm+mod(v,v2)
+ux=ux+u uy=uy+u2 vx=vx+v vy=vy+v2 p=p+1
+jump next
+
+! Obtain final averages
+Coda: ux=ux/p uy=uy/p vx=vx/p vy=vy/p um=um/p vm=vm/p
+! type '-- Ave U=',ux,uy,' V=',vx,vy,' Umod=',um,' Vmod=',vm
+Type; Ask 'Symmetry to be enforced [3,4,6 or RETURN]: ' ns
+Unless set(ns) jump report; Unless (ns=3 | ns=4 | ns=6) jump report
+! Check V roughly 2*pi/ns anticlockwise from U
+t=2/ns*pi; c=cos(t) s=sin(t)
+t=c*vx+s*vy vy=-s*vx+c*vy vx=t;
+! type '-- rotated average V=',vx,vy
+if mod(ux-vx,uy-vy)>um/5 jump badv
+ux=(ux+vx)/2 uy=(uy+vy)/2; um=(um+vm)/2
+vx=c*ux-s*uy vy=s*ux+c*uy vm=um
+
+Report: U=ux,uy V=vx,vy
+Type; Type 'Average U = ',u,u2,' V = ',v,v2
+Type 'Average U-modulus = ',um,' V-modulus = ',vm
+return
+
+BadV: Type 'V is not near 2*pi/',ns,' anticlockwise from U'
+return
+end
+
+
+  Unbend() ! Averages over plist with local unbending
+! ------
+Type 'Warning: this program uses 998,999 as workspace'
+Type
+Ask '             Picture to be averaged: ' in
+Ask 'Plist with positions to be averaged: ' pl
+Ask '          Picture number for result: ' out
+Ask '                    Size of average: ' r,r2
+Ask '     Mark regions on dis:',rem(dis,1000),' (yes/no): ' df
+Unless set(r2) r2=r
+Unless set(df) df=no
+
+Create out size r,r2 image fp value 0
+! Sort list to make source picture access near serial
+plsort pl 999 layer 2 descending
+pcb
+for n=x1,x2
+   pluvxy 999 number n; if df mark @uvreg
+   extr in to 998 @uvreg
+   calc :out+:998
+loop
+end
+
+  Circle()! LS-fits circle to picture N1, returning centre,radius in X,Y,R
+! ------
+
+! formulation:
+!   given (xi,yi), find x,y,r to minimise sum square deviation in rad^2
+!     E = Sum{ [(xi-x)^2+(yi-y)^2-r^2]^2 }
+
+! minimisation equations:
+!   dE/dx=0 -> Ex = -4Sum{ [(xi-x)^2+(yi-y)^2-r^2].(xi-x) } = 0
+!   dE/dy=0 -> Ey = -4Sum{ [.....................].(yi-y) } = 0
+!   dE/dr=0 -> Er =  4Sum{ [.....................].r } = 0
+! Unless r=0, the last means r^2 = (1/N)Sum{(xi-x)^2+(yi-y)^2},
+! which allows substitution for r in the first two equations,
+! leaving an unpleasant pair of cubic equations in x,y:
+!   Ex=Sumi{(xi-x)^3+(xi-x)(yi-y)^2-Sumj{(xi-x)[(xj-x)^2+(yj-y)^2]}/N}=0
+!     =Sum{(xi-x)^3}+Sum{(xi-x)(yi-y)^2}
+!        -(1/N)Sum(xi-x)[Sum{(xi-x)^2}+Sum{(yi-y)^2}]=0
+!   Ey=Sumi{(xi-x)^2(yi-y)+(yi-y)^3-Sumj{(yi-y)[(xj-x)^2+(yj-y)^2]}/N}=0
+!     =Sum{(xi-x)^2(yi-y)}+Sum{(yi-y)^3}
+!        -(1/N)Sum(yi-y)[Sum{(xi-x)^2}+Sum{(yi-y)^2}]=0
+
+! The pair (Ex,Ey)=0 is solved iteratively via a 2-D Newton-Raphson
+! iteration.  Writing them as Ei(xj)=0, we expand around the root zj:
+!     [dEi/dxj](xj-zj) ie Eij.dxj = Ei to first order (summed over j)
+! and estimate the derivatives from their value at xj rather than zj.
+! The derivatives are
+!   dEx/dx = - 2Sum{(xi-x)^2} + (2/N)Sum{xi-x}^2
+!   dEx/dy = - 2Sum{(xi-x)(yi-y)}-(2/N)Sum{xi-x}Sum{yi-y}
+!   dEy/dx = dEx/dy, since both are d2E/dxdy
+!   dEy/dy = - 2Sum{(yi-y)^2} + (2/N)Sum{yi-y}^2
+
+local s1,s2,s3,s4,s5,s6,s7,s8,s9
+local ex,ey,exx,exy,eyy,det,dx,dy
+local ncols,nrows,nlays,class,form,wpf
+local x1,x2,y1,y2,z1,z2
+
+! Establish plist to be fitted
+unl set(n1) ask 'Plist to be fitted [sel]: ' s1
+unl set(s1) s1=sel
+
+! Establish number of points, and check class
+pcb s1; if class=8 jump init
+type 'Bad class for ',s1; return
+
+! Use first point as initial estimate
+init: x=p(0) y=p(0,0,1)
+
+! Calc single sums
+nextit: s1=0 s2=0 s3=0 s4=0 s5=0 s6=0 s7=0 s8=0 s9=0
+for i=0,ncols-1
+  s1=s1+(p(i)-x)
+  s2=s2+(p(i)-x)^2
+  s3=s3+(p(i)-x)^3
+  s4=s4+(p(i,0,1)-y)
+  s5=s5+(p(i,0,1)-y)^2
+  s6=s6+(p(i,0,1)-y)^3
+  s7=s7+(p(i)-x)*(p(i,0,1)-y)
+  s8=s8+(p(i)-x)*(p(i,0,1)-y)^2
+  s9=s9+(p(i)-x)^2*(p(i,0,1)-y)
+loop
+
+! Calc function values
+Ex=s3+s8-(s1*(s2+s5))/ncols
+Ey=s9+s6-(s4*(s2+s5))/ncols; ! now confirmed correctd to this point
+
+! Calc gradients
+Exx=-2*s2+2*s1*s1/ncols
+Exy=-2*s7+2*s1*s4/ncols
+Eyy=-2*s5+2*s4*s4/ncols
+
+! Solve equations Eij.dxj = Ei
+det=Exx*Eyy-Exy*Exy
+if det~=0 jump ok
+  type 'Convergence failure'; x=0 y=0 r=0; return
+ok:
+dx=(Ex*Eyy-Ey*Exy)/det
+dy=(Exx*Ey-Exy*Ex)/det
+
+! Take step towards root
+x=x-dx
+y=y-dy
+
+! Calc radius estimate
+s2=0 s5=0
+for i=0,ncols-1
+  s2=s2+(p(i)-x)^2
+  s5=s5+(p(i,0,1)-y)^2
+loop
+r=root((s2+s5)/ncols)
+
+! debug only
+type 'Next iterate: x,y,r=',x,y,r
+if mod(dx)>.01 | mod(dy)>.01 jump nextit
+
+end
+
+
+  Lfitwt1() ! Fits 1-D lorentzian to picture N1 subregion posn X size R,
+! -----       returning height,radius in H,S and centre posn in X0
+!             weighting fitted values in propn to pic W
+
+local $n,$x,$r,m,m2
+if set(n1) $n=n1
+if ~set(n1) ask 'Picture to be fitted [',sel,'] ' $n
+   if ~set($n) $n=sel
+if set(w) $w=w
+if ~set(w) ask 'Picture containing fitting weighting function [',sel,'] ' $w
+   if ~set($w) $w=sel
+if set(x) $x=x
+if ~set(x) ask 'Centre of region to be fitted [0] ' $x
+   if ~set($x) $x=0
+if set(r) $r=r
+if ~set(r) ask 'Size (full-width) of region to be fitted [10000,ie all] ' $r
+   if ~set($r) $r=10000
+
+! back up display b,w
+  m=min,max
+! Fit reciprocal rather than raw data (suppressing non-pos values)
+  sur $n nover
+  calc ifelse(:$n>0,:$n,max) to 999; calc 1/:999
+
+! Quadratic fit ax^2+bx+c to pic 999 over pos $x siz $r
+
+! Construct coeffs in turn
+  sur $w pos $x size $r nover full
+    a33=mean*$r; ! a33=Sum(wi)
+! Generate pic 998 containing X
+  copy $n 998; calc x
+  calc :998*:$w to 997
+  sur pos $x siz $r nover full
+    a23=mean*$r; a32=a23; ! a23=a32=Sum(xi)
+  calc :998*:998*:$w to 997
+  sur pos $x siz $r nover full
+    a13=mean*$r; a22=a13; a31=a13; ! a13=a22=a31=Sum(xi^2)
+  calc :998*:998*:998*:$w to 997
+  sur pos $x siz $r nover full
+    a12=mean*$r; a21=a12; ! a12=a21=Sum(xi^3)
+  calc :998*:998*:998*:998*:$w to 997
+  sur pos $x siz $r nover full
+    a11=mean*$r; ! a11=Sum(xi^4)
+
+! Construct rhs
+  calc :999*:$w
+  sur 999 pos $x siz $r nover full
+    b3=mean*$r; ! b3=Sum(yi)
+  calc :999*:998
+  sur pos $x siz $r nover full
+    b2=mean*$r; ! b2=Sum(yi.xi)
+  calc :999*:998
+  sur pos $x siz $r nover full
+    b1=mean*$r; ! b1=Sum(yi.xi^2)
+
+! type a11,#10,a12,#20,a13,'  =  ',b1
+! type a21,#10,a22,#20,a23,'  =  ',b2
+! type a31,#10,a32,#20,a33,'  =  ',b3
+
+! Solve 3x3 equation set
+!       ( a11 a12 a13 ) (x1)   (b1)
+!       ( a21 a22 a23 ) (x2) = (b2)
+!       ( a31 a32 a33 ) (x3)   (b3)
+D=a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)
+if D~=0 jump solve
+  type '3x3 equation set singular'; return
+solve:
+x1=(b1*(a22*a33-a23*a32)-a12*(b2*a33-a23*b3)+a13*(b2*a32-a22*b3))/D
+x2=(a11*(b2*a33-a23*b3)-b1*(a21*a33-a23*a31)+a13*(a21*b3-b2*a31))/D
+x3=(a11*(a22*b3-b2*a32)-a12*(a21*b3-b2*a31)+b1*(a21*a32-a22*a31))/D
+
+! type 'Equation set solution: ',x1,x2,x3
+
+x0=-x2/2/x1; h=1/(x3-x1*x0*x0); s=1/root(h*x1)
+type 'Centre X0=',x0,'   Height H=',h,' Radius S=',s
+
+! display result - TIMES not very convenient, but...
+calc h*s*s/(s*s+(x-x0)^2) to 997
+min=m max=m2; dis noerase preset
+
+select $n
+end
+
+  FITCTF() ! Fits D,A to experimental diffgram by merged presentn of
+! ------     theor,exptl patterns, with kbd-driven D,A varn in several dirns
+local step
+local p,s,nx,ny,nz,dinc,ap,oaphi
+local d0,d1,d2,d3,d4,d5,d6,d7
+local nk,n,sa
+
+! Effective focus in dirn t is D + .5*a1*(cos^2-sin^2) + a2*cos*sin
+  if ~set(phy) phy=no
+
+! eventq bug: kill SWI locally
+local swi,sbk; if set(swi) sbk=swi; unset swi
+
+ask 'Experimental diffgram to be fitted [',sel,']: ' p
+  unl set(p) p=sel; sel p
+ask 'Size of region to fit [all]: ' ps
+  pic p size
+  unl set(ps) ps=nx
+
+  if phy type 'Fitting in PHYSICAL units'
+  unl phy type 'Fitting in reduced units'
+l: unl set(step) ask 'Image plane sampling interval STEP: ' step
+   unl set(step) jump l
+! modify to accomodate region size
+   step=step*fix(nx/2)/fix(ps/2)
+l2: dinc=.05
+  if phy dinc=5
+  if phy unl set(kv&cs) ask 'Voltage/kV, Cs/mm: ' kv,cs
+  if phy unl set(kv&cs) jump l2
+! set rounding
+  rt=100; if phy rt=10
+  unl set(def) def=0
+
+
+! prepare local copy of diffgram, scaled to match ctf
+  cut p ram:999 size ps; scale range 0,2 fp
+  erase part 1
+
+! prepare directions, initialise 1st 3 D-vals as DEF, others as unset
+  t0=0 t1=pi/2 t2=pi/4 t3=3*pi/4 t4=pi/8 t5=3*pi/8 t6=5*pi/8 t7=7*pi/8
+  d0=def d1=1e9 d2=1e9 d3=1e9 d4=1e9 d5=1e9 d6=1e9 d7=1e9
+  xc0=no xc1=no xc2=no xc3=no xc4=no xc5=no xc6=no xc7=no
+  drn=0 dt=d0 a1=0 a2=0 ast=0
+
+! Effective D fitting
+  type
+  type 'Adjust fitted pattern until rings match along split line in at least'
+  type 'three directions; RETURN to quit when match is satisfactory.'
+  type '   Up,Downarrow to adjust focus along current direction'
+  type '      [C/F for Coarser/Finer step]'
+  type '   Right,Leftarrow to record and move to Next,Prev direction'
+  type '     S to Swap halves'
+  type '   X to eXclude current dirn subsequently'
+  type '   ? to verify focus for current direction'
+  type
+  ax=0
+   
+! new ctf
+nctf: lib fitctf$s1
+! type 'DEBUG: new CTF: def,ast,aphi,a1,a2: ',def,ast,aphi,a1,a2
+! eventq bug: restore SWI during CTF only
+  if set(sbk) swi=sbk; CTF squ to ram:998 size ps fp; unset swi
+  nctf=no
+
+! new display
+ndis:
+  sa=t#drn + ax*pi
+  min=0 max=2 merge ram:998 with ram:999 angle sa to dis noerase
+! be helpful: restore original current pic
+  select p
+  ndis=no
+
+! poll kbd, with short wait to help when multi-tasking
+pkb: wait .1
+  eventq key count; unless nk=0 jump rkb
+! no more keys: update display
+  if nctf jump nctf
+  if ndis jump ndis
+  jump pkb
+! process key
+rkb:
+  eventq key read; if n=3 return; if n=13 jump q
+! up/downarrows: adjust d-val
+  if n=513 jump up
+  if n=514 jump down
+! S: immediate redisplay in new orientation
+  if n=77 | n=115 ax=1-ax ndis=yes jump pkb
+! left/rightarrows: record and move to new direction
+  if n=515 nd=drn jump pdrn
+  if n=516 nd=drn jump ndrn
+! X: flag excluded and move to next dirn
+  if n=82 | n=120 nd=drn jump xcl
+! C,F: adjust d-incr
+  if n=70 | n=102 dinc=dinc/2 jump pkb
+  if n=67 | n=99  dinc=dinc*2 jump pkb
+! ?: verify focus
+  if n=63 jump ver
+  jump pkb
+
+! change focus - note new D-val in current dirn, flag new ctf
+  up: dt=dt+dinc nctf=yes jump pkb
+down: dt=dt-dinc nctf=yes; jump pkb
+! change dirn - mark dirn, record this D, set D in new dirn, flag new disp
+ndrn: nd=rem(nd+1,8); if xc#nd jump ndrn; jump nd
+pdrn: nd=rem(nd+7,8); if xc#nd jump pdrn
+  nd: mark size ps,1 ang t#drn; d#drn=dt
+ nd2: drn=nd ndis=yes
+  c=cos(t#drn) s=sin(t#drn); dt=def+.5*a1*(c^2-s^2)+a2*c*s
+! type 'DEBUG: d0-7: ',d0,d1,d2,d3,d4,d5,d6,d7
+  jump pkb
+! exclude dirn
+xcl: nd=rem(nd+1,8); if xc#nd jump xcl
+  xc#drn=yes jump nd2
+! verify focus
+ver: c=cos(t#drn) s=sin(t#drn)
+  type 'Current focus records: ',rou(d0*rt)/rt,rou(d1*rt)/rt,+
+    rou(d2*rt)/rt,rou(d3*rt)/rt,rou(d4*rt)/rt,rou(d5*rt)/rt,rou(d6*rt)/rt,+
+    rou(d7*rt)/rt
+  type 'Focus for current direction: ',dt
+  jump pkb
+
+! make final LS fit on all three params
+q: mark size ps,1 ang t#drn; d#drn=dt
+! type 'DEBUG: d0-7: ',d0,d1,d2,d3,d4,d5,d6,d7
+  lib fitctf$s2; if det=0 return
+! note misfit
+  d=0 nr=0
+  for drn=0,7;
+    if d#drn=1e9 next
+    ci=cos(t#drn) si=sin(t#drn)
+!   type 'DEBUG: obs,fitted defocus: ',d#drn, def+.5*a1*(ci^2-si^2)+a2*ci*si
+    d=d + (d#drn - def-.5*a1*(ci^2-si^2)-a2*ci*si)^2
+    nr=nr+1
+  loop
+  s=0; if n>1 s=root(d/(n-1))
+  type 'RMS misfit between measured,fitted focus values: ',rou(s*rt)/rt
+!  d=root(e11^2+e12^2+e13^2)*s
+!  d2=root(e21^2+e22^2+e23^2)*s d3=root(e31^2+e32^2+e33^2)*s
+!  type '=> Defocus ',def,' with std.err. ',round(d*100)/100
+!  type '   Astigmatism 2-cmps ',a1,a2,' with std.errs ',+
+    round(d2*rt)/rt,round(d3*rt)/rt
+  type 'Final Defocus ',rou(def*rt)/rt,' Astig 2-cmps ',+
+    rou(a1*rt)/rt,rou(a2*rt)/rt,+
+    ' mag,azim ',rou(ast*rt)/rt,rou(aphi*1000)/1000
+
+! display as finally fitted
+! eventq bug: restore SWI during CTF only
+  if set(sbk) swi=sbk; CTF squ to ram:998 size ps fp; unset swi
+  erase over
+mill: sa=t#drn + ax*pi
+  min=0 max=2 trap=4 merge ram:998 with ram:999 angle sa to dis noerase
+  if rc=4 jump q2
+! loop till he gets bored
+  t#drn=t#drn+pi/16; jump mill
+
+! be helpful: restore original current pic
+q2: sel p
+  return
+
+end
+
+  FITCTF$S1() ! Adjust DEF,A1,A2 to match DT along current dirn and
+! ---------     LS fit any others recorded
+  c=cos(t#drn) s=sin(t#drn)
+! type 'FITCTF$S1: D0-7: ',d0,d1,d2,d3,d4,d5,d6,d7,' target DT: ',dt
+! type '---------'
+
+  sqq=0 sqr=0 srr=0 spq=0 spr=0 nr=0
+  for i=0,7; if d#i=1e9 next; if i=drn next; if xc#drn next
+    nr=nr+1 ci=cos(t#i) si=sin(t#i)
+    dd=dt-d#i q=.5*(c^2-s^2-ci^2+si^2) r=c*s-ci*si
+    sqq=sqq+q^2 sqr=sqr+q*r srr=srr+r^2 spq=spq+dd*q spr=spr+dd*r
+  loop
+! No other dirns measured: return zero astig and DT
+  if nr=0 a1=0 a2=0 jump q
+! One other dirn measured: return min astig fixing DT and other D
+  if nr=1 ci=dd/q si=-r/q a2=ci*si/(si*si+1) a1=ci+si*a2 jump q
+! Two or more other dirns measured: LSfit D,A1,A2 fixing DT
+  det=sqq*srr-sqr^2 a1=(spq*srr-sqr*spr)/det a2=(sqq*spr-spq*sqr)/det
+
+q: def=dt-.5*a1*(c^2-s^2)-a2*c*s
+  ast=mod(a1,a2) aphi=phase(a1,a2)/2
+! type 'FITCTF$S1: new DEF,A1,A2 ',def,a1,a2
+! check fit by verifying new sectional focus values
+  for i=0,7
+    ci=cos(t#i) si=sin(t#i)
+    nd#i=def+.5*a1*(ci^2-si^2)+a2*ci*si
+  loop
+! type 'FITCTF$S1: D0-7: ',d0,d1,d2,d3,d4,d5,d6,d7,' target DT: ',dt
+! type '...revised vals: ',nd0,nd1,nd2,nd3,nd4,nd5,nd6,nd7
+end
+
+
+  FITCTF$S2() ! Fit Def,A1,A2 to 8 eff.defocus values in various dirns
+! -----     Data required: D0,D1,D2.. = eff.def in dirns T0,T1,T2..
+!           Points ignored if D#N=1e9 or XC#N=yes
+!           A1,A2 are also passed back in AST,APHI form
+
+! Theory: Given observed Di = D +.5.A1.(ci^2-si^2) + A2.ci.si
+! for effective defocus in dirn i, with ci,si = cos,sin of relevant
+! azimuth.  Defining E = Sum{Di-D-.5A1(ci^2-si^2)-A2cisi}^2, and
+! abbreviating pi=.5(ci^2-si^2), qi=ci.si for brevity, minisation gives
+!            / 1    pi    qi\   / D\         / Di \
+!       Sum | pi  pi^2  piqi | | A1 | = Sum | piDi |
+!            \qi  piqi  qi^2/   \A2/         \pqDi/
+
+local a11,a12,a13,a21,a22,a23,a31,a32,a33,a31,b1,b2,b3,i,t,p,q
+
+! Calculate sums
+  a11=0 a12=0 a13=0 a21=0 a22=0 a23=0 a31=0 a32=0 a33=0 b1=0 b2=0 b3=0
+  for i=0,7
+    if d#i=1e9 next; if xc#i next
+    p=.5*(cos(t#i)^2-sin(t#i)^2) q=cos(t#i)*sin(t#i)
+    a11=a11+1
+    a12=a12+p
+    a13=a13+q
+    a22=a22+p^2
+    a23=a23+p*q
+    a33=a33+q^2
+    b1=b1+d#i
+    b2=b2+p*d#i
+    b3=b3+q*d#i
+  loop
+  a21=a12
+  a31=a13
+  a32=a23
+! type a11,#15,a12,#30,a13,#45,'  =  ',b1
+! type a21,#15,a22,#30,a23,#45,'  =  ',b2
+! type a31,#15,a32,#30,a33,#45,'  =  ',b3
+  type 'Focus recorded in ',a11,' directions'
+
+Det=a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)
+if Det~=0 jump solve
+  type 'Insufficient directions available: DEF,AST,APHI not changed'
+  return
+solve:
+! def=(b1*(a22*a33-a23*a32)-a12*(b2*a33-a23*b3)+a13*(b2*a32-a22*b3))/Det
+! a1=(a11*(b2*a33-a23*b3)-b1*(a21*a33-a23*a31)+a13*(a21*b3-b2*a31))/Det
+! a2=(a11*(a22*b3-b2*a32)-a12*(a21*b3-b2*a31)+b1*(a21*a32-a22*a31))/Det
+! x1=def x2=a1 x3=a2 type 'Equation set solution: ',x1,x2,x3
+! type 'Check: predicted rhs is'
+! type #20,a11*x1+a12*x2+a13*x3
+! type #20,a21*x1+a22*x2+a23*x3
+! type #20,a31*x1+a32*x2+a33*x3
+
+! inverse matrix
+e11=(a22*a33-a23*a32)/det  e12=(a13*a32-a12*a33)/det  e13=(a12*a23-a13*a22)/det
+e21=e12                    e22=(a11*a33-a13*a31)/det  e23=(a13*a21-a11*a23)/det
+e31=e13                    e32=e23                    e33=(a11*a22-a12*a21)/det
+! type 'Inverse E is'
+! type e11,#15,e12,#30,e13
+! type e21,#15,e22,#30,e23
+! type e31,#15,e32,#30,e33
+def=e11*b1+e12*b2+e13*b3 a1=e21*b1+e22*b2+e23*b3 a2=e31*b1+e32*b2+e33*b3
+! type  'Solution from $S2 is ',def,a1,a2
+
+! reexpress A1,A2 as AST,APHI
+ast=mod(a1,a2) aphi=phase(a1,a2)/2
+end
+
+
+  FITCTF2X() ! Fits D,A to experimental diffgram with kbd-driven D,A varn
+! --------     and initial direction marked with XWI LINE
+! force PHYSICAL whichever way
+  if ~set(phy) phy=no
+
+local step
+! eventq bug: kill SWI locally; local swi,sbk; if set(swi) sbk=swi; unset swi
+
+local p,s,nx,ny,nz,dinc,ap,oaphi,d1,d2,od1,od2
+local nk,n,mode,omode,sa
+
+ask 'Pic num with experimental pattern [',sel,']: ' p
+  unl set(p) p=sel; sel p
+ask 'Size of region to fit [all]: ' s
+  pic p size
+  unl set(s) s=nx
+
+  if phy type 'Fitting in PHYSICAL units'
+  unl phy type 'Fitting in reduced units'
+l: unl set(step) ask 'Image plane sampling interval STEP: ' step
+   unl set(step) jump l
+! modify to accomodate region size
+   step=step*fix(nx/2)/fix(s/2)
+l2: dinc=.05
+  if phy dinc=5
+  if phy unl set(kv&cs) ask 'Voltage/kV, Cs/mm: ' kv,cs
+  if phy unl set(kv&cs) jump l2
+
+  unl set(def) def=0
+  unl set(ast) ast=0
+  unl set(aphi) aphi=0
+
+! prepare local copy of diffgram, scaled to match ctf
+  cut p ram:999 size s; scale range 0,2.5 fp
+  erase part 1
+
+! Astigmatism dirn fitting
+  type
+  type 'Up,Downarrow to change astigmatism dirn; RETURN to accept'
+  dis
+  oaphi=1e5
+
+nd: if aphi~=oaphi type 'Astigmatism dirn: ',aphi
+  era overlay size .8*s
+  d1=.39*s*cos(aphi) d2=.39*s*sin(aphi)
+  mark arrow to d1,d2; mark arrow to -d1,-d2
+  mark posn -d2,d1 to d2,-d1
+  oaphi=aphi
+
+! poll kbd, with short wait to help when multi-tasking
+pk: wait .1
+  eventq key count; unless nk=0 jump rk
+  if aphi~=oaphi jump nd
+  jump pk
+! process key
+rk:
+  eventq key read; if n=3 return; if n=13 jump qa
+  if n=513 aphi=aphi+.02 jump pk
+  if n=514 aphi=aphi-.02 jump pk
+  jump pk
+qa: eras overlay size .8*s
+
+! D1,D2 fitting
+  type
+  type 'Up,Downarrow to change focus for current direction'
+  type 'X to eXchange directions; RETURN to exit'
+  mode=1 omode=mode d1=def+ast/2 od1=1e5 d2=def-ast/2 od2=1e5 ap=aphi
+
+! new ctf
+nctf:
+! verify changes on terminal
+  if d1~=od1 | d2~=od2 type 'Defocus values: ',d1,d2
+! xlate d1,d2 to def,ast,aphi
+  def=(d1+d2)/2 ast=(d1-d2) aphi=ap
+    if ast<0 ast=-ast aphi=ap+pi/2
+! eventq bug: restore SWI during CTF only
+  if set(sbk) swi=sbk; CTF squ to ram:998 size s fp; unset swi
+
+! new display
+ndis:
+  sa=ap; if mode=2 sa=ap+pi/2
+  min=0 max=2.5 merge ram:998 with ram:999 angle sa to dis noerase
+  od1=d1 od2=d2 omode=mode
+
+! poll kbd, with short wait to help when multi-tasking
+pkb: wait .1
+  eventq key count; unless nk=0 jump rkb
+  if d1~=od1 | d2~=od2 jump nctf
+  if mode~=omode jump ndis
+  jump pkb
+! process key
+rkb:
+  eventq key read; if n=3 return; if n=13 jump q
+  if n=513 d#mode=d#mode+dinc jump pkb
+  if n=514 d#mode=d#mode-dinc jump pkb
+! X - immediate redisplay in new orientation
+  if n=88 | n=120 mode=3-mode; jump pkb
+  jump pkb
+
+! restore normal def,ast,aphi form
+q: def=(d1+d2)/2 ast=(d1-d2) aphi=ap
+  if ast<0 ast=-ast aphi=ap+pi/2
+  type 'Final defocus ',def,' astigmatism ',ast,' at azimuth ',aphi
+  sel p
+
+end
+
+  MATMUL() ! multiplies two pics together as if matrices - any size
+! ------     [create pics Undef with origin top left]
+ask '1st,2nd pics to multiply [',sel,',1st] ' in1,in2
+unl set(in1) in1=sel; unl set(in2) in2=in1
+ask 'Output [999] ' out
+unl set(out) out=999
+pic in1 size; nx1=nx ny1=ny
+pic in2 size; nx2=nx ny2=ny
+if nx1=ny2 jump ok
+  type 'Matrix size mismatch'; return; ok:
+
+cre out size nx2,ny1 und; ori top left
+for i=0,nx2-1; for j=0,1-ny1
+  t=0; for n=0,nx1-1; sel in1; a=p(n,j); sel in2; t=t+a*p(i,-n); loop n
+  sel out; p i,j=t
+loop j; loop i
+print
+end
+
+  MATINV() ! inverts 2x2 or 3x3 matrix
+! -------
+local in,out,nx,ny,nz,a11,a12,a13,a21,a22,a23,a31,a32,a33,det
+ask 'Pic to invert [',sel,'] ' in
+unl set(in) in=sel
+ask 'Output [999] ' out
+unl set(out) out=999
+pic in size
+  if nx=2 & ny=2 jump i2
+  if nx=3 & ny=3 jump i3
+  type 'Sorry: only 2x2 matrices at present!';  return; ok:
+i2: sel in; a11=p(0,0) a12=p(1,0) a21=p(0,-1) a22=p(1,-1)
+  det=a11*a22-a12*a21; if det=0 jump sing
+  copy in out
+  p 0,0=a22/det,-a12/det
+  p  0,-1=-a21/det,a11/det
+  jump q
+i3: a11=p(0,0) a12=p(1,0) a13=p(2,0)
+  a21=p(0,-1) a22=p(1,-1) a23=p(2,-1)
+  a31=p(0,-2) a32=p(1,-2) a33=p(2,-2)
+  det=a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)
+  if det=0 jump sing
+  copy in out
+  p 0,0 =(a22*a33-a23*a32)/det,(a13*a32-a12*a33)/det,(a12*a23-a13*a22)/det
+  p 0,-1=(a23*a31-a21*a33)/det,(a11*a33-a13*a31)/det,(a13*a21-a11*a23)/det
+  p 0,-2=(a21*a32-a22*a31)/det,(a12*a31-a11*a32)/det,(a11*a22-a12*a21)/det
+q: print; return
+sing: type 'Matrix singular'
+end
+
+  Emverify() ! Verifies microscope imaging parameters
+! --------
+ local v
+ If ~set(phy) jump reduced; if phy jump phy
+
+Reduced:
+ Type 'EM imaging parameters: reduced units selected'
+ if  set(step) type 'Image sampling interval: ',step,'Gl'
+ if ~set(step) type 'Image sampling interval STEP unset'
+ if  set(def) type 'Defocus (underfocus positive): ',def,'Sch'
+ if ~set(def) type 'Defocus unset (equivalent to zero)'
+ v=0; if set(aphi) v=aphi
+ if  set(ast) type 'Astigmatism: ',ast,'Sch; azimuth ',v,'rad'
+ if ~set(ast) type 'Astigmatism unset (equivalent to zero)'
+ if  set(swid) type 'Rms beam divergence: ',swid,'Gl/Sch'
+ if ~set(swid) type 'Beam divergence unset (equivalent to zero)'
+ if  set(ewid) type 'Rms focus spread ',ewid,'Sch'
+ if ~set(ewid) type 'Focus spread unset (equivalent to zero)'
+ v=0; if set(tphi) v=tphi
+ if  set(tilt) type +
+   'Incident beam tilted by ',tilt,'Gl/Sch wrt optical axis; azimuth ',v,'rad'
+ if ~set(tilt) type 'Incident beam down optical axis'
+ if  set(oar) type 'Objective aperture radius ',oar,'Gl/Sch'
+ if ~set(oar) type 'No objective aperture (equivalent to infinite radius)'
+ v=0; if set(oap) v=oap
+ if  set(oar) & set(oad) +
+  type 'Objective aperture centre displaced ',oar,'Gl/Sch',+
+   '; azimuth ',v,'rad'
+ if set(oar) & ~set(oad) type 'Objective aperture centre on optical axis'
+ v=0; if set(dphi) v=dphi
+ if  set(drift) type 'Specimen drift during exposure ',drift,'Gl',+
+  '; azimuth ',v,'rad'
+ if ~set(drift) type 'No specimen drift'
+ if  set(vibr) type 'Rms (isotropic) specimen vibration ',vibr,'Gl'
+ if ~set(vibr) type 'No specimen vibration'
+ return
+
+Physical:
+ Type 'EM imaging parameters: physical units selected'
+ if  set(kv) type 'Beam accelerating voltage ',kv,'/kV'
+ if ~set(kv) type 'Beam voltage unset'
+ if  set(Cs) type 'Spherical aberration coefficient ',Cs,'mm'
+ if ~set(Cs) type 'Spherical aberration coefficient unset'
+ if  set(step) type 'Image sampling interval: ',step,'nm'
+ if ~set(step) type 'Image sampling interval STEP unset'
+ if  set(def) type 'Defocus (underfocus positive): ',def,'nm'
+ if ~set(def) type 'Defocus unset (equivalent to zero)'
+ v=0; if set(aphi) v=aphi
+ if  set(ast) type 'Astigmatism: ',ast,'nm; azimuth ',v,'rad'
+ if ~set(ast) type 'Astigmatism unset (equivalent to zero)'
+ if  set(swid) type 'Rms beam divergence: ',swid,'mrad'
+ if ~set(swid) type 'Beam divergence unset (equivalent to zero)'
+ if  set(ewid) type 'Rms focus spread ',ewid,'nm'
+ if ~set(ewid) type 'Focus spread unset (equivalent to zero)'
+ v=0; if set(tphi) v=tphi
+ if  set(tilt) type +
+   'Incident beam tilted by ',tilt,'mrad wrt optical axis; azimuth ',v,'rad'
+ if ~set(tilt) type 'Incident beam down optical axis'
+ if  set(oar) type 'Objective aperture radius ',oar,'mrad'
+ if ~set(oar) type 'No objective aperture (equivalent to infinite radius)'
+ v=0; if set(oap) v=oap
+ if  set(oar) & set(oad) +
+  type 'Objective aperture centre displaced ',oar,'mrad',+
+   '; azimuth ',v,'rad'
+ if ~set(oad) type 'Objective aperture centre on optical axis'
+ v=0; if set(dphi) v=dphi
+ if  set(drift) type 'Specimen drift during exposure ',drift,'nm',+
+  '; azimuth ',v,'rad'
+ if ~set(drift) type 'No specimen drift'
+ if  set(vibr) type 'Rms (isotropic) specimen vibration ',vibr,'nm'
+ if ~set(vibr) type 'No specimen vibration'
+ return
+end
+
+  Fresnel() ! Takes a 1-D specimen local mean voltage profile
+! -------     and propagates an electron wave through it by multi-slicing
+!             Uses 997-999 as workspace
+
+ local m,e,c,hc,phi,eps,c,p,nm,cti,nt
+
+! Set up rel. int. const. sigma
+ ask 'Voltage/kv: ' kv
+ m=9.1083e-31; e=1.60206e-19; c=2.99793e8; h=6.62517e-34
+ hc=h/2/pi; phi=kv*1e3; eps=e/2/m/c/c; v=phi*(1+eps*phi)
+ p=roo(2)*root(e)*roo(m)*roo(v); lam=h/p; sigma=e/hc*m/p*(1+2*eps*phi)
+
+! ask crystal tilt
+ ask 'Crystal tilt/mrad: ' cti
+ unless set(cti) return
+
+! asks sampling density
+ ask 'Sampling density/nm per pixel: ' ste
+
+! calculate tranmission function exp(i.sigma.V.dz)
+ ask 'Slice thickness/nm: ' m
+ dz=m*1e-9
+ ask 'Picture containing [optionally complex] specimen voltage profile: ' vpr
+ ask 'Picture number for (first set of) exit plane beams: ' psi
+ unless set(m&vpr&psi) return
+getns:
+ type 'Slice numbers at which output beams are to be filed'
+ ask '- up to 9 numbers: ' ns1,ns2,ns3,ns4,ns5,ns6,ns7,ns8,ns9
+ unless set(ns1) jump getns
+
+! convert voltage profile to transmission function
+ trap=14 pic vpr size; if rc~=14 jump on
+  pcb vpr; nx=ncols; on:
+ copy vpr 997 complex
+ trn=998
+ calc re(:997)*sigma*dz to trn
+ calc c(cos(:trn),sin(:trn))
+ calc :trn*exp(-im(:997)*sigma*dz) to trn
+ title text 'exp{i.sigma.V}'
+
+! generate phase shifts for PTBN
+ cti=cti*1e-3*nx*ste*1e-9/lam
+ c=pi*lam*dz/(nx*ste*1e-9)^2
+ eiksq=999
+ cre eiksq size nx,1 fp fourier
+ calc -(x+cti)^2*c
+ calc c(cos(:sel),sin(:sel))
+ title text 'propagation phase factor exp {-i.k^2}'
+
+! slice loop
+ create psi size nx,1 complex fourier val 0
+ p 0 = nx
+
+ nt=0
+ for s=1,9
+   if ~set(ns#s) break
+   nm=ns#s-nt
+   for n=1,nm
+     ima to psi
+     calc :psi*:trn
+     fou psi
+     calc :psi*:eiksq
+     ! mask rad nx/3 val 0
+   loop
+   nt=nt+nm
+   title text 'Slice ',nt
+   type 'Beams leaving slice ',nt,' stored as picture ',sel
+   psi=psi+1
+ loop
+
+! Check intensity remaining
+! sur full noverify
+! type +
+ 'Fraction of Intensity retained within central two thirds of array: '+
+ ,nx*(mean^2+me2^2+sd^2) / nx^2
+end
+
+
+  FT3D() ! 3-D Fourier transform from N1 to N2
+! ----     Workspace for NLAYERS+1 pic nums at WS
+
+ Local n1,n2,sign,ws,class,form
+ Local nb,inlen,p,q,pb,wi,winc,cs,sn,qp,i1,i2
+ Local ncol,nrow,nlay,class,form,x1,x2,y1,y2,z1,z2
+
+ unless set(n1) ask 'FROM picture number: ' n1
+! Find number of passes, and check power of 2
+ trap=14 pic n1 size class; if rc~=14 jump on
+  pcb b1; nz=nlays c=class; on:
+ nb=round(ln(nz)/ln(2))
+ unl 2^nb = nz jump bnl
+! Set dirn: forward means sign -1
+ sign=-1; if c=3 | c=4 sign=1
+ unless set(n2) ask 'TO picture number [',n1,']: ' n2
+ unless set(n2) n2=n1
+ unless set(ws) ask 'First of ',nz+1,' workspace picture numbers ' ws
+ qp=ws+nz; del qp
+
+! Separate source layers
+ type 'Separating source layers'
+ sep n1 ws
+
+! Transform layers if necessary
+if sign=1 jump ren
+  type 'Transforming source layers'
+  for i=0,nz-1
+    fourier ws+i
+  loop
+ren:
+
+! Reorder pictures (renumber rather than move)
+! ----------------
+ type 'Shifting Z-origin and re-ordering layers'
+ for i=0,nz/4-1;
+   i1=i
+   nb=nb-2; lib bitrev; nb=nb+2
+   ren ws+2*i1 qp
+   ren ws+2*i2+nz/2 ws+2*i1
+   ren ws+2*i1+nz/2+1 ws+2*i2+nz/2
+   ren ws+2*i2+1 ws+2*i1+nz/2+1
+   ren qp ws+2*i2+1
+ loop
+
+! Make base 2 transform passes
+! ----------------------------
+ for pass=1,nb
+   type 'Performing layer transform pass number ',pass,' of ',nb
+
+   ! Loop over butterflies within block
+   wi=0 inlen=2^pass/2
+   for pb=0,inlen-1
+     ! Prepare twiddle factor
+     cs=cos(2*pi*sign*wi/nz)
+     sn=sin(2*pi*sign*wi/nz)
+
+     ! Loop over blocks
+     for p=pb,nz-1,inlen*2
+       p=ws+p
+       q=p+inlen
+       ! Apply twiddle factor unless trivial
+       if wi~=0  calc :q*c(cs,sn) to qp
+       if wi=0 copy q qp
+       ! Perform butterfly
+       calc :p-:qp to q
+       calc :p+:qp to p
+
+     loop p
+     ! Bump twiddle index
+     wi=wi+nz/inlen/2
+   loop pb
+ loop pass
+
+! Renumber output so as to shift pile origin to middle
+ type 'Renumbering layers shifting final Z-origin'
+ del qp
+ for i=0,nz/2-1
+   ren ws+i qp; ren ws+nz/2+i ws+i; ren qp ws+nz/2+i
+ loop
+
+! On inverse transform, normalise and transform layers
+ if sign < 0 jump nnt
+   type 'Normalising'
+   q=1/nz
+   for i=0,nz-1; p=ws+i; calc :p*q; loop
+
+   type 'Transforming layers'
+   for i=0,nz-1; image ws+i; loop
+ nnt:
+
+! Stack to final destination
+ type 'Stacking to picture ',n2
+ stack ws,ws+nz-1 n2
+ return
+
+! Bad number of layers
+ bnl: type 'Number of layers is not a power of 2'; return
+end
+
+
+  Bitrev() ! Sets I2 to I1 bit-reversed on NB bits
+! ------     [Used by FT3D]
+ local p,b
+ i2=0 p=2^(nb-1)
+ for d=0,nb-1
+   b=and(i1,2^d); unless b=0 i2=i2+p/b
+ loop
+end
+
+  Mosaic() ! Repeats central unit cell periodically outwards
+! ------
+ local u,u2,v,v2,n1,n2,sout,so2,s,s2,$b,$c,$d,$e,$f
+ if set(u&u2&v&v2) jump m1
+  typ 'U or V unset'; return
+m1: unl set(n1) ask 'Source picture [',sel,']: ' n1
+ unl set(n1) n1=sel
+ unl set(n2) ask 'Output picture [',n1,']: ' n2
+ unl set(n2) n2=n1
+ unl set(sout) ask 'Output picture size [128,size]: ' sout,so2
+ unl set(sout) sout=128; unls set(so2) so2=sout
+ s=round(1.5*mod(u,u2)),round(1.5*mod(v,v2))
+ u=u/s,u2/s v=v/s2,v2/s2
+ ext n1 999 size s,s2 uv
+! equiv of UCS=1 LIB INV
+ $b=U $c=U2 $d=V $e=V2 $f=$b*$e-$c*$d
+ U=$e*1/$f,-$c*1/$f V=-$d*1/$f,$b*1/$f
+ ext 999 n2 size sout,so2 uv
+ return
+end
+
+  Pf1() ! Fits 1-D poly to 5 points of SELECT around X, and resets X to
+! ---     posn of poly min/max.  If X unset initially, finds global max
+ local sf,sfx,sf2,b,c,y
+ if ~set(X) find
+ sf=0 sfx=0 sf2=0; x=round(x)
+ for n=-2,2
+   f=p(x+n); sf=sf+f; sfx=sfx+f*n; sf2=sf2+f*n^2
+ loop
+ b=sfx/10; c=-(sf*10-sf2*5)/70; x=x-b/2/c
+ if c>0 type 'min at ',x
+ if c<0 type 'max at ',x
+end
+
+
+  Pile() ! Types all pixels in pile XC,YC,<z>
+! ----
+ local $x,$y,$z,nx,ny,nz,x1,x2,y1,y2,z1,z2,form,f
+ trap=14 pic size limits form; if rc~=14 jump on
+   local ncols,nrows,nlays,class,wpf; pcb; nx=ncols ny=nrows f=form; on:
+ if nx=1 $x=0; if ny=1 $y=0
+ if set(XC) $x=XC; unl set($x) ask 'Pile X coord: ' $x
+ if set(YC) $y=YC; unl set($y) ask 'Pile Y coord: ' $y
+ typ 'Picture ',sel,' pile ',$x,',',$y,',z'
+ if f=3 jump complex
+ for $z z1,z2
+   typ '  ',$z,#9,p($x,$y,$z)
+ loop
+ return
+ complex:
+ for $z z2,z1
+   typ '  ',$z,#9,re($x,$y,$z),#22,im($x,$y,$z)
+ loop
+end
+
+  Rotp3() ! Rotates U by 120 degrees anticl. to V
+! -----
+ local c,s; c=cos(2*pi/3) s=sin(2*pi/3)
+ v=c*u-s*u2,s*u+c*u2
+end
+
+
+  Rotp4() ! Rotates U by 90 degrees anticl. to V
+! -----
+ v=-u2,u
+end
+
+
+  Rotp6() ! Rotates U by 60 degrees anticl. to V
+! -----
+ local c,s; c=cos(pi/3) s=sin(pi/3)
+ v=c*u-s*u2,s*u+c*u2
+end
+
+
+  Rotuv() ! Rotates U by THETA anticl. to V
+! -----
+ local c,s,$1
+ if set(the) $1=the; unl set(the) ask 'Angle (anticlockwise): ' $1
+ c=cos($1) s=sin($1)
+ v=c*u-s*u2,s*u+c*u2
+end
+
+
+  Seriesrange() ! Calculates MIN,MAX for picture series S,S2
+! -----------
+ Local s,s2,m,m2
+ If set(s) & set(s2) jump scan
+ Ask 'First,last picture in series ' s,s2
+ Unless set(s) & set(s2) return
+scan: survey s noverify
+ m=min,max
+ for n=s+1,s2
+  survey n noverify
+  m=min(m,min),max(m2,max)
+ loop
+ min=m max=m2
+ type 'Series range ',min,max
+end
+
+  Veruv() ! Verify current U,V
+! -----
+ Type 'Base vectors U=',U,',',U2,#40,'|U|=',MOD(U,U2)
+ Type '             V=',V,',',V2,#40,'|V|=',MOD(V,V2)
+ $d=phase(V,V2)-phase(U,U2)
+ Type #40,'ang(U->V)=',$d,'rad=',$d*180/pi,'deg'
+end
+
+
+  Veruvw() ! Verify current U,V,W
+! ------
+ lib veruv
+ Type '      Origin W=',W,',',W2,#40,'ang(U->V)=',$d,'rad=',$d*180/pi,'deg'
+end
+
+
+ Pcomp() ! Compares two images to display at angle clockwise of the
+ local $p1 $p2 $th $m1 $m2 $n1 $n2 $a $b
+ if set(the) $th=the ; unless set(the) ask 'Angle to use ' $th
+ if set(p1) $p1=p1 ;  unless set(p1) ask 'Picture 1 ' $p1
+ if set(p2) $p2=p2 ;  unless set(p1) ask 'Picture 2 ' $p2
+ if set(pre) jump l1
+   sur $p1 nover ; $m1=max $m2=min
+   sur $p2 nover ; $n1=max $n2=min
+ $a = cos($th) $b = sin($th)
+   min=0 max=1
+   calc (:$p1-$m2)/($m1-$m2)*(($a*x-$b*y)>=0) +
+    +  (:$p2-$n2)/($n1-$n2)*(($a*x-$b*y)<0)  to dis:1
+  return
+  end
+
+ Pcomp2() ! Compares two images to display at angle clockwise of the
+ local $p1 $p2 $th $m1 $m2 $n1 $n2 $a $b $p
+ if set(the) $th=the ; unless set(the) ask 'Angle to use ' $th
+ if set(p1) $p1=p1 ;  unless set(p1) ask 'Picture 1 ' $p1
+ if set(p2) $p2=p2 ;  unless set(p2) ask 'Picture 2 ' $p2
+ if set(n1) $n1=n1 ;  unless set(n1) ask 'Max of 1 ' $n1
+ if set(n2) $n2=n2 ;  unless set(n2) ask 'Min of 1 ' $n2
+ if set(m1) $m1=m1 ;  unless set(m1) ask 'Max of 2 ' $m1
+ if set(m2) $m2=m2 ;  unless set(m2) ask 'Min of 2 ' $m2
+ if set(p) $p=p ;  unless set(p) ask 'Partition ? ' $p
+
+ $a = cos($th) $b = sin($th)
+   min=0 max=1
+   calc (:$p1-$n2)/($n1-$n2)*(($a*x-$b*y)>=0) +
+    +  (:$p2-$m2)/($m1-$m2)*(($a*x-$b*y)<0)  to dis:$p
+  return
+  end
+
+  Ucell() ! Blanks off to value a skew unit cell centered 0,0
+! u,u2 is first axis (say 0,400)
+! v,v2 is second axis (say 400,-200)
+! This probably will work in all cases - no garuentees
+unless set(in) ask 'Input picture 'in
+unless set(out) ask 'Output picture 'out
+unless set(val) val=255
+unless set(u) ask 'Input vertical dimension 'u2
+!u=0
+unless set(v) ask 'Input the two components of v 'v,v2
+
+! Gradient is -v2/v - Assume u is vertical
+p1=0 p2=v
+gr=-v2/v q1=0 q2=u2
+tol=1
+
+del out
+calc :in*(x>p1)+255*(x<p1) to out
+calc :out*(x<fix(p2))+255*(x>fix(p2)) to out
+calc :out*(fix(x*gr-y+q1)<tol)+255*(fix(x*gr-y+q1)>tol) to out
+calc :out*(fix(x*gr-y+q2)>tol)+255*(fix(x*gr-y+q2)<tol) to out
+calc max(255*((x<p1)+(x>p2)),:out) to out
+dis out
+
+return
+end
+
+

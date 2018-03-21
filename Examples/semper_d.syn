@@ -1,0 +1,385 @@
+! Semper 6.4.6 plus syntax file
+! Copyright (C) 1988-1996 Synoptics Ltd.
+
+! Routines
+  Select $1=sel from=$1 open(lp1,old)=fro >
+
+! Standard subregion parameters
+  $position position= po2= left right top bottom >
+  $p3 po3= near far >
+  $size size= si2= >
+  $s3 size= si2= si3= >
+  $layers layer= la2= >
+
+  $tl type log width= aspect= >
+  $r2 $1=sel from=$1 open(lp1,old)=fro $2=dis to=$2 times=1 preset letter >
+  $r3 $1=sel from=$1 $2=fro to=$2 open(lp1,old)=fro >
+  $r4 $1=sel from=$1 $12=fro fr2=$12 >
+  $r5 $1=sel from=$1 $2=fro to=$2 >
+  $r6 $1=sel open(lp1,old)=$1 >
+  $classes image fourier spectrum correlation undefined walsh +
+    histogram plist lut list curve open closed >
+  $r8 negative iterated squared radius= >
+  $r9 $1=sel $12=$1 >
+  $rp radius= position= po2= >
+  $fpp frame partition picture $1= >
+  $extras pos= po2= >
+
+! Continuations - first is standard FROM-TO processing
+  $ft >$r3 open(lp2,new,lp1)=to
+  $w3 >$r3 open(lp2,new,lp1)=to open(lp3,old)=wit
+  $w4 >$r3                      open(lp3,old)=wit
+  $ss >Select $2=dis to=$2 theta=pi/4 psi=pi/4 ltheta=pi/4 lphi= +
+    ambient=40 dcontrast=30 main=154 forward=42 sdr=.4 +
+    >$size position= po2= times=1 value=
+
+
+! Standard Semper commands
+
+  Acf :ACF >$r3
+  Add :PRDWRT again name=' device= program=' macro= verify
+  Ask :ASK $
+  Assign :ASSIG $1=0 memory old new scratch wp help program file +
+    name=' device= >$size slots= frames= append width=132 >$extras verify
+  Backproject :BAKPRO angle= add multiply with= >$w3
+  Base :BASFIT verify uvonly tolerance=.3 numbers= nu2= >$rp times=5 mark= +
+    $2=0 to=$2 >Select
+  Beep,Bell,Buzzer :BEEP
+  Break :SEMNXT $
+  Cache :CACHE number= size= device= memory free flush show
+  Calculate :CALC $1=' to=
+  Close :CLOSED
+  Cls :CLS
+  Compress :DMANU device=cd verify
+  Colour :COLOUR >$r3 with=
+  Contour :VGCON >$r2 >$position >$p3 >$s3 >$layers levels=5 border mark=
+  Copy :COPYP program=' as=' device= verify >$r4 $2=fro to=$2
+  Correct :CORECT verify with= >$w3
+  Create :PMANU $1=sel >$s3 value= va2= >$classes
+  Ctf :CTF wave amplitude phase squared cc add multiply >$size +
+    halfplane >$r5 physical defocus= verify
+  Cut :CUT >$s3 >$position >$p3 >$layers value= mark= >$r3
+  Data :PICDAT get set $1=sel picture=$1 open(lp1,old)=pic
+  Deassign :DEASS device=cd delete verify $1=0
+  Delete :PMANU malformed program=' verify >$r9
+  Diagnostic :TYPE $
+  Differentiate :DIFFER angle= >$ft
+  Dilate :MORPH separately neighbours= times= with= >$ft
+  Directory :DMANU device=cd
+  Display :DISP >$r2 >$position >$p3 >$s3 >$layers scale negated repeating +
+    >$tl height= border mark=
+  Drag :DRAG >$fpp line circle arc region curve open closed tolerance=1 +
+    >$position >$size to= to2= radius= angle= an2= uv sampling= with= verify
+  Echo :ECHO console diagnostics log monitor command input all none +
+    standard output error terminal device=
+  Edge :EDGE roberts >$ft
+  Edit :EDITOR verify $1=0 from=$1 $2=0 to=$2
+  Erase :ERASE >$fpp image overlay >$size >$position
+  Erode :MORPH skeletonise ends nodes outline ol4 neighbours= times= with= >$ft
+  Event :EVENTC keyboard buttons pointer break close open count read +
+    flush status verify
+  Examine :EXAMPD all macro >$classes full brief device= text=' $1=0 $12=0
+  Exit :SEMEND
+  Expand :EXPAND ratio= ra2= nneighbour >$r3
+  Extract :EXTRAC with= >$size >$position sampling= average angle= uv verify +
+    nneighbour bicubic mark= mkmode=1 mksize=2 >$r3
+  Find :FIND position= po2= highest verify lowest cm mark= mkmode=1 mksize=2 +
+    >$r8 >Select
+  Fir :FIRFIL laplacean gaussian separable add subtract modulus with= +
+    radius=1 >$ft
+  Fit :FITSBD subtract divide constant >$r3
+  Flc :FITLC wiener snr=3 size=17 si2=32 radius= verify position= po2= +
+    line= li2= mark= mkmode=1 mksize=2 to= >Select
+  Flush :FLUSHD
+  For :SEMFOR $
+  Fourier :FFT >$r3
+  Fullplane :HALFUL >$r3
+  Gaussian :GAU size=32 si2=siz si3=1 radius=siz/8 $1=sel to=$1 +
+    open(lp1,new)=to
+  Halfplane > Fullplane
+  Help :SEMHEL $
+  Hilbert :HILBRT right left lp zero >$ft
+  Histogram :HISTOG >$r2 >$position >$p3 >$s3 >$layers channels= repeating +
+    >$tl height= border
+  Hp :BLKMEA horizontal vertical over=5 >$ft
+  Image :IMAGE >$r3
+  Inkey :LOCALS $
+  Jump :JUMP $
+  Ladjust :LUTADJ scaled= range= ra2= brightness dbrightness contrast +
+    hue dhue saturation dsaturation position dposition width upper lower +
+    tie ends= en2= all red green blue initially +
+    hsv=0 hs2=1 hs3=1 hs4=hsv hs5=hs2 hs6=hs3
+  Lattice :LATTIC from >$fpp $2=0 to=$2 spacing= radius= sites +
+    mark= mkmode=1 mksize=2 >$size >$position
+  Letter :LETTER text=' size= fg= bg= title $1=0 from=$1 $2=0 to=$2
+  Library :SEMLIB $
+  List :EDSTUB $1=sel from=$1 old new name=' program=' dev= all
+  Lmean > Hp
+  Local :LOCALS $
+  Log :TYPE $
+  Loop :SEMLOO $
+  Lorentzian > Gaussian
+  Lpd :LPDET >$r5 baseline= height= saturate= area= line $3=999 plist=$3
+  Lsd :BLKVAR over=5 >$ft
+  Lset :LUTSET $1=clu number=$1 scaled= range= ra2= hue=0 hu2=hue +
+    saturation=0 sa2=sat brightness=0 br2=bri red green blue
+  Lut :LMANU $1=clu number=$1 enquire delete create copy= from= to= input +
+    keys +
+    monochrome false colour all reset invert zero red green blue +
+    scaled= brightness=.5 contrast=1 range= ra2= highlight= hi2=
+  Lvariance > Lsd
+  Macro :MACRO $
+  Magnify :MAGSR times=2 repeating >$r3 >$position >$size mark=
+  Map :MAPPIX range=min ra2=max gaussian with=999 >$w3
+  Mark :MARK >$fpp line arrow circle arc region list curve open closed +
+    border text=' >$position >$size to= to2= radius= angle= an2= uv +
+    sampling= with= lj rj tj bj above below inside outside mkmode=1 mksize=2
+  Mask :MASK inside outside value= va2= >$rp width= mark= with= >$ft
+  Median :MORPH >$ft
+  Motif :MOTIF size=32 si2=siz numbers= nu2= even odd region verify +
+    mark= mkmode=1 mksize=2 with=999 >$w3
+  Negate :PXSCA preset >$ft
+  Next :SEMNXT $
+  Noise :NOISE width=.1 dose= exponential uniform preset >$ft
+  Ocf :OCF rings=5 radius= ra2= full to= verify mark= +
+    with= >Select open(lp2,old)=wit
+  Order :PORDER $1= $12= $13= $14= $15= $16= $17= $18= $19= verify
+  Origin :PMANU >$r6 >$position >$p3 reset
+  Ovread :OVREAD >$fpp $2=sel to=$2 >$size >$position
+  Ovwrite :OVWRIT >$fpp $2=sel with=$2 layer=1 threshold= negated clip +
+    open(lp1,old)=wit
+  Pack :RADX50 $
+  Page :PAGE width= length= aspect= prompt wrap enquire quit
+  Partition :PARTIT $1=dis number=$1 enquire delete frame=1 fr2=fra lut=1 +
+    >$size >$position
+  Paste :PASTE >$position >$p3 >$layers mark= >Select +
+    $2=sel to=$2 open(lp2,old)=to
+  Pcb :PMANU >Select
+  Peaks :PEAKS threshold= sradius= >$r8 verify mark= mkmode=1 mksize=2 +
+    $2=999 to=$2 >Select
+  Pfilter :PFILTR >Select $2=from to=$2 tolerance=1
+  Phr :PHRAND >$ft
+  Picture :PICTUR size limits class form wp date time range sum statistics +
+    bw sampling type all >Select
+  Pixel,P :SEMPIX $
+  Postscript :PSOUT >$fpp old new name=' encapsulated copies=1 times=1 +
+    portrait landscape preset black white >$size >$position >$layers +
+    border origin text=' above below header
+  Print :BPRINT >Select >$position >$p3 >$size layer= mp
+  Project :PROJEC angle= average horizontally vertically mark= >$r3
+  Ps :PS ln >$r3
+  Quit :SEMEND
+  Ramps :RAMPS >$fpp full times=4 >$size >$position
+  Rank :RANK erode dilate over=3 position= >$ft
+  Rcf :RCF phaseresidual over= radius= with= >Select open(lp3,old)=wit +
+    $2=999 to=$2
+  Read :FRDWRT $1=sel to=$1 again name=' unformatted
+  Reclass :PMANU >$r6 as >$classes
+  Reinitialise :REINIT device=cd slots= verify
+  Renumber :DMANU program=' as=' verify >$r5
+  Report :REPORT error trap exit
+  Return :RETUR
+  Rf :RFILTR a=.3 >$ft
+  Rgb :RGB >Select $2=dis to=$2 monochrome false sampled averaged lut=999 +
+    levels= le2= le3=
+  Rotate :MRTRAN angle= value= >$r3
+  Run :SEMRUN again name='
+  Save :SAVER name=' device= slots= size= renumber deassign verify >$r4
+  Scale :PXSCA range=0 ra2=255 msd= ms2= preset >$ft
+  Section :SECTN position= po2= angle= width=pi mark= >$r3
+  Separate :SEPART >$layers >$r3
+  Sharpen > Hp
+  Sheet :SHEET range= ra2= border= zorigin= >$ss
+  Show :SHOW(SYN) variables devices partitions luts time programs full +
+    page +
+    commands macros system errors sizes echo path usage=' $1= $12=
+  Sketch :SKETCH >$fpp $2=999 to=$2 tolerance= position= po2= closed
+  Solid :SOLID threshold= with= >$ss
+  Slg :SEMSLG >$fpp
+  Spc :PXCON ln list levels=5 value= range=min ra2=max verify +
+    >$r3 wit=fro open(lp3,old)=wit open(lp2,new,lp1)=to
+  Stack :STACK >$layers >$r3 $12=fro fr2=$12
+  Stop :SEMEND
+  Strain :BASFIT verify tolerance=.3 times=5 mark= >$r3
+  Survey :SURVEY >Select >$position >$p3 >$s3 >$layers full verify
+  Syntax :SEMSYN(SYN) $
+  Time :EXTIME reset verify
+  Title :PMANU >$r6 from= add text='
+  Transpose :MRTRAN >$r3
+  Turn :TURN anticlockwise upsidedown over >$ft
+  Type :TYPE $
+  Unpack :RADX50 $
+  Unset :LOCALS $
+  View :VIEW >$fpp enquire $12= $13= $14= $15= $16= $17= $18= $19= times=5 +
+    wait=1 lut= zoom=1 pan= pa2= clip >$size >$position
+  Wait :WAITU $1=-1 for=$1
+  Walsh :WALSH >$r3
+  Weight :WEIGHT position= po2= add multiply with=999 >$w3
+  Window :WINDOW width=.2 verify >$rp >$ft
+  Wp :PMANU on off >$r9
+  Xcf :XCF search via=999 verify lowest >$r8 mark= mkmode=1 mksize=2 +
+    with= >$w4
+  Xwires :XWIRES >$fpp verify line circle arc section region oned angled +
+    uv list curve open closed graph symmetric antisymmetric to=999 >$size +
+    sampling= position= po2= mkmode=1 mksize=2
+  Ymod :YMOD >$r2 >$position >$size layer= mark=
+
+! Default command
+
+  Null > Display
+
+! - Particle Analysis Suite
+
+  $pparams xref yref id parent holes background contact xmin xmax ymin ymax +
+    hferet vferet aferet bferet vproj hproj perimeter area xcen ycen +
+    mmin mmax angle circularity >
+
+  Analyse :ANALYS le= ge= area= ar2= >$size >$position cm id segment= verify +
+    mark= mkmode=1 mksize=2 >Select $2=998 to=$2
+  Pcalculate :PCALC verify $1=0 id=$1 $2=0 image=$2 $3=0 segment=$3 +
+    $4=0 plist=$4
+  Pcurve :PCURVE image= $1=999 with=$1 verify
+  Pdraw :PDRAW value= position= po2= verify $1=dis picture=$1 $2=0 image=$2
+  Pedit :PEDIT if=' unless=' segment= se2= $1=0 plist=$1 $2=0 to=$2
+  Pextract :PEXTR image= value= +
+    $1=-1 id=$1 $2=0 segment=$2 $3=0 plist=$3 $4=997 to=$4
+  Pferet :PFERET angle= an2= an3= an4= an5= an6= an7= an8= an9= verify +
+    $1=0 id=$1 $2=0 segment=$2 $3=0 plist=$3
+  Phistogram :PHIST if=' unless=' >$pparams channels= preset height= times=1 +
+    repeating letter border >$tl $1=0 plist=$1 $2=dis to=$2
+  Pid :PID position= po2= verify $1=0 segment=$1
+  Pmark :PMARK if=' unless=' >$pparams cm $1=dis picture=$1 $2=0 plist=$2 +
+    mkmode=1 mksize=2
+  Pmoment :PMOMEN verify $1=0 id=$1 $2=0 segment=$2 $3=0 plist=$3 image=
+  Pset :PSET if=' unless=' sort=' ascending descending >$pparams all count +
+    index=1 $1=0 plist=$1
+  Pshow :PSHOW if=' unless=' sort=' ascending descending hue= hu2= +
+    saturation= $1=0 plist=$1
+  Ptype :PTYPE if=' unless=' sort=' ascending descending >$pparams all +
+    index=1 $1=0 plist=$1
+
+! - New morphology commands
+
+  $bopts times=1 source output edge= mask= with= $1=sel from=$1 $2=fro to=$2 +
+    open(lp1,old)=fro open(lp2,new,lp1)=to open(lp3,old)=with
+  $dopts diamond square octagon circle >$r3
+
+  Threshold :THRESH >Select $2=from to=$2 +
+    le= le2= le3= le4= le5= le6= le7= le8= le9= +
+    ge= ge2= ge3= ge4= ge5= ge6= ge7= ge8= ge9= +
+    lt= lt2= lt3= lt4= lt5= lt6= lt7= lt8= lt9= +
+    gt= gt2= gt3= gt4= gt5= gt6= gt7= gt8= gt9=
+  Hfill :HFILL >$r3 fg bg
+  Label :LABEL >$r3 fg bg
+  Flood :FLOOD >$r3 fg bg with= position= po2=
+  Dt :DT fg bg open closed >$dopts
+  Derode  :DDILER radius= >$dopts
+  Ddilate :DDILER radius= >$dopts
+  Dopen   :DOPCLO radius= >$dopts
+  Dclose  :DOPCLO radius= >$dopts
+  Berode  :BDILER >$bopts
+  Bdilate :BDILER >$bopts
+  Bopen   :BOPCLO >$bopts
+  Bclose  :BOPCLO >$bopts
+  Bhmt    :BHMT   add subtract >$bopts
+  Bmmap   :BMMAP  >$bopts
+  Bmlut   :BMLUT  if=' unless=' median erode dilate with= neighbours= +
+    skeletonise ends nodes ol4 outline separately $1=sel to=$1
+  Zone    :DZONE binary label fg bg >$dopts
+  Skiz    :DSKIZ binary label fg bg >$dopts
+  Chull   :CHULL >$r3
+
+! - Remote Sensing commands
+
+  $rs with= open(lp2,old)=with stride=1 >
+  $rt threshold= th2= th3= th4= th5= th6= th7= th8= th9= >
+
+  Box :BOX >$r3  >$rs >$position >$size
+  Covariance :COVAR >$r3 >$position >$size
+  Destripe :DESTRP >$r3 lines= rsd= rmean= layer= mode
+  Rhistogram :FEATUR >$r2 channels= ch2= band= ba2= repeating +
+    >$position >$size >$tl verify border
+  Learn :TRAIN >Select data= da2= da3= da4= da5= da6= da7= da8= da9= to= +
+    class= cl2= cl3= cl4= cl5= cl6= cl7= cl8= cl9= verify
+  Likelihood :MAXLIK >$r3 >$rs >$rt probability= pr2= pr3= pr4= pr5= pr6= pr7= +
+    pr8= pr9= >$position >$size
+  Mindistance :MINDIS >$r3 >$rs >$rt >$position >$size
+  Pct :PCA >$r3 eigen= covariance= >$position >$size hotelling +
+    inverse estimate stretch
+  Warp :WARP >$r3 image= map= order=1 layer= position= po2= +
+    >$size stride=1 errmax= bilinear bicubic verify
+!----------------------------------------------------------------
+! - UIF command definitions
+
+  Uif :UVUIF read=' save=' enable exit go status stop
+
+  Mouse :UVMOUS centre=' left=' right=' position= po2= +
+                id= query
+
+  Device :UVDEVI active= save= restore= refresh= query=
+
+  Justification :UVJUST top bottom left right
+
+  Panel :UVPANE name=' position= po2= >$size foreground= background= +
+    id=PNO on=CDI create destroy show hide auto transient mandatory
+
+  Execute :UVEXEC before=' after=' on off
+
+! Definition for all elements..
+
+  $elements begins=' ends=' pos= po2= foreground= background= +
+            id=ENO in=PNO name=' >$size create destroy
+
+  Cell :UVCELL text=' cycle= box check flash invert tick add= +
+               column= row= offset= of2= title= drop changes=' >$elements
+
+  Menu :UVMENU activate choice deactivate fixed popup pulldown toggle +
+               >$elements
+
+  Textfield :UVTEXT append=' assign=' contents=' prior=' length= tab= value=' +
+               execute immediately activate clear wp off changes=' >$elements
+
+! - Monitor,Prc are for debugging only (not supported)
+
+  Monitor :MONITM on off show all none processing rowio opens range channel=
+  Prc :PRINTC cbs cip cfg arg frl pli pri pdb ldb gdb iod
+
+  Unix :FUNIX $1='
+
+  $gets $1=sel to=$1 again name='
+  Input :INPUTF raw swap skip= bmp tiff raster map= verify +
+    >$s3 >$gets
+! - EIKONIX camera file format
+  Eget :ERDWRT >$gets
+! - Silicon Graphics image file format
+  Iget :IPTGET >$gets
+! - Stanford file format
+  Sget :SRDWRT >$gets
+! - Z (layered) binary get
+  Zget :ZRDWRT >$gets
+
+
+
+
+  Overlay :OVERLY $1=1 number=$1 on off graphics rubberband cursor show +
+    black white red green blue cyan magenta yellow +
+    rgb= rg2= rg3= hsv= hs2= hs3=
+  X11Set :X11SET ilim= vlim=
+
+
+
+
+! Locally written commands
+  User :USER
+
+! Named macro definitions
+  @X position x
+  @XY position x,y
+  @Line @xy to xn,yn
+  @Circle radius r @xy
+  @Arc @circle angle theta,th2
+  @Region size r,r2 @xy
+  @Section @region angle theta
+  @Find examine text
+
+End

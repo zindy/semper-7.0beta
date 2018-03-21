@@ -1,0 +1,118 @@
+! Semper 6.45 run file for tutorial
+
+cls
+type
+type '               Welcome to the  Semper 6 Plus Tutorial'
+type '               ======================================='
+type
+type
+type 'The program in your run file ("tutorial.run") is now being run;'
+type 'as supplied, this attempts:'
+type '      (i) to assign the display device'
+type '     (ii) to assign the tutorial picture disk, "tutorial.dsk"'
+type '    (iii) to assign the help library,          "semper.hlb"'
+type '     (iv) to assign a program library file,    "semper.plb"'
+type
+type 'This program should work if you run it immediately after installing'
+type 'your Semper system.'
+type 'If the Semper system has been operating on your machine for some time,'
+type 'however, you may find that one or more of the required files has been'
+type 'deleted.  If so, the best way to proceed is to ask an existing Semper'
+type 'user to help.'
+type
+wait
+type
+
+trap=-1 assign display siz 1024,512
+if rc=0 jump on0
+type '*** Unable to assign display ***'
+stop
+
+on0:
+trap=44 assign name 'tutorial.dsk'
+if rc=0 jump on1
+trap=-1 assign name 'tutorial.dsk' new size 5000
+if rc=0 jump on1
+type '*** Unable to assign (new or existing) picture disk "tutorial.dsk" ***'
+stop
+
+on1:
+! Read images from dump files
+for i 1,3
+   trap=-1 read i name 'tutor',i,'.dat'
+   if ~(rc=0) type '*** Unable to read test picture "tutor',i,'.dat" ***'
+loop
+read 4 name 'flower.dat'
+
+on2:
+!trap=44 assign help name 'semper.hlb'
+!if rc=44 type '*** Unable to assign help library "semper.hlb" ***'
+
+trap=44 assign program name 'semper.plb'
+if rc=0 jump on3
+trap=-1 assign program name 'semper.plb' new size 1000 slots 300
+if rc=0 jump on3
+type '*** Unable to assign (new or existing) program library "semper.plb" ***'
+stop
+
+on3:
+! read standard library
+trap=-1 com dev 4 ; trap=-1 com dev 5
+trap=-1 add name 'semper.spl'
+trap=-1 add name 'oldsemper.spl'
+trap=-1 add name 'afitdp.spl'
+trap=-1 add name 'fitdp.spl'
+if rc=0 jump on4
+type '*** Unable to build program library (cannot find "semper.spl") ***'
+
+on4:
+! set initial current device; cd=2
+
+partition 1
+partition 2 size 512 left
+partition 3 size 512 right
+partition 4 size 256 top left
+partition 5 size 256 top right
+partition 6 size 512,256 bottom
+partition 7 size 512 lut 2
+partition 8 size 512 lut 3
+lut 1 create; lut 2 create false; lut 3 copy 1
+erase frame; view partition 1 lut 3; lset bri -2,2; view partition 1 lut 1
+erase=yes
+
+type
+type 'Showing which files you have -- command show devices'
+show devices
+wait
+type 'Showing the contents of the tutorial disk -- command exa all'
+exa all
+wait
+type 'Showing Suzy -- command display 1 dis:2'
+dis 1 dis:2
+wait
+type 'Magnifying her -- command mag 1 dis:3'
+mag 1 dis:3
+wait
+type 'Showing a color image -- command display 4'
+dis 4
+wait
+type 'Silicon Crystal region -- command disply 2 dis:2 '
+dis 2 dis:2
+type 'And hipass filter -- command hp 2 999 fp ; dis 999 dis:3'
+hp 2 999 fp ; dis 999 dis:3
+wait
+echo
+type 'Apply a circular mask -- command mask 999 rad 100 wid 20'
+mask 999 rad 100 wid 20
+type 'Do a FFT on it, and show results'
+fou 999 ; calc mod(:999) to 999 ; full 999 ; 999 dis:2
+wait
+type 'Show the amorphous regions'
+max=max/100 ; 999 pre dis:3
+wait
+
+
+!type 'Please consult the document BEGINNERS USER GUIDE contained in the'
+!type 'SEMPER 6 GUIDE for further guidance.'
+type
+end

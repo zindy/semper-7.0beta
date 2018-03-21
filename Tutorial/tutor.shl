@@ -1,0 +1,300 @@
+$add h0:
+       Welcome to Tutor, the Semper 6 Plus Demonstration User Interface
+
+Use  the mouse to move the cursor around the screen. In general,  items  which
+can be selected will be highlighted as the cursor moves over them.
+
+
+Clicking the left hand mouse button "selects" an item, activating it. Use this
+button to pop up menus, etc.
+
+Clicking the right hand mouse button cancels the last menu selected.
+
+Items with "..." on them mean that they access subsidiary menus.
+
+Clicking on the entry "HELP" will produce the help relevant to the menu  being
+displayed (it is the same as the help produced when Auto Help is active).  The
+entry  "+-*/" will pop up a calculator: this remains 'ON' until you click  the
+[OK]  button.  The  EXIT entry will, after confirmation,  return  you  to  the
+operating system.
+
+The  options  panel allows you to change, to some extent, how  Tutor operates.
+Active options are indicated by a '+' on their left hand side.  Click  on  the
+option to activate (or deactivate) it.  Unlike  other  selectable  items,  the
+options do not highlight as the cursor moves over them.
+
+Command line   Lets you enter Semper commands directly
+See commands   Shows you the Semper commands as they execute
+Auto help      Displays help when a new menu is displayed
+Preset         Does not scale pictures copied to the display
+Erase          Erases the display region before displaying a picture
+Log commands   Record the Semper commands executed in the file 'tutorc.log'
+Log output     Record the output from Semper commands in the file 'tutorl.log'
+
+You may not "See commands" and "Log commands" at the same time.
+
+The  selections panel allows you to choose the pictures you want to use  as  a
+source  or as a destination for your image processing operations. Clicking  on
+FROM,  TO or BOTH will show, after a short pause, a menu of  possible  sources
+(or destinations).
+
+FROM      selects the source picture (where the data come from)
+TO        selects the destination picture
+BOTH      lets you choose the source then the destination picture.
+The  "/\"  and "\/" items mean make source = destination and  vice  versa,  as
+indicated by the arrow direction.
+
+Semper stores its pictures on what is known as a picture disc, rather than  in
+individual  files. The  pictures  are referred to by a number (although  Tutor
+refers  to   them  by their  title).  Semper allows you to have  a  number  of
+picture  discs attached while it is running though Tutor only uses one. Semper
+saves you typing by having the concept of a current picture.
+
+If  you  are using the "See Commands" option you will see the  current  device
+referred to as "cd". The display is also treated as a picture disc and this is
+referred to as "dis".
+$add h1:
+The  screen menu is concerned with functions that manipulate the display.
+
+     Partitions     are Semper's name for regions of the display screen.
+     LUTS           are how the displayed image(s) is rendered e.g. colour  or
+                    grey scale.
+     Overlays       are used for annotation of images and line drawing.
+     Ramps          may  be used for testing the framestore or  for  examining
+                    what a LUT looks like.
+     Erase          lets you erase the image and overlay planes of the display
+                    screen.
+     Erase overlay  lets you erase just the overlay plane of the display.
+$add h2:
+The  pictures menu  is concerned with the manipulation of pictures.
+
+     Display        lets you show an image on the display device using, as the
+                    source,  the  picture given by the FROM box and,   as  the
+                    destination, the region given by the TO box (which must be
+                    a  display picture).  Semper will automatically scale  the
+                    picture when it copies it in the display so that it  makes
+                    the best use of the framestore's capabilities (in terms of
+                    the number of grey levels, etc.). If you have selected the
+                    PRESET option, Semper  uses  the values contained  in  the
+                    variables  min  and  max rather than  the  values  in  the
+                    picture itself.
+     Inspection     lets you look at an image in various different ways.
+     Storage        allows you to copy pictures (including PostScript output).
+$add h3:
+The  processing menu lets you use some of Semper's image processing  functions
+to manipulate and transform images.
+
+     Particle analysis        lets you divide an image into particles and then
+                              view the results
+     Geometrical operations   lets you magnify and rotate images.
+     Point by point operations lets  you  perform  arithmetic  on  images  and
+                              rescale them.
+     Spatial filtering        lets you use various filters on your images.
+     Fourier  transforms      lets you transform images (which must have sizes
+                              which  are  a power of two) and show their power
+                              spectrum.
+$add h4:
+The acquisition menu allows you to "grab" images from a video camera.
+$add h5:
+The   programs   menu is allows you to run programs which are  stored   in   a
+Semper  library (or program) disk. This is where you can add your own  library
+programs  after, perhaps, logging commands and turning the file into a  Semper
+program.
+$add h6:
+The calculate command allows you to perform arithmetic on pictures,  including
+transcendental functions. The options shown here are only the basic  operators
+of addition, subtraction, multiplication and division.
+$add h7:
+Semper treats pictures stored in the display as if they were stored on a disk,
+keeping track of their size, dynamic range, scaling, etc. Partitions are  used
+to  sub-divide  the  display into logical storage areas.  When  a  picture  is
+displayed,  a "display" picture is created, stored within the area defined  by
+the  partition.  This menu allows you to define or  determine  the  framestore
+areas associated with partitions 1 to 9.
+
+When  using  the  mouse to define a partition you have to  mark  two  opposite
+corners of the area you want to use for the partition. A box is  rubber-banded
+after you have defined the first point.
+$add h8:
+Semper understands three different types of Look Up Tables (LUTs): monochrome,
+false colour and true colour. Whether or not your system supports all of these
+depends  on the framestore you are using. If you are using the  "See commands"
+option  you will notice that you have to view the LUT after creating it  since
+Semper  allows  you to have multiple lookup tables and you select the  one  to
+view at any one time.
+
+The  Alter  LUTs  menu  lets  you  alter  various  characteristics  of  a  LUT
+(brightness, contrast) with the mouse (or the keyboard if you prefer).
+$add h9:
+This menu lets you choose the colour of the annotation used by Semper, that is
+the colour of the overlay plane.
+$add h10:
+"Ramps"  generates a test pattern which is useful for monitoring lookup  table
+manipulation or for filling an area.
+
+The area filled by the pattern can be defined in terms of a display picture, a
+partition or the frame.
+$add h11:
+"Erase"  clears areas of the display, erasing both the image and  the  overlay
+planes. In fact, if you use Semper directly, it is possible to erase just  the
+image plane.
+
+The  area  to  be  erased can be defined in terms  of  a  display  picture,  a
+partition or the frame.
+$add h12:
+"Erase overlay" clears areas of the display, erasing the display overlay.
+
+The  area  to  be  erased can be defined in terms  of  a  display  picture,  a
+partition or the frame.
+$add h13:
+The  inspection  menu  lets you find out about pictures.  This  includes  what
+values  they  contain, what the range of data within the picture  are  and  to
+produce a 3-d view of an image.
+
+The  "Print values" option prints picture values centred about the origin;  in
+fact Semper lets you print out the values of an arbitrary rectangular  region.
+The  "Contour"  option  draws contours on the overlay  plane;  another  Semper
+command, SPC, lets you draw the overlays on the image.  The "Ymodulus"  option
+draws a wireframe perspective view of an image.
+
+When  you use the "Examine full" command on a display picture you will see  an
+entry  "Sampling". The value of this depends upon the size of the picture  and
+the display partition; Semper automatically sub-samples  a  picture so that it
+will fit on the display.
+$add h14:
+This menu allows you to use some of Semper's storage functions. This  includes
+copying pictures (in fact you can copy whole groups of pictures). Semper  also
+allows you to write protect pictures so that they cannot be modified, which is
+useful if you have any "valuable" pictures. You can use the "Title" option  to
+change the name of an picture: Tutor only lets you give pictures titles up  to
+ten characters long but Semper itself allows titles of about 100 characters.
+
+The  "PostScript"  option  lets  you  output  a  picture  to  a file. The file
+contains  a  complete set of PostScript commands to print the picture. You may
+then copy these files to a PostScript printer to produce hard copy.
+$add h15:
+The spatial filtering menu allows you to use various filters on pictures. Most
+of the filters can accept a number of different sizes over which to operate.
+
+     High Pass      levels  the local background of the picture,  keeping  the
+                    rapidly varying detail.
+     Local  mean    replaces  each  source  pixel by the  local  mean  over  a
+                    square block.
+     Sharpen        adds  the  difference between the original picture  and  a
+                    locally averaged version back to the original.
+     Median         removes  isolated  line and point  objects  on  non-binary
+                    images,  replacing pixels by the middle ranked pixel of  a
+                    small region.
+     Local variance is similar to Local mean except that the pixel is replaced
+                    by the variance rather than the mean.
+     Local  standard deviation replaces the pixel with the standard  deviation
+                    rather than the mean or variance.
+     Edge detect    finds edges on the basis of a three point gradient vector.
+     Edge Roberts   uses a four point gradient vector to find edges.
+$add h16:
+Magnify   increases the  size  of a picture. Currently this is  fixed  at  the
+          default, times 2, but you may use any value in Semper itself.
+Transpose transposes a picture.
+Rotate    turns a picture through an angle (30 .. 150 degrees). Use the  mouse
+          to  draw a  line. The angle between your line and the horizontal  is
+          the angle through which to rotate the picture. If you give too small
+          an  angle  Semper  will  complain (you can  use  EXTRACT  for  small
+          angles).
+$add h17:
+Negate    rescales a picture, interchanging its minimum and maximum values
+Rescale   converts the dynamic range of a picture to the range 0 to 255.
+Calculate performs arithmetic between pictures.
+$add h18:
+The analysis menu shows some of the particle analysis commands which are built
+into  Semper.  You  will notice that when you activated  this  menu  that  the
+Selection  panel changed to Analysis Selection panel. There are four items  on
+this  panel which let you specify which image is to be analyse and  where  the
+results are to end up. The DISPLAY entry  is used by first two options on  the
+menu as where the pictures are to be shown.
+
+The  Analysis limits menu lets you alter how the image is to be analysed.  You
+may specify a minimum particle area and a range of intensities over which  the
+particles are found.
+
+The Select Results menu lets you change what information is displayed when you
+ask to see the results.
+
+Analyse  attempts  to divide an image into particles and reports the number of
+particles that it finds. Select single particle lets you identify a particular
+particle from the (previously displayed) segmented image so that you can print
+out some of its characteristics. Print selected results prints out the  chosen
+information for all particles.
+$add h19:
+The Fourier transform menu lets you transform and back-transform images to and
+from Fourier space. The Power spectrum option forms the log Power Spectrum  of
+a  transformed  image  so that the wide dynamic range of the  picture  can  be
+accommodated. Not shown, but present in the Semper language, are commands  for
+filtering the transformed images (e.g. WEIGHT).
+
+Any pictures to be transformed must have dimensions which are a power of  two.
+If your image does not meet this criterion then you can use the CREATE command
+to  make an image which is the next power of two greater than your image  size
+and  PASTE in your image. When you create your new image use the VALUE  0  key
+to give the newly created picture a value of zero.
+$add h20:
+Choose the size of the filter from one of the sizes shown. Some of the filters
+used support even sized kernels too, but these are not included in this menu.
+$add h21:
+                               Source Selection
+
+Choose  from the items listed. Items marked as '--------' are free slots,  you
+may  not select these. The left two columns are the display pictures,  whereas
+the right hand two columns are the disc pictures. If you move the cursor  onto
+the  item marked <>, you will be able to move the 'window' on the Semper disc.
+The  left  mouse button decrements and the right button  increments  the value
+shown.  When  the  cursor is moved out of the window the  menu  is redisplayed
+showing the new disc region.
+$add h22:
+                            Destination Selection
+
+Choose  from the items listed. Items marked as '--------' are free  slots  and
+may  be  selected  as the destination. The left two columns  are  the  display
+pictures,  whereas  the right hand two columns are the disc pictures.  If  you
+move the cursor onto the item marked <>, you will be able to move the 'window'
+on  the  Semper  disc. The left mouse button decrements and  the  right button
+increments  the  value shown. When the cursor is moved out of the  window  the
+menu is redisplayed showing the new disc region.
+$add h23:
+$add h24:
+The  Alter LUTs menu lets you change the contents of a LUT interactively.  You
+may use the mouse or keyboard or both. The RESET option resets the LUT to  the
+default state. You will find  that the Hue and Saturation options will have no
+effect on a monochrome look up table for obvious reasons. When you adjust  the
+look  up  tables move the mouse vertically to change the  selected  parameter.
+Click the left hand mouse button when you are satisfied with the adjustment.
+
+The  Semper  command which is used for this option is, in fact,  more  general
+than  this  and allows you to alter more than one characteristic at  once.  It
+also allows you to highlight particular bands (this option is used in  setting
+the particle analysis limits).
+$add h25:
+This menu lets you change how you analyse a picture. If you select any of  the
+first  three  items  a calculator will pop up and you  can  enter  a  specific
+numerical  value  for  the  entry. However,  if  you  choose  the  interactive
+thresholding option then a small ramp will be displayed in the bottom left  of
+the  display  screen. You can then use the mouse to move the lower  and  upper
+limits  of the highlighting band. When you are satisfied with the  highlighted
+range  click  the left mouse button. The original LUT will be  RESET  and  the
+lower and upper particle thresholds will be set accordingly.
+
+Whenever  you alter any of these characteristics the menu will be  hidden  and
+re-displayed to reflect the latest parameters.
+$add h26:
+This  menu  lets  you select some of the parameters,  found  by  the  particle
+analysis  command,  for  printing out. Only five  of  a  possible  twenty-five
+parameters  results  for  each  particle are  selectable  here.  The  selected
+parameters  will  be displayed when you use the "Print selected  results"  and
+"Results for one particle" options on the previous menu - if you select  none,
+nothing will appear.
+
+Other parameters which are calculated but not shown include: feret  diameters,
+x  and  y limits, x and y position, centre of area,  vertical  and  horizontal
+projections.
+$add h27:
+$add h28:
+$add h29:

@@ -1,0 +1,59 @@
+/* Global definitions from configure */
+#include <inttypes.h>
+#include "config.h"
+
+#ifndef INCLUDE_FTYPES
+#define INCLUDE_FTYPES
+
+/*  The following typedefs are designed to match the FORTRAN data types  */
+
+
+typedef int32_t F_integer;		/*  FORTRAN default integer	*/
+typedef int32_t F_logical;		/*  FORTRAN default logical	*/
+typedef short int F_shortinteger;       /*  FORTRAN integer*2           */
+typedef short int F_shortlogical;       /*  FORTRAN logical*2           */
+typedef int32_t F_longinteger;		/*  FORTRAN integer*4		*/
+typedef int32_t F_longlogical;		/*  FORTRAN logical*4		*/
+typedef uint32_t F_bit;                 /*  bit-packed representation   */
+typedef unsigned char F_byte;		/*  FORTRAN 'byte'		*/
+typedef float F_real;			/*  FORTRAN real		*/
+typedef double F_double;		/*  FORTRAN double precision	*/
+                                        /*  FORTRAN complex             */
+typedef struct { F_real re, im; } F_complex;
+
+#define F_FALSE (0)			/*  FORTRAN logical .FALSE.	*/
+#define F_TRUE (1)			/*  FORTRAN logical .TRUE.	*/
+
+#define subroutine void
+#define logicalfunction F_logical
+#define integerfunction F_integer
+
+/*  Type declarations for Fortran character arguments  */
+/*  Note:  These declarations emulate Unix's Fortran to C interface  */
+
+typedef char F_character;
+
+typedef F_character * F_string;
+
+typedef int32_t F_string_length;
+
+/*  Type declarations for Fortran array arguments  */
+
+typedef void           * F_array;
+
+typedef F_bit          * F_bit_array;
+typedef F_byte         * F_byte_array;
+typedef F_integer      * F_integer_array;
+typedef F_real         * F_real_array;
+typedef F_complex      * F_complex_array;
+
+typedef F_logical      * F_logical_array;
+typedef F_shortinteger * F_shortinteger_array;
+typedef F_shortlogical * F_shortlogical_array;
+typedef F_longinteger  * F_longinteger_array;
+typedef F_longlogical  * F_longlogical_array;
+typedef F_double       * F_double_array;
+typedef F_character    * F_character_array;
+
+/*  Copyright (C) 1988-1994:  Synoptics Ltd,  All Rights Reserved  */
+#endif

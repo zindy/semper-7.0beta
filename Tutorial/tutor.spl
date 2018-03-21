@@ -1,0 +1,2945 @@
+!
+! SEMPER 6 Plus Demonstration User Interface: TUTOR
+!
+! Copyright (C) 1989-1991:  Synoptics Ltd,  All Rights Reserved
+!
+! Run time library file.
+
+!
+! dropmenu:
+!
+! Drop all menus down to the level lvl by pulling them off the stack
+!
+dropmenu()
+local mnu
+
+top:
+  if $lv <= lvl  jump done
+  mnu = $m#$lv
+  menu deactivate id m#mnu
+  unset $m#$lv
+  $lv = $lv - 1
+ jump top
+done:
+ $tm = -1
+ unless ($lv = 0) $tm = $m#$lv
+ return
+end
+
+!
+! addmenu:
+!
+! Activate the menu in id mu unless it is -1, adding the active menu to the
+! stack
+!
+addmenu()
+local mnu
+
+ mnu = m#mu
+ if mnu = -1 return
+ $lv = $lv + 1
+ $m#$lv = mu
+ menu activate id mnu
+ $tm = mu
+ if ($i0 = 0) lib hfn
+ return
+end
+
+!
+! bar:
+!
+! Deactivate any previously active menu. Activate the required menu.
+! Note that -1 means no menu in both cases.
+!
+bar()
+local lvl
+
+ if (set($mn)) return
+ if (($lv = 1) & ($tm = mu)) return
+ lvl = 0
+ lib dropmenu
+ lib addmenu
+ return
+end
+
+!
+! bar2:
+!
+! Deactivate any previously active menu. Activate the required menu.
+! Note that -1 means no menu in both cases.
+!
+bar2()
+local lvl
+
+ if (set($mn)) return
+ if (($lv = 2) & ($tm = mu)) return
+ lvl = 1
+ lib dropmenu
+ lib addmenu
+ return
+end
+
+!
+! bar3:
+!
+! Deactivate any previously active menu. Activate the required menu.
+! Note that -1 means no menu in both cases.
+!
+bar3()
+local lvl
+
+ if (set($mn)) return
+ if (($lv = 3) & ($tm = mu)) return
+ lvl = 2
+ lib dropmenu
+ lib addmenu
+ return
+end
+
+!
+! dm0:
+!
+! Drop all menus to level 0
+!
+dm0()
+local lvl
+
+ lvl = 0;
+ lib dropmenu
+ return
+end
+
+!
+! dm1:
+!
+! Drop all menus to level 1
+!
+dm1()
+local lvl
+
+ lvl = 1;
+ lib dropmenu
+ return
+end
+
+!
+! dm2:
+!
+! Drop all menus to level 2
+!
+dm2()
+local lvl
+
+ lvl = 2;
+ lib dropmenu
+ return
+end
+
+!
+! dm:
+!
+! Drop the topmost active menu. Normally called on mouse click.
+!
+dm()
+local lvl
+
+ lvl = $lv - 1
+ if lvl >= 0 lib dropmenu
+ return
+end
+
+!
+! op:
+!
+! Reset previous mouse position
+!
+op()
+
+ mouse position $mx, $my
+ unset $mx, $my
+ return
+end
+
+!
+! np:
+!
+! Set a new mouse position after finding the old one and storing it
+! in $mx, $my
+!
+np()
+
+ mouse query
+ $mx = uix
+ $my = uiy
+ mouse position p1, p2
+ unset p1, p2
+ return
+end
+
+!
+! pwc:
+!
+! Create a panel with a please wait message
+!
+pwc()
+
+ justification
+ panel create auto transient foreground $c1 background $c0 +
+ position 40,12
+ $pw = pno
+ cell create text 'Please wait'
+ panel show
+ justification top left
+ return
+end
+
+!
+! pwd:
+!
+! Destroy the please wait panel if it exists
+!
+pwd()
+
+ unless set($pw) return
+ panel destroy id $pw
+ unset $pw
+ return
+end
+
+!
+! mr:
+!
+! Reset mouse buttons so that the default actions are performed. As
+! necessary update cell contents and destroy the information panel.
+!
+mr()
+
+ mouse left '' centre 'lib nop' right 'lib dm'
+ return
+end
+
+!
+! ms:
+!
+! Used when displaying disc and picture menu.
+!
+ms()
+
+ mouse left '' centre 'lib nop' right 'lib dpl'
+ return
+end
+
+!
+! me:
+!
+! Create the panel which hides the top pictue cell
+!
+me()
+
+ lib mb
+ mouse query
+ panel create position (uix + 3),(uiy - 1) auto fore $c1 back $c0
+ $tu = pno
+ textfield create wp name 'Top picture' value $tp ends 'lib nop'
+ $tt = eno
+ panel show id $tu
+ if (set($sf)) textfield id $sf activate
+return
+end
+
+!
+! md:
+!
+! The mouse has left the decrement/increment cell. Make all cells have no
+! contents (-ve) so that they are updated correctly
+!
+md()
+
+ cell id $tq text 'Top picture: ',$tp,' '
+ panel destroy id $tu
+ unset $tt, $tu
+ lib ms
+ if ($tp = $to) return
+ menu id m21 deactivate
+ for i = 0, 9
+   if ($z#i < 0) next i
+   cell id $z#i text '----------'
+   $z#i = -$z#i
+ loop
+ lib rd3
+ menu id m21 activate
+ return
+end
+
+!
+! mb:
+!
+! Set mouse buttons for increment/decrement operations. Create an
+! information panel showing the current value of the field.
+!
+mb()
+
+ mouse left 'lib bdn' centre 'lib nop' right 'lib bup'
+ return
+end
+
+!
+! bup:
+!
+! Increment picture base and update the textfield with the new value.
+!
+bup()
+
+ if ($to >= 981) jump noise
+ $to = $to + 10
+ textfield id $tt value $to
+ return
+noise:
+ $to = 990
+ textfield id $tt value $to
+ bell
+ return
+end
+
+!
+! bdn:
+!
+! Decrement picture base and update the textfield with the new value
+!
+bdn()
+
+ if ($to <= 10) jump noise
+ $to = $to - 10
+ textfield id $tt value $to
+ return
+noise:
+ $to = 1
+ textfield id $tt value $to
+ bell
+ return
+end
+
+!
+! nop:
+!
+! Do nothing
+!
+nop()
+
+ return
+end
+
+
+!
+! inform:
+!
+! Print up a selected message. Hide the current mouse position and restore it
+! after OK cell has been clicked on.
+!
+inform()
+local $pg
+
+ cls
+ justification
+ panel create transient mandatory size 40,7 +
+ position 40,8 +
+  name 'Information' foreground $c5 background $c4
+ $pg = pno
+ if op > 10 jump n10
+ if (op = 1) cell create text 'No picture displayed' position 20,2
+ if (op = 2) cell create text 'Destination must be the display' position 20,2
+ if (op = 3) cell create text 'No source picture selected' position 20,2
+ if (op = 4) cell create text 'No destination picture selected' position 20,2
+ jump sh
+n10:
+sh:
+ cell create invert text ' OK ' box position 20,4 +
+      changes 'pan des id ',$pg,';lib op;lib mr;uns $mn'
+ justification top left
+ mouse left '' centre '' right ''
+ $mn = yes
+ panel show id $pg
+ p1 = 40 p2 = 9 lib np
+ return
+end
+
+!
+! dialogue:
+!
+! Print up a selected message and wait for a yes or no response. Hide the
+! current mouse position and restore it after getting an answer.
+!
+dialogue()
+local $pg, $of, e, op1, $co, $ro, t, $cl
+
+ cls
+ justification
+ $of = 0
+ panel create transient mandatory size 48,(7 + $of) fore $c2 back $c3 +
+      position 40,8 +
+      name 'Are you sure?'
+ $pg = pno
+ if $op = 1 cell create text 'Exit to operating system' position 24,2
+ if $op = 2 cell create text 'Delete picture: ',$c8 position 24,2
+ cell create invert text ' YES ' box position 12,(4 + $of) +
+      changes 'pan des id ',$pg,';lib yrv'
+ cell create invert text ' NO  ' box position 36,(4 + $of) +
+      changes 'pan des id ',$pg,';lib nrv'
+ justification top left
+ mouse left '' centre '' right ''
+ $mn = yes
+ panel show id $pg
+ $of = $of - 1
+ if ($of < 0) $of = 0
+ p1 = 52 p2 = (9 + $of) lib np
+ return
+end
+
+!
+! yrv:
+!
+! Return for yes button on dialogue panel. Insert code to test $op as
+! required.
+!
+yrv()
+
+ lib op
+ lib mr
+ unset $mn
+ rv = yes
+ if ($op = 1) lib byecb
+ if ($op = 2) lib nextop
+ return
+end
+
+!
+! nrv:
+!
+! Return for no button on dialogure panel. Insert code to test $op as
+! required.
+!
+nrv()
+
+ lib op
+ lib mr
+ unset $mn
+ rv = no
+ if ($op = 1) lib byecb
+ return
+end
+
+!
+! bye:
+!
+! Prompt for exit to system, after confirmation
+!
+bye()
+
+ if (set($mn)) return
+ lib dm0
+ $op = 1
+ lib dialogue
+ return
+end
+
+!
+! byecb:
+!
+!  Callback procedure for bye. Rv is yes if the program is to be finished
+! with else continue. If finish then tidy up the screen before exiting.
+!
+byecb()
+
+ unless (rv = yes) lib c1
+ unless (rv = yes) return
+ panel hide id p00
+ uif exit
+ cls
+ exit
+ return
+end
+
+!
+! build$menus:
+!
+! Create the demonstration user interface from scratch
+!
+build$menus()
+local r, c
+
+!
+justification top left
+!
+! Set variables for no menus showing (used by library programs). Also
+! no mandatory panel visible.
+!
+$lv = 0
+$tm = -1
+m99 = -1
+unset $mn
+!
+! Create a dropdown line
+!
+!
+panel create name 'Synoptics: TUTOR ' size 80,4 position 0,0 transient+
+      foreground $c0 background $c1
+p00 = pno; invert = yes
+cell create text 'Processing ' position  1,2 changes 'mu=3;lib bar'
+cell create text ' Pictures  ' position 13,2 changes 'mu=2;lib bar'
+cell create text '  Screen   ' position 25,2 changes 'mu=1;lib bar'
+cell create text 'Acquisition' position 37,2 changes 'mu=4;lib bar'
+cell create text ' Programs'   position 49,2 changes 'mu=5;lib bar'
+cell create text '+-*/'        position 60,2 changes 'lib cal'
+cell create text ' HELP '      position 65,2 changes 'lib hfn'
+cell create text ' EXIT '   position 72,2 changes 'lib bye' fore $c2 back $c3
+unset invert
+!
+! Now the menus which drop down from the bar, the first level menus.
+!
+menu create pulldown position  9,3
+m3 = eno; invert = yes; add = m3
+!
+cell create text 'Particle analysis ...........' row 1 column 1 +
+     changes 'mu=18;lib bar2'
+cell create text 'Geometrical operations ......' row 2 column 1 +
+     changes 'mu=16;lib bar2'
+cell create text 'Point by point operations ...' row 3 column 1 +
+     changes 'mu=17;lib bar2'
+cell create text 'Spatial filtering ...........' row 4 column 1 +
+     changes 'mu=15;lib bar2'
+cell create text 'Fourier transforms...........' row 5 column 1 +
+     changes 'mu=19;lib bar2'
+unset invert, add
+!
+menu create pulldown position 13,3
+m2 = eno; invert = yes; add = m2
+!
+cell create text 'Display       ' row 1 column 1 changes 'lib a14'
+cell create text 'Inspection ...' row 2 column 1 changes 'mu=13;lib bar2'
+cell create text 'Storage ......' row 3 column 1 changes 'mu=14;lib bar2'
+unset invert, add
+!
+menu create pulldown position 25,3
+m1 = eno; invert = yes; add = m1
+!
+cell create text 'Partitions ......' row 1 column 1 changes 'mu=7;lib bar2'
+cell create text 'LUTs ............' row 2 column 1 changes 'mu=8;lib bar2'
+cell create text 'Overlays ........' row 3 column 1 changes 'mu=9;lib bar2'
+cell create text 'Ramps ...........' row 4 column 1 changes 'mu=10;lib bar2'
+cell create text 'Erase ...........' row 5 column 1 changes 'mu=11;lib bar2'
+cell create text 'Erase overlay ...' row 6 column 1 changes 'mu=12;lib bar2'
+unset invert, add
+!
+menu create pulldown position 37,3
+m4 = eno; invert = yes; add = m4
+!
+cell create text 'Live           ' row 1 column 1 changes 'lib a32'
+cell create text 'Snap           ' row 2 column 1 changes 'lib a33'
+unset invert, add
+!
+menu create pulldown position 49,3
+m5 = eno; invert = yes; add = m5
+cell create text 'Dummy'  row 1 column 1
+unset invert, add
+!
+menu create popup position 40,4
+m7 = eno; invert = yes; add = m7
+!
+cell create text 'Show partitions      ' row 1 column 1 changes 'lib a0'
+cell create text 'Define - whole screen' row 2 column 1 changes 'lib a1'
+cell create text 'Define - with mouse  ' row 3 column 1 changes 'lib a2'
+cell create text 'Default partitions   ' row 4 column 1 changes 'lib a3'
+cell create text 'Mark partition border' row 5 column 1 changes 'lib a4'
+unset invert, add
+!
+menu create popup position 40,5
+m8 = eno; invert = yes; add = m8
+!
+cell create text 'Alter LUTs ...' row 1 column 1 changes 'mu=24;lib bar3'
+cell create text 'Monochrome    ' row 2 column 1 changes 'lib a34'
+cell create text 'False colour  ' row 3 column 1 changes 'lib a35'
+cell create text 'Show LUTS     ' row 4 column 1 changes 'lib a36'
+unset invert, add
+!
+menu create popup position 40,6
+m9 = eno; invert = yes; add = m9
+!
+cell create text 'Red    ' row 1 column 1 changes 'o=1 lib ov'
+cell create text 'Green  ' row 2 column 1 changes 'o=2 lib ov'
+cell create text 'Blue   ' row 3 column 1 changes 'o=3 lib ov'
+cell create text 'Yellow ' row 4 column 1 changes 'o=4 lib ov'
+cell create text 'Magenta' row 1 column 2 changes 'o=5 lib ov'
+cell create text 'Cyan   ' row 2 column 2 changes 'o=6 lib ov'
+cell create text 'White  ' row 3 column 2 changes 'o=7 lib ov'
+cell create text 'Black  ' row 4 column 2 changes 'o=8 lib ov'
+unset invert, add
+!
+! Ramps
+!
+menu create popup position 40,7
+m10 = eno; invert = yes; add = m10
+!
+cell create text 'Picture  ' row 1 column 1 changes 'lib a5'
+cell create text 'Partition' row 2 column 1 changes 'lib a6'
+cell create text 'Frame    ' row 3 column 1 changes 'lib a7'
+unset invert, add
+!
+! Erase
+!
+menu create popup position 40,8
+m11 = eno; invert = yes; add = m11
+!
+cell create text 'Picture  ' row 1 column 1 changes 'lib a8'
+cell create text 'Partition' row 2 column 1 changes 'lib a9'
+cell create text 'Frame    ' row 3 column 1 changes 'lib a10'
+unset invert, add
+!
+! Erase overlay
+!
+menu create popup position 40,9
+m12 = eno; invert = yes; add = m12
+!
+cell create text 'Picture  ' row 1 column 1 changes 'lib a11'
+cell create text 'Partition' row 2 column 1 changes 'lib a12'
+cell create text 'Frame    ' row 3 column 1 changes 'lib a13'
+unset invert, add
+!
+menu create popup position 25,5
+m13 = eno; invert = yes; add = m13
+!
+cell create text 'Examine full' row 1 column 1 changes 'lib a15'
+cell create text 'Survey      ' row 2 column 1 changes 'lib a16'
+cell create text 'Print values' row 3 column 1 changes 'lib a17'
+cell create text 'Ymodulus    ' row 4 column 1 changes 'lib a18'
+cell create text 'Histogram   ' row 5 column 1 changes 'lib a45'
+cell create text 'Contour     ' row 6 column 1 changes 'lib a47'
+unset invert, add
+!
+menu create popup position 25,6
+m14 = eno; invert = yes; add = m14
+!
+cell create text 'Copy           ' row 1 column 1 changes 'lib a39'
+cell create text 'Delete         ' row 2 column 1 changes 'lib a46'
+cell create text 'Write protect  ' row 3 column 1 changes 'lib a40'
+cell create text 'Write enable   ' row 4 column 1 changes 'lib a41'
+cell create text 'PostScript     ' row 5 column 1 changes 'lib a62'
+cell create text 'Title          ' row 6 column 1 changes 'lib a65'
+unset invert, add
+!
+menu create popup begins 'lib c0' ends 'lib c1' +
+   position 18,5
+m18 = eno; invert = yes; add = m18; create = yes; column = 1
+!
+cell text 'Display source image    ' row 1  changes 'lib a70'
+cell text 'Display segmentation map' row 2  changes 'lib a71'
+cell text 'Analysis limits ........' row 3  changes 'mu=25;lib bar3'
+cell text 'Analyse                 ' row 4  changes 'lib a48'
+cell text 'Select results .........' row 5  changes 'mu=26;lib bar3'
+cell text 'Print selected results  ' row 6  changes '$ap=1;lib a75'
+cell text 'Select single particle  ' row 7  changes 'lib a76'
+cell text 'Results for one particle' row 8  changes '$ap=2 lib a75'
+unset invert, add, create, column
+!
+menu create popup position 27,5
+m16 = eno; invert = yes; add = m16
+!
+cell create text 'Magnify  ' row 1 column 1 changes 'lib a27'
+cell create text 'Transpose' row 2 column 1 changes 'lib a28'
+cell create text 'Rotate   ' row 3 column 1 changes 'lib a29'
+unset invert, add
+!
+menu create popup position 27,6
+m17 = eno; invert = yes; add = m17
+!
+cell create text 'Negate       ' row 1 column 1 changes 'lib a30'
+cell create text 'Rescale      ' row 2 column 1 changes 'lib a31'
+cell create text 'Calculate ...' row 3 column 1 changes 'lib a44'
+unset invert, add
+!
+menu create popup position 27,7
+m15 = eno; invert = yes; add = m15
+!
+cell create text 'High pass ' row 1 column 1 changes 'lib a19'
+cell create text 'Local mean' row 2 column 1 changes 'lib a20'
+cell create text 'Sharpen   ' row 3 column 1 changes 'lib a21'
+cell create text 'Median    ' row 4 column 1 changes 'lib a22'
+cell create text 'Local variance          ' row 1 column 2 changes 'lib a23'
+cell create text 'Local standard deviation' row 2 column 2 changes 'lib a24'
+cell create text 'Edge detect             ' row 3 column 2 changes 'lib a25'
+cell create text 'Edge Roberts            ' row 4 column 2 changes 'lib a26'
+unset invert, add
+!
+menu create popup position 27,8
+m19 = eno; invert = yes; add = m19
+!
+cell create text 'Forward FFT   ' row 1 column 1 changes 'lib a59'
+cell create text 'Inverse FFT   ' row 2 column 1 changes 'lib a60'
+cell create text 'Power Spectrum' row 3 column 1 changes 'lib a61'
+unset invert, add
+!
+!
+! Over pop up menu, used by the filter functions
+!
+menu create popup position 63,8
+m20 = eno; invert = yes; add = m20
+cell create text '3 x 3' row 1 column 1 changes 'o=3 lib ove'
+cell create text '5 x 5' row 2 column 1 changes 'o=5 lib ove'
+cell create text '7 x 7' row 3 column 1 changes 'o=7 lib ove'
+cell create text '9 x 9' row 4 column 1 changes 'o=9 lib ove'
+unset invert, add
+!
+! Calculate menu
+!
+menu create popup position 40,9
+m6 = eno; invert = yes; add = m6
+cell create text ' + ' row 1 column 1 changes 'o=1 lib mfn'
+cell create text ' - ' row 2 column 1 changes 'o=2 lib mfn'
+cell create text ' * ' row 1 column 2 changes 'o=3 lib mfn'
+cell create text ' / ' row 2 column 2 changes 'o=4 lib mfn'
+unset invert, add
+!
+!
+! Create the directory menu for the display
+!
+menu create popup position 40,4 name 'Select from:'
+$p1 = eno invert = yes add = $p1
+for i = 1,9
+ cell create row i column 1 text 'Partition ',i
+ $x#i = eno
+loop
+unset invert, add
+!
+! Create the display menu
+!
+menu create popup position 5, 3 name 'Display and disc'
+m21 = eno add = m21
+m22 = m21 ;! Dummy to allow for different help
+cell create row 1 column 1 text 'Display Pictures'
+cell create row 1 column 4 text 'Disc pictures'
+invert = yes
+for i = 0, 8
+ c = fix(i / 5)
+ r = i - c * 5
+ cell create row (r + 3) column (c + 1) text '---------' +
+      changes 'o=',(i+1),',2 lib $$r'
+ r = i + 1
+ $y#r = -eno
+loop
+for i = 0,9
+ c = fix(i / 5)
+ r = i - c * 5
+ cell create row (r + 3) column (c + 4) text '----------' +
+      changes 'o=',i,',1 lib $$r'
+ $z#i = -eno
+loop
+cell create row 9 column 3 text '<>' begins 'lib me' ends 'lib md' +
+     fore $c1 back $c0
+cell create row 9 column 4 text 'Top picture:   1 '
+$tq = eno
+$tp = 0
+$to = 1
+unset invert, add
+!
+
+!
+! Interactive lut adjustment menu
+!
+menu create popop position 53,6
+m24 = eno; invert = yes; add = m24; create = yes; column = 1
+cell text 'Reset      ' row 1 changes 'o=0 lib a43'
+cell text 'Brightness ' row 2 changes 'o=1 lib a43'
+cell text 'Contrast   ' row 3 changes 'o=2 lib a43'
+cell text 'Hue        ' row 4 changes 'o=3 lib a43'
+cell text 'dHue       ' row 5 changes 'o=4 lib a43'
+cell text 'Saturation ' row 6 changes 'o=5 lib a43'
+cell text 'dSaturation' row 7 changes 'o=6 lib a43'
+unset invert, add, create, column
+!
+! Particle analysis parameter menu
+!
+menu create popup position 45,7
+m25 = eno; invert = yes; add = m25; create = yes; column = 1
+!
+$aa = 10
+cell text 'Minimum particle area    ',$aa row 1 changes '$a9=5 lib anp'
+$a5 = eno
+$ah = 150
+cell text 'Upper particle threshold ',$ah row 2 changes '$a9=6 lib anp'
+$a6 = eno
+$al = 100
+cell text 'Lower particle threshold ',$al row 3 changes '$a9=7 lib anp'
+$a7 = eno
+cell text 'Interactive thresholding '     row 4 changes 'lib a72'
+!
+unset invert, add, create, column
+
+!
+! Particle analysis result options menu
+!
+menu create popup toggle position 45,9
+m26 = eno; add = m26; tick = yes; create = yes; column = 2
+!
+cell text 'Particle identifier ' row 1 changes '$r1=1-$r1'
+cell text 'Area '                row 2 changes '$r2=1-$r2'
+cell text 'Perimeter '           row 3 changes '$r3=1-$r3'
+cell text 'Circularity '         row 4 changes '$r4=1-$r4'
+cell text 'Angle '               row 5 changes '$r5=1-$r5'
+$r1=0 $r2=0 $r3=0 $r4=0 $r5=0
+!
+unset add, tick, create, column
+
+!
+! Show the (main) panel
+!
+panel show id p00
+!
+! Opcode panel, also used for help functions
+!
+panel create transient auto
+$jp = pno
+textfield create wp length 40 position 1,1 ends 'lib nop' ;! Opcode execute
+$jf = eno
+textfield create wp length 40 position 1,2 ends 'lib nop' ;! Help execute
+$jh = eno
+
+!
+! Particle analysis selection panel (displayed so that it covers the
+! normal selection panel).
+!
+justification top left
+panel create transient name 'Analysis Selection' position 45,4 size 35,8 +
+      foreground $c0 background $c1
+$pa = pno; invert = yes; create = yes
+
+cell name 'SOURCE'  text '<None>' position 18,1 changes '$a9=1 lib npp'
+$a1 = eno
+cell name 'SEGMENT' text '<None>' position 18,4 changes '$a9=2 lib npp'
+$a2 = eno
+cell name 'RESULTS' text '<None>' position 1,4 changes '$a9=3 lib npp'
+$a3 = eno
+cell name 'DISPLAY' text '<None>' position 1,1 changes '$a9=4 lib npp'
+$a4 = eno
+
+
+unset invert, create
+lib make$analyseselect
+panel hide id $pa
+justification top left
+
+!
+! Create the SEMPER command panel. This is the hidden one.
+!
+panel create transient auto
+$pc = pno
+textfield create wp length 120 position 1,1 ends 'lib nop'
+$tc = eno
+$td = $tc
+!
+! Create the options panel. Contains excitements
+!
+justification top
+panel create position 7,4 auto name 'Options' transient foreground $c0 +
+      background $c1
+tick = yes
+cell create text 'Command line' position 0,1 changes '$sm=1-$sm;lib ss'
+cell create text 'See commands' position 0,2 changes '$v=1-$v;lib ss'
+$e0 = eno
+cell create text 'Auto help   ' position 0,3 changes '$i0=1-$i0'
+cell id eno cycle 1
+cell create text 'Preset      ' position 0,4 changes 'lib a37'
+cell create text 'Erase       ' position 0,5 changes 'lib a38'
+cell create text 'Log commands' position 0,6 changes 'lib a63'
+$e1 = eno
+cell create text 'Log output  ' position 0,7 changes 'lib a64'
+$sm = 0
+unset $sf
+$v = 0
+$i0 = 0
+$i1 = 0; unset preset
+$i2 = 0; unset erase
+$i3 = 0        ;! No command logging
+$i4 = 0        ;! No output logging
+!
+unset tick
+justification top left
+panel show id pno
+!
+! Set default mouse button actions
+!
+lib mr
+!
+! Selection panel
+!
+lib make$select
+!
+! Calculator panel
+!
+lib cl$make
+!
+! Create a black on black panel to limit the SEMPER scrolling area
+!
+panel create size $dx,2 position 0,14 transient foreground 0 background 0
+panel show
+return
+end
+
+!
+! make$interface:
+!
+! Either find or recreate the demonstration user interface.
+!
+make$interface()
+
+!
+! Can we restore an old interface? If so do that and recover the
+! old variables.
+!
+ mouse position 1,20
+ trap = -1 uif read 'tutor'
+ if (rc = 0) jump done
+ type ' Recreating user interface'
+ lib pwc
+ lib build$menus
+ lib pwd
+ trap = -1 uif save 'tutor'
+ if (rc = 0) jump done
+ type 'Sorry, could not save compiled user interface (it will be rebuilt the'
+ type 'next time  you  run TUTOR).  Do  you  have enough disc  space on your'
+ type 'machine?'
+done:
+ mouse position 0,20
+ return
+end
+
+!
+! setup$display:
+!
+! Set up all the display, its partitions and lookup tables.
+!
+setup$display()
+lib cframe
+erase frame $cf
+partition 1 frame $cf,$ch
+partition 2 frame $cf,$ch
+partition 3 frame $cf,$ch
+partition 4 frame $cf,$ch
+partition 5 frame $cf,$ch
+partition 6 frame $cf,$ch
+partition 7 frame $cf,$ch
+partition 8 frame $cf,$ch
+partition 9 frame $cf,$ch
+!
+! Now for a few look up tables
+!
+lut 1 create monochrome
+lut 2 create false
+view lut 1 frame $cf
+!
+return
+end
+
+!
+! hfn:
+!
+! Help button pressed, execute the contents of the textfield which gives
+! the latest help
+!
+hfn()
+local v
+
+ if ($i5 = 0) return
+ v = $tm
+ if (v = -1) v = 0
+ textfield id $jh contents 'cls;tra=-1 hel h',v,':'  execute
+ return
+end
+
+!
+! ss:
+!
+! Show the SEMPER command line on the main panel. Note the current
+! menu arrangement. Hide panel. Fiddle with the textfield as necessary
+! then reactivate any menus. If $v is 1 allow commands to be seen. If
+! $sm is 1 then allow ends action
+!
+ss()
+local i, $l, $n1, $n2, $n3, $n4, $n5, $n6, $n7, mnu, $sv
+
+ unless (($v = 1) & ($i3 = 1)) jump notwiddle
+ $v = 0
+ cell id $e0 cycle 1
+ jump done
+notwiddle:
+ $sv = no
+ if (set($sf) & (($sm = 1) | ($v = 1))) jump made
+save:
+ for i = $lv, 1, -1
+   mnu = $m#i
+   menu deactivate id m#mnu
+   $n#i = $m#i
+ loop
+ $l = $lv
+ $sv = yes
+ panel hide id p00
+ if (($sm = 1) | ($v = 1)) jump make
+ textfield id $sf destroy
+ $tc = $td             ;! Use hidden panel for command execution now
+ unset $sf
+ jump reshow
+make:
+ if (set($sf)) jump made
+ textfield create wp name 'S$' position 1,1 in p00 +
+    length 72
+ $sf = eno
+made:
+ textfield id $sf wp ends 'lib nop'
+ if ($sm = 1) textfield id $sf wp off ends 'lib smp'
+ $tc = $td
+ if ($v = 1) $tc = $sf
+reshow:
+ if ($sv = no) return
+ panel show id p00
+ $lv = $l
+ for i = 1, $lv, 1
+   mnu = $n#i
+   menu activate id m#mnu
+   $m#i = $n#i
+ loop
+ if ($lv > 0) $tm = $m#$lv
+done:
+ return
+end
+
+!
+! smp:
+!
+! Execute the SEMPER command contained in the textfield
+!
+smp()
+
+ unless set($sf) return
+ cls
+ textfield id $sf execute
+ textfield id $sf clear
+ return
+end
+
+!
+! exec:
+!
+! Execute the command contained in our special panel. Logging is only
+! enabled if
+!
+exec()
+
+ if ($i3 = 0) jump nolog
+ unless ($tc = $td) jump nolog
+ textfield id $td prior 'ech dev $lc com;' append ';ech dev $lc non'
+nolog:
+ textfield execute id $tc
+ return
+end
+
+!
+! nextop:
+!
+! Execute the next opcode from the list in $j?. If the opcode is zero
+! this means time to execute the command. The opcode in $j? cause library
+! procedure b#$j? to be executed.
+!
+nextop()
+local i, op
+
+ op = $j#$jx
+ $jx = $jx + 1
+ unless (op = 0) jump next
+ lib exec
+ return
+next:
+ textfield id $jf contents 'lib b',op execute
+return
+end
+
+!
+! a0:
+!
+! Show partitions
+!
+a0()
+
+ cls
+ textfield id $tc contents 'show partitions'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a1:
+!
+! Define whole screen
+!
+a1()
+local p1
+
+ textfield id $tc contents 'partition frame $cf,$ch '
+ $j0 = 1 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a2:
+!
+! Define with mouse
+!
+a2()
+local p1
+
+ textfield id $tc contents 'xwires frame $cf region;partition @region frame +
+$cf,$ch '
+ $j0 = 1 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a3:
+!
+! Default partitions
+!
+a3()
+local p1
+ textfield id $tc contents 'for i 1,9;partition i frame $cf,$ch;loop'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+!
+! a4:
+!
+! Mark partition border
+!
+a4()
+local p1
+
+ textfield id $tc contents 'mark border partition '
+ $j0 = 1 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a5:
+!
+! Ramps to picture
+!
+a5()
+local p1
+
+ textfield id $tc contents 'ramps'
+ $j0 = 6 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a6:
+!
+! Ramps to partition
+!
+a6()
+local p1
+
+ textfield id $tc contents 'ramps partition '
+ $j0 = 1 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a7:
+!
+! Ramps to frame
+!
+a7()
+local p1
+
+ textfield id $tc contents 'ramps frame $cf'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a8:
+!
+! Erase picture
+!
+a8()
+local p1
+
+ textfield id $tc contents 'erase'
+ $j0 = 6 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a9:
+!
+! Erase partition
+!
+a9()
+local p1
+
+ textfield id $tc contents 'erase partition '
+ $j0 = 1 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a10:
+!
+! Erase frame
+!
+a10()
+
+ textfield id $tc contents 'erase frame $cf'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a11:
+!
+! Erase picture overlay
+!
+a11()
+local p1
+
+ textfield id $tc contents 'erase overlay'
+ $j0 = 6 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a12:
+!
+! Erase partition overlay
+!
+a12()
+local p1
+
+ textfield id $tc contents 'erase overlay partition '
+ $j0 = 1 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a13:
+!
+! Erase frame overlay
+!
+a13()
+
+ textfield id $tc contents 'erase frame $cf overlay'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a14:
+!
+! Display a picture from somewhere to somewhere
+!
+a14()
+local f2, f3
+
+ textfield id $tc contents 'display from '
+ $j0 = 5 $j1 = 3 $j2 = 2 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a15:
+!
+! Examine full
+!
+a15()
+
+ cls
+ textfield id $tc contents 'examine full '
+ $j0 = 5 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a16:
+!
+! Survey a picture
+!
+a16()
+
+ cls
+ textfield id $tc contents 'survey full '
+ $j0 = 5 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a17:
+!
+! Print values from a picture
+!
+a17()
+
+ cls
+ textfield id $tc contents 'print '
+ $j0 = 5 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a18:
+!
+! Produce a ymodulus of a picture
+!
+a18()
+
+ textfield id $tc contents 'ymodulus from'
+ $j0 = 5 $j1 = 3 $j2 = 2 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a19:
+!
+a19()
+
+ textfield id $tc contents 'hp '
+ $j0 = 8 $j1 = 5 $j2 = 3 $j3 = 7 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a20:
+!
+a20()
+
+ textfield id $tc contents 'lmean '
+ $j0 = 8 $j1 = 5 $j2 = 3 $j3 = 7 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a21:
+!
+a21()
+
+ textfield id $tc contents 'sharpen'
+ $j0 = 8 $j1 = 5 $j2 = 3 $j3 = 7 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a22:
+!
+a22()
+
+ textfield id $tc contents 'rank '
+ $j0 = 8 $j1 = 5 $j2 = 3 $j3 = 7 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a23:
+!
+a23()
+
+ textfield id $tc contents 'lvariance '
+ $j0 = 8 $j1 = 5 $j2 = 3 $j3 = 7 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a24:
+!
+a24()
+
+ textfield id $tc contents 'lsd '
+ $j0 = 8 $j1 = 5 $j2 = 3 $j3 = 7 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a25:
+!
+a25()
+
+ textfield id $tc contents 'edge '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a26:
+!
+a26()
+
+ textfield id $tc contents 'edge roberts '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a27:
+!
+! Magnify
+!
+a27()
+
+ textfield id $tc contents 'magnify '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a28:
+!
+! Transpose
+!
+a28()
+
+ textfield id $tc contents 'transpose '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a29:
+!
+! Rotate.
+!
+a29()
+
+ textfield id $tc contents 'rotate '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 9 $j4 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a30:
+!
+! Negate
+!
+a30()
+
+ textfield id $tc contents 'negate '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a31:
+!
+! Rescale
+!
+a31()
+
+ textfield id $tc contents 'scale '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a32:
+!
+! Live
+!
+a32()
+
+ cls
+ return
+end
+
+!
+! a33:
+!
+! Snap
+!
+a33()
+
+ return
+end
+
+!
+! a34:
+!
+! Create and view a monochrome LUT
+!
+a34()
+
+ textfield id $tc contents 'lut 1 create monochrome'
+ $j0 = 10  $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a35:
+!
+! Create and view a false colour LUT
+!
+a35()
+
+ textfield id $tc contents 'lut 1 create false'
+ $j0 = 10  $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a36:
+!
+! Show LUTS
+!
+a36()
+
+ cls
+ textfield id $tc contents 'show luts'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a37:
+!
+a37()
+
+ $i1 = 1 - $i1
+ unset preset
+ if ($i1 = 1) preset = yes
+ return
+end
+
+!
+! a38:
+!
+a38()
+
+ $i2 = 1 - $i2
+ unset erase
+ if ($i2 = 1) erase = yes
+ return
+end
+
+!
+! a39:
+!
+! Copy pictures
+!
+a39()
+
+ textfield id $tc contents 'copy from '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a40:
+!
+! Write protect from
+!
+a40()
+
+ textfield id $tc contents 'wp from '
+ $j0 = 5 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a41:
+!
+! Write protect from
+!
+a41()
+
+ textfield id $tc contents 'wp off from '
+ $j0 = 5 $j1 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a43:
+!
+! Interactive LUT adjustment
+!
+a43()
+
+ if (o = 0) textfield id $tc contents 'lut reset'
+ unless (o = 0) textfield id $tc contents 'ladjust '
+ if (o = 1) textfield id $tc append 'brightness'
+ if (o = 2) textfield id $tc append 'contrast'
+ if (o = 3) textfield id $tc append 'hue'
+ if (o = 4) textfield id $tc append 'dhue'
+ if (o = 5) textfield id $tc append 'saturation'
+ if (o = 6) textfield id $tc append 'dsaturation'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a44:
+!
+! Pop up the calculate menu
+!
+a44()
+
+ textfield id $tc contents 'calculate '
+ $j0 = 5 $j1 = 11 $j2 = 6 $j3 = 3 $j4 = 6 $j5 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a45:
+!
+! Histogram a picture
+!
+a45()
+
+ textfield id $tc contents 'histogram '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a46:
+!
+! Delete a picture
+!
+a46()
+
+ textfield id $tc contents 'delete '
+ $j0 = 5 $j1 = 12 $j2 = 13 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a47:
+!
+! Contour a picture (should be display)
+!
+a47()
+
+ textfield id $tc contents 'contour '
+ $j0 = 5 $j1 = 3 $j2 = 2 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a48:
+!
+! Analyse a picture
+!
+a48()
+  textfield id $tc +
+   contents 'analyse pim to ppl segment pse ge ',$al,' le ',$ah,' area ',$aa
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+
+!
+! a59:
+!
+! Forward Fourier transform
+!
+a59()
+
+ textfield id $tc contents 'fourier '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a60:
+!
+! Inverse Fourier transfrom
+!
+a60()
+
+ textfield id $tc contents 'image '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a61:
+!
+! Display (log) power spectrum of an FFT
+!
+a61()
+
+ textfield id $tc contents 'ps ln '
+ $j0 = 5 $j1 = 3 $j2 = 7 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a62:
+!
+! Output a picture as a Postscript file
+!
+a62()
+
+ textfield id $tc contents 'postscript '
+ $j0 = 5 $j1 = 30 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a63:
+!
+! Toggle command logging (if the command log file exists) and if the See
+! commands option is not set.
+!
+a63()
+
+ if (($lc = 0) | ($v = 1)) jump twiddle
+ $i3 = 1 - $i3
+ jump done
+twiddle:
+ cell id $e1 cycle 1
+done:
+ return
+end
+
+!
+! a64:
+!
+! Toggle output logging (if the output log file exists).
+!
+a64()
+
+ if ($lo = 0) return
+ $i4 = 1 - $i4
+ echo device $lo none
+ if ($i4 = 1) echo device $lo console
+ return
+end
+
+!
+! a65:
+!
+! Add a title to a picture
+!
+a65()
+
+  textfield id $tc contents 'title '
+  $j0 = 5 $j1 = 31 $j2 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a70:
+!
+! Display (particle) source image
+!
+a70()
+local f2, f3
+
+ textfield id $tc contents 'display from '
+ $j0 = 50 $j1 = 3 $j2 = 51 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a71:
+!
+! Display (particle) segmentation map
+!
+a71()
+local f2, f3
+
+ textfield id $tc contents 'pshow;min=0 max=255 display noscale from '
+ $j0 = 52 $j1 = 3 $j2 = 51 $j3 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! a72:
+!
+! Find and set limits for particle analysis
+!
+a72()
+local f2, f3
+ partition $ad-(fs*1000) enquire
+ ramps partition $ad-(fs*1000) size psi,10 bot left times 1
+ survey $ad noverify
+ lut clut create false reset
+ trap = 3 ladjust lower upper scale $ad range $al,$ah initially hsv 100,1,1
+ if (rc = 3) ladjust lower upper scale display range ((max-min)/3)+min, +
+         ((max-min)/2)+min initially hsv 100,1,1
+ $al=r $ah=r2
+ lut clut cre false reset
+ lib b58
+ return
+end
+
+!
+! a75:
+!
+! Select parameters to show/type after analysis.
+!
+a75()
+local f2, f3
+
+ if ($ap = 1) textfield id $tc contents 'ptype '
+ if ($ap = 2) textfield id $tc contents 'ptype if id=pid '
+ if ($ap = 3) textfield id $tc contents 'pshow '
+!
+ if ($r1 = 1) textfield id $tc append 'id '
+ if ($r2 = 1) textfield id $tc append 'area '
+ if ($r3 = 1) textfield id $tc append 'per '
+ if ($r4 = 1) textfield id $tc append 'cir '
+ if ($r5 = 1) textfield id $tc append 'ang '
+!
+ if ($r1 + $r2 + $r3 + $r4 + $r5)=0 return
+ $j0 = 0 $jx=0 lib nextop
+ return
+end
+
+
+!
+! a76:
+!
+! Determine particle identifier at given screen position
+!
+a76()
+local f2, f3
+
+ textfield id $tc contents 'xwires noverify;pid @xy;pshow if id=pid'
+ $j0 = 0 $jx=0 lib nextop
+ return
+end
+
+
+
+!
+! pars:
+!
+! Use the display menu to show the partition information
+!
+pars()
+
+$mn = yes
+for i = 1,9
+ cell id $x#i changes 'o=',i,';lib $p',p1
+loop
+mouse left '' centre 'lib nop' right 'lib dp'
+mouse query
+$mx = uix $my = uiy
+menu activate id $p1
+return
+end
+
+!
+! $p1:
+!
+! Callback procedure for partition selection
+!
+$p1()
+
+ lib dp
+ textfield id $tc append o
+ lib nextop
+ return
+end
+
+!
+! ov:
+!
+! Change the overlay colour
+!
+ov()
+
+ textfield id $tc contents 'overlay '
+ if (o = 1) textfield id $tc append 'red'
+ if (o = 2) textfield id $tc append 'green'
+ if (o = 3) textfield id $tc append 'blue'
+ if (o = 4) textfield id $tc append 'yellow'
+ if (o = 5) textfield id $tc append 'magenta'
+ if (o = 6) textfield id $tc append 'cyan'
+ if (o = 7) textfield id $tc append 'white'
+ if (o = 8) textfield id $tc append 'black'
+ $j0 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! rd2:
+!
+! Redisplay the display menu. This only changes the Cell text if the
+! picture has been created or destroyed since the last call.
+!
+! p1    callback on picture selected
+! p2    allow unused entries 0 allow no pictures
+!                            1 every entry show as Display
+!
+rd2()
+local rv, rv2, rv3
+
+ lib pwc
+ for i = 1, 9
+   trap = -1 select dis:i
+   rv = (rc > 0)
+   rv2 = $y#i
+   rv3 = (rv2 < 0)
+   if (rv = rv3) next i
+   if (rv = 1) jump bad
+   cell id mod(rv2) text 'Display:',i
+   $y#i = mod(rv2)
+   next i
+bad:
+   cell id mod(rv2) text '---------'
+   $y#i = -mod(rv2)
+ loop
+ lib pwd
+ return
+end
+
+!
+! rd3:
+!
+! Redisplay the directory panel. This only changes the cell contents if a
+! changes in state has occurred.
+!
+! p1    callback on picture selected
+! p2    allow unused entries 0 allow no pictures
+!                            1 every entry show as Display
+!
+rd3()
+local rv, rv2, rv3
+
+ $tp = $to
+ lib pwc
+ for i = 0, 9
+   trap = -1 select cd:($tp + i)
+   rv = (rc > 0)
+   rv2 = $z#i
+   rv3 = (rv2 < 0)
+   if (rv = rv3) next i
+   if (rv = 1) jump bad
+   cell id mod(rv2) title cd:($tp + i)
+   $z#i = mod(rv2)
+   next i
+bad:
+   cell id mod(rv2) text '----------'
+   $z#i = -mod(rv2)
+ loop
+ cell id $tq text 'Top picture: ',$tp,'  '
+ lib pwd
+ return
+end
+
+!
+! $$r:
+!
+! Main call back procedure for picture selection. Dispatches functions
+! provided that the picture exists.
+!
+$$r()
+
+ if (o2 = 2) jump t2
+ if (($z#o < 0) & ($pe = no)) return
+ lib $r1
+ return
+t2:
+ if (($y#o < 0) & ($pe = no)) return
+ lib $r2
+ return
+end
+
+$r0()
+
+ return
+end
+
+!
+! $r1:
+!
+! Disc picture select callback.
+!
+$r1()
+
+ trap=25 if ($a0 = yes) jump analyse
+ if ($pe = yes) jump isto
+ $c8 = cd:($tp + o) lib make$select
+ if ($bt = yes) jump both
+ lib dpl
+ return
+both:
+ $pe = yes
+ menu deactivate id m21
+ menu id m21 name 'Select TO'
+ menu activate id m21
+ return
+isto:
+ $c9 = cd:($tp + o) lib make$select
+ lib dpl
+ return
+! analysis version
+analyse:
+ if ($a9 = 1) pim = cd:($tp + o) lib make$analyseselect
+ if ($a9 = 2) pse = cd:($tp + o) lib make$analyseselect
+ if ($a9 = 3) ppl = cd:($tp + o) lib make$analyseselect
+ if ($a9 = 4) $ad = cd:($tp + o) lib make$analyseselect
+ lib dpl
+ return
+end
+
+!
+! $r2:
+!
+! Display picture select callback.
+!
+$r2()
+
+ trap=25 if ($a0 = yes) jump analyse
+ if ($pe = yes) jump isto
+ $c8 = dis:o lib make$select
+ if ($bt = yes) jump both
+ lib dpl
+ return
+both:
+ $pe = yes
+ menu deactivate id m21
+ menu id m21 name 'Select TO'
+ menu activate id m21
+ return
+isto:
+ lib dpl
+ $c9 = dis:o lib make$select
+ return
+analyse:
+ if ($a9 = 1) pim = dis:o lib make$analyseselect
+ if ($a9 = 2) pse = dis:o lib make$analyseselect
+ if ($a9 = 3) ppl = dis:o lib make$analyseselect
+ if ($a9 = 4) $ad = dis:o lib make$analyseselect
+ lib dpl
+ return
+end
+
+!
+! dp:
+!
+! Deactivate partition menu. Reset old mouse position.
+!
+dp()
+
+ lib op
+ lib mr
+ menu deactivate id $p1
+ unset $mn
+ return
+end
+
+!
+! dpl:
+!
+! Deactivate the display and directory menus. Restore old mouse position.
+!
+dpl()
+
+ lib dm
+ unset f1, f2, $bt
+ $iq = no
+ lib op
+ lib mr
+ unset $mn
+ return
+end
+
+!
+! ove:
+!
+ove()
+
+ lib dm2
+ textfield id $tc append ' over ',o
+ lib nextop
+ return
+end
+
+!
+! mfn:
+!
+mfn()
+
+ lib dm2
+ if (o = 1) textfield id $tc append ' + '
+ if (o = 2) textfield id $tc append ' - '
+ if (o = 3) textfield id $tc append ' * '
+ if (o = 4) textfield id $tc append ' / '
+ lib nextop
+ return
+end
+
+!
+! b1:
+!
+! Display the partition menu and then add the selected number to
+! the command textfield
+!
+b1()
+
+ p1 = 1 lib pars
+ return
+end
+
+!
+! b2:
+!
+! Display the displays menu and then add the selected display number
+! to the command textfield
+!
+b2()
+local op
+
+ if (fix($c9 / 1000) = fs) jump isdisplay
+ op = 2 lib inform
+ return
+isdisplay:
+ op = fix($c9 - (fix($c9 / 1000) * 1000))
+ textfield id $tc append ' dis:',op
+ lib nextop
+ return
+end
+
+!
+! b3:
+!
+! Add ' to ' to the command textfield
+!
+b3()
+
+ textfield id $tc append ' to '
+ lib nextop
+ return
+end
+
+!
+! b4:
+!
+! Find and save the current mouse position
+!
+b4()
+
+ mouse query
+ $mx = uix $my = uiy
+ lib nextop
+ return
+end
+
+!
+! b5:
+!
+! Select a picture source. This may be from the display or from the
+! picture disk.
+!
+b5()
+local op
+
+ unless ($c8 = -1) jump issource
+ op = 3 lib inform
+ return
+issource:
+ op = fix($c8 - (fix($c8 / 1000) * 1000))
+ if (fix($c8 / 1000) = fs) jump isdisplay
+ textfield id $tc append ' cd:',op
+ jump done:
+isdisplay:
+ textfield id $tc append ' dis:',op
+done:
+ lib nextop
+return
+end
+
+!
+! b6:
+!
+! Select a picture destination. This must be an existing display
+!
+b6()
+local op
+
+ if (fix($c9 / 1000) = fs) jump isdisplay
+ op = 2 lib inform
+ return
+isdisplay:
+ trap = -1 select $c9
+ if (rc = 0) jump exists
+ op = 1 lib inform
+ return
+exists:
+ op = fix($c9 - (fix($c9 / 1000) * 1000))
+ textfield id $tc append ' dis:',op
+ lib nextop
+ return
+end
+
+!
+! b7:
+!
+! Select a picture destination. This may be from the display or from the
+! picture disk.
+!
+b7()
+local op
+
+ unless ($c9 = -1) jump isdestination
+ op = 4 lib inform
+ return
+isdestination:
+ op = fix($c9 - (fix($c9 / 1000) * 1000))
+ if (fix($c9 / 1000) = fs) jump usedisplay
+ textfield id $tc append ' cd:',op
+ jump done:
+usedisplay:
+ textfield id $tc append ' dis:',op
+done:
+ lib nextop
+return
+end
+
+!
+! b8:
+!
+! Pop up the over menu
+!
+b8()
+local mu
+
+ mu = 20 lib bar3
+ return
+end
+
+!
+! b9:
+!
+! Use XWIRES to define an angle on the screen.
+!
+b9()
+local theta
+
+  xwires line noverify frame $cf
+  textfield id $tc append ' angle ',theta
+  lib nextop
+  return
+end
+
+!
+! b10:
+!
+! Add view lut 1 to the command textfield
+!
+b10()
+
+ textfield id $tc append '; view lut 1 frame $cf'
+ lib nextop
+ return
+end
+
+!
+! b11:
+!
+! Pop up the calculate menu
+!
+b11()
+local mu
+
+ mu = 6 lib bar3
+ return
+end
+
+!
+! b12:
+!
+! Ask for confirmation of picture delete
+!
+b12()
+
+ $op = 2 lib dialogue
+ return
+end
+
+!
+! b13:
+!
+! Rebuild the status panel
+!
+b13()
+
+ $c8 = -1
+ lib make$select
+ lib nextop
+ return
+end
+
+!
+! b14:
+!
+! Add segment to textfield
+!
+b14()
+
+ textfield id $tc append ' segment'
+ lib nextop
+ return
+end
+
+!
+! b15:
+!
+! Add ge key
+!
+b15()
+
+ textfield id $tc append ' ge '
+ lib nextop
+ return
+end
+
+!
+! b16:
+!
+! Add le key
+!
+b16()
+
+ textfield id $tc append ' le '
+ lib nextop
+ return
+end
+
+!
+! b17:
+!
+! Pop and add the number entry panel
+!
+b17()
+local p1, p2
+
+ if ($ca = no) jump hidden
+ panel id $cp hide
+hidden:
+ $ca = yes
+ $cb = yes
+ panel id $cp show
+ mouse left '' centre 'lib nop' right 'lib c$can'
+ p1 = 52 p2 = 8 lib np
+ return
+end
+
+
+!
+! b30:
+!
+! add a name to the string, using the calculator value as the last part
+! of the name.
+!
+b30()
+
+ textfield id $tc append ' name ''<title>'''
+ justification
+ panel create auto transient name 'Enter file name' +
+    position 48,12
+ textfield create length 10 ends 'lib b35'
+ $tv = eno
+ panel show
+ $mn = yes
+ $pt = pno
+ mouse left 'lib nop' centre 'lib nop' right 'lib b33'
+ justification top left
+ return
+end
+
+!
+! b31:
+!
+! Append text and allow a title to be added for picture titling
+!
+b31()
+
+ textfield id $tc append ' text ''<title>'''
+ justification
+ panel create auto transient name 'Enter picture title' +
+   position 48,12
+ textfield create length 10 ends 'lib b32'
+ $tv = eno
+ panel show
+ $mn = yes
+ $pt = pno
+ mouse left 'lib nop' centre 'lib nop' right 'lib b33'
+ justification top left
+ return
+end
+
+!
+! b32:
+!
+! Complete picture titling operation
+!
+b32()
+
+ panel hide id $pt
+ textfield id $tv length 80
+ textfield id $tv prior 'title ',$c8,' text ''' append ''';lib make$select'
+ textfield id $tv execute
+ textfield id $tc clear
+ lib b33
+ lib b34
+end
+
+!
+! b33:
+!
+! Cancel or tidy up after picture title
+!
+b33()
+
+ unset $mn
+ lib mr
+ panel destroy id $pt
+ unset $tv, $pt
+ if (set($sf)) textfield id $sf activate
+ return
+end
+
+!
+! b34:
+!
+! Force rebuild of picture select panel (titles changed)
+!
+b34()
+
+ if (fix($c8 / 1000) = fs) jump isfs
+ for i = 0, 9
+  $z#i = -mod($z#i)
+ loop
+ jump done
+isfs:
+ for i = 1, 9
+  $y#i = -mod($y#i)
+ loop
+done:
+ return
+end
+
+!
+! b35:
+!
+! Complete PostScript output operation
+!
+b35()
+
+ panel hide id $pt
+ textfield id $tv length 80
+ textfield id $tv prior 'postscript ',$c8,' name ''' append ''''
+ textfield id $tv execute
+ textfield id $tc clear
+ lib b33
+end
+
+!
+! b50:
+!
+! Add selected picture number for particle analysis
+!
+b50()
+local op
+
+ unless (pim = -1) jump issource
+ op = 3 lib inform
+ return
+issource:
+ op = fix(pim - (fix(pim / 1000) * 1000))
+ if (fix(pim / 1000) = fs) jump isdisplay
+ textfield id $tc append ' cd:',op
+ jump done:
+isdisplay:
+ textfield id $tc append ' dis:',op
+done:
+ lib nextop
+return
+end
+
+!
+! b51()
+!
+! add picture number (which must be the display) to execution textfield
+!
+b51()
+local op
+
+ if (fix($ad / 1000) = fs) jump isdisplay
+ op = 2 lib inform
+ return
+isdisplay:
+ op = fix($ad - (fix($ad / 1000) * 1000))
+ textfield id $tc append ' dis:',op
+ lib nextop
+ return
+end
+
+!
+! b52:
+!
+! add picture number (display or disc) to execution textfield
+!
+b52()
+local op
+
+ unless (pse = -1) jump issource
+ op = 3 lib inform
+ return
+issource:
+ op = fix(pse - (fix(pse / 1000) * 1000))
+ if (fix(pse / 1000) = fs) jump isdisplay
+ textfield id $tc append ' cd:',op
+ jump done:
+isdisplay:
+ textfield id $tc append ' dis:',op
+done:
+ lib nextop
+return
+end
+
+!
+! b58:
+!
+b58()
+
+ if ($a9 = 5) $aa=clv
+ if ($a9 = 6) $ah=clv
+ if ($a9 = 7) $al=clv
+ $a9 = -1
+ menu id m25 deactivate
+   cell id $a5 text 'Minimum particle area    ',$aa
+   cell id $a6 text 'Upper particle threshold ',$ah
+   cell id $a7 text 'Lower particle threshold ',$al
+ menu id m25 activate
+ return
+end
+
+! b59:
+!
+! Select a picture destination. Fault a display picture
+!
+!
+b59()
+local op
+
+ unless ($c9 = -1) jump isdestination
+ op = 4 lib inform
+ return
+isdestination:
+ op = fix($c9 - (fix($c9 / 1000) * 1000))
+ if (fix($c9 / 1000) = fs) jump display
+ textfield id $tc append ' cd:',op
+ jump done:
+display:
+op = 9 lib inform
+return
+done:
+ lib nextop
+return
+end
+
+!
+! Append partition size to textfield
+!
+b60()
+par enq
+textfield id $tc append ' size ',psi,',',ps2
+lib nextop
+return
+end
+
+!
+! append " lib snap"
+!
+b98()
+textfield id $tc append ' lib snap'
+lib nextop
+return
+end
+
+
+!
+! append " lib live"
+!
+b99()
+textfield id $tc append ' lib live'
+lib nextop
+return
+end
+
+!
+! anp:
+!
+anp()
+local $tc
+
+ $j0 = 17 $j1 = 58 $j2 = 0 $jx = 0 lib nextop
+ return
+end
+
+!
+! nfr:
+!
+! Select new from picture (which should exist)
+!
+nfr()
+
+ $a0 = no
+ if (set($mn)) return
+ mouse query
+ $mx = uix
+ $my = uiy
+ lib rd2
+ lib rd3
+ $pe = no
+ $bt = no
+ $mn = yes
+ $iq = yes
+ lib ms
+ menu id m21 name 'Select FROM'
+ mu = 21 lib addmenu
+ return
+end
+
+!
+! nto:
+!
+! Select new to picture (which may be anything)
+!
+nto()
+
+ $a0 = no
+ if (set($mn)) return
+ mouse query
+ $mx = uix
+ $my = uiy
+ lib rd2
+ lib rd3
+ $pe = yes
+ $bt = no
+ $mn = yes
+ $iq = yes
+ lib ms
+ menu id m22 name 'Select TO'
+ mu = 22 lib addmenu
+ return
+end
+
+!
+! both:
+!
+! Select new from and to pictures
+!
+both()
+
+ $a0 = no
+ if (set($mn)) return
+ mouse query
+ $mx = uix
+ $my = uiy
+ lib rd2
+ lib rd3
+ $pe = no
+ $bt = yes
+ $mn = yes
+ $iq = yes
+ lib ms
+ menu id m21 name 'Select FROM'
+ mu = 21 lib addmenu
+ return
+end
+
+!
+! npp:
+!
+! Particle parameter picture selection
+!
+npp()
+
+ $a0 = yes
+ if (set($mn)) return
+ mouse query
+ $mx = uix
+ $my = uiy
+ lib rd2
+ lib rd3
+ $pe = yes
+ if $a9=1  $pe = no
+ $bt = no
+ $mn = yes
+ $iq = yes
+ lib ms
+ if $a9=1 menu id m21 name 'Select Analysis Source'
+ if $a9=2 menu id m21 name 'Select Segmentation Map Destination'
+ if $a9=3 menu id m21 name 'Select Particle Results Destination'
+ if $a9=4 menu id m21 name 'Select Display'
+ mu = 21 lib addmenu
+ return
+end
+
+
+!
+! make$select:
+!
+! Make the selection panel
+!
+make$select()
+local invert, p1, p2
+
+ if (set($ps)) panel destroy id $ps
+ justification top
+ panel create auto transient name 'Selection' foreground $c0 background $c1 +
+   position 74,4
+ $ps = pno
+ invert = yes
+ cell create name 'FROM' changes 'lib nfr' position 0,1
+ p1 = $c8 p2 = eno lib make$entry
+ cell create name 'TO' changes 'lib nto' position 0,5
+ p1 = $c9 p2 = eno lib make$entry
+ cell create text '/\' changes 'lib tofr' position -5, 4
+ cell create text 'BOTH' changes 'lib both' position  0, 4
+ cell create text '\/' changes 'lib frto' position  5, 4
+ justification top left
+ panel show id $ps
+ return
+end
+
+!
+! make$analyseselect:
+!
+! Make the selection panel
+!
+make$analyseselect()
+local i, j, x, y, invert
+
+ $a0 = no
+ panel id $pa hide
+   unless (set(pim)) pim=-1
+   p1 = pim p2 = $a1 lib make$entry
+   unless (set(pse)) pse=-1
+   p1 = pse p2 = $a2 lib make$entry
+   unless (set(ppl)) ppl=-1
+   p1 = ppl p2 = $a3 lib make$entry
+   unless (set($ad)) $ad=-1
+   p1 = $ad p2 = $a4 lib make$entry
+ panel id $pa show
+ return
+end
+
+!
+! make$entry:
+!
+! Amend the cell p2 so that its text display a picture title or
+! display title according to p1.
+!
+make$entry()
+local i, j
+
+ if (p1 = -1) jump void
+ i = fix(p1 / 1000)
+ j = fix(p1 - i * 1000)
+ if (i = fs) jump isdisplay
+ trap = -1 cell id p2 title p1
+ if (rc = 0) jump done
+ cell id p2 text 'Picture:',j
+ jump done
+void:
+ cell id p2 text '<None>'
+ jump done
+isdisplay:
+ cell id p2 text 'Display:',j
+done:
+ return
+end
+
+!
+! tofr:
+!
+! Make from = to
+!
+tofr()
+
+ $c8 = $c9
+ lib make$select
+ return
+end
+
+!
+! frto:
+!
+! Make to = from
+!
+frto()
+
+ $c9 = $c8
+ lib make$select
+ return
+end
+
+!
+! cl$make:
+!
+! Create the calculator panel
+!
+cl$make()
+
+! Create the 'Calculator' panel
+panel create name 'Calculator' size 17,8 position 20,6 +
+     auto transient foreground $c0 background $c1
+$cp=pno
+
+create=yes invert=yes
+
+cell position  2,6  text ' 0 ' changes 'tex id $cd app ''0'''
+cell position  1,5  text '1'   changes 'tex id $cd app ''1'''
+cell position  3,5  text '2'   changes 'tex id $cd app ''2'''
+cell position  5,5  text '3'   changes 'tex id $cd app ''3'''
+cell position  1,4  text '4'   changes 'tex id $cd app ''4'''
+cell position  3,4  text '5'   changes 'tex id $cd app ''5'''
+cell position  5,4  text '6'   changes 'tex id $cd app ''6'''
+cell position  1,3  text '7'   changes 'tex id $cd app ''7'''
+cell position  3,3  text '8'   changes 'tex id $cd app ''8'''
+cell position  5,3  text '9'   changes 'tex id $cd app ''9'''
+
+cell position  6,6  text '.'   changes 'tex id $cd app ''.'''
+
+cell position  8,3  text '*'   changes 'tex id $cd app ''*'''
+cell position 10,3  text '/'   changes 'tex id $cd app ''/'''
+cell position  8,4  text '+'   changes 'tex id $cd app ''+'''
+cell position 10,4  text '-'   changes 'tex id $cd app ''-'''
+cell position  8,5  text '('   changes 'tex id $cd app ''('''
+cell position 10,5  text ')'   changes 'tex id $cd app '')'''
+
+cell position 12,3  text ' C  ' changes 'tex id $cd cle;uns h'
+cell position 12,4  text 'Exp ' changes 'tex id $cd app ''E'''
+cell position 12,5  text 'Root' changes 'tex id $cd app ''Root('''
+!
+! Both the '=' and '[OK]' buttons evaluate the display but the OK
+! button hides the calculator panel.
+!
+cell position  8,6  text ' = '  changes 'lib c$eval'
+cell position 12,6  text '[OK]' changes 'lib c$eval;lib c$ok'
+
+! Main 'display' textfield
+textfield position 1,2 length 15 name '' end '' wp
+$cd = eno
+
+unset create, add, invert
+
+$ca = no       ;! Not active
+$cb = no       ;! Not active from program
+$cc = no       ;! Not invoked from main panel cell
+return
+end
+
+!
+! c$eval:
+!
+! Evaluate the contents of the calculator textfield
+!
+c$eval()
+
+ trap = -1 textfield id $cd assign 'h'
+ if (rc = 0) jump done
+ beep
+ unset h
+ textfield id $cd clear
+ jump qce
+done:
+ textfield id $cd contents h
+qce:
+ return
+end
+
+!
+! cal:
+!
+! Display calculator
+!
+cal()
+
+ if (set($mn)) return
+ $cc = yes
+ if ($ca = yes) return
+ $ca = yes
+ panel id $cp show
+ return
+end
+
+!
+! c$ok:
+!
+! Turn off the calculator, continue with next operation if the display
+! held a valid value.
+!
+c$ok()
+
+ if (set(h)) clv = h
+ lib c$can
+ if (set(h) & ($cb = yes)) lib nextop
+ $cb = no
+ return
+end
+
+!
+! c$can:
+!
+! Turn off the calculator and abandon any current operation unless the
+! calculator was already visible from main panel activation.
+!
+c$can()
+
+ if ($cb = no) $cc = no jump program
+ lib op
+ lib mr
+program:
+ if ($cc = yes) jump done
+ panel id $cp hide
+ $ca = no
+done:
+ return
+end
+
+!
+! c0:
+!
+! Display the analyse select panel instead of the normal selection panel
+!
+c0()
+
+ panel id $ps hide
+ panel id $pa show
+ return
+end
+
+!
+! c1:
+!
+! Display the normal select panel instead of the analyse select panel
+!
+c1()
+
+ panel id $pa hide
+ unless (set($mn)) panel id $ps show
+ return
+end
+
+
+!
+! cframe
+!
+! sets current frame appropriate for display system
+!
+cframe()
+ $cf=1 $ch=1
+ if nfr=3 $ch=3
+end
+

@@ -1,0 +1,16 @@
+dlabl5.f	Created an I*2 for AND calls
+asshdr.f	Same
+"Middle/dtrans.f"
+
+a1conv.c	Corrected #ifdef statement
+
+FSEEK		Different in ifort, g77
+LNBLNK 		Not in f90
+Not in HP's f77
+   lnblnk (code) or LEN_BLK
+   and (code) -- iand is
+   lshift (code)
+   xor (code)
+
+tiff output not working at the moment -- bigendian or filpos ?
+

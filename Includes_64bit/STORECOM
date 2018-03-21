@@ -1,0 +1,13 @@
+C---------------------------------------------------------
+C
+C     Common block for dynamic memory allocation system
+C
+C     Define the size of, and the dynamic storage area
+C
+      integer MXSTOR
+      parameter (MXSTOR=6144)
+      character*(MXSTOR) cstore
+C
+      common /store/ cstore
+C
+C---------------------------------------------------------

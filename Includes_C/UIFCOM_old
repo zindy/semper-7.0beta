@@ -1,0 +1,84 @@
+C     UIF external parameters and common blocks
+C     -------------------------------------------
+C
+C     The internal UIF version (for READ/SAVE etc.)
+C
+      integer UIFVID
+      parameter (UIFVID=204)
+C
+C     First some useful parameters!
+C     -----------------------------
+C
+C     Element types...
+C
+      integer CELL, TEXFLD, MENU, GSIGHT, SLIDER, KNOB
+      parameter (CELL=1,TEXFLD=2,MENU=3,GSIGHT=4,SLIDER=5,KNOB=6)
+C
+C     Cell type...
+C
+      integer TEXT, ICON
+      parameter (TEXT=1,ICON=2)
+C
+C     Cell highlighting style...
+C
+      integer FLASH, TICK, CHECK, INVERT
+      parameter (FLASH=1, TICK=2, CHECK=3, INVERT=4)
+C
+C     Menu type...
+C
+      integer FIXED, POPUP, PULLDN
+      parameter (FIXED=1, POPUP=2, PULLDN=3)
+C
+C     Menu style...
+C
+      integer CHOICE, TOGGLE
+      parameter (CHOICE=1, TOGGLE=2)
+C
+C     Action types...
+C
+      integer BEGACT, CHAACT, ENDACT
+      parameter (BEGACT=1, CHAACT=2, ENDACT=3)
+C
+C     Positioning point... Note these are used numerically, so values
+C     must be left as here.  (NOTE: ABSOL is used in conjunction with
+C     LEFT and RIGHT in cursor positioning)
+C
+      integer TOP, CENTRE, BOTTOM, LEFT, RIGHT, ABSOL
+      parameter ( TOP=0, CENTRE=1, BOTTOM=2, LEFT=0, RIGHT=2, ABSOL=1)
+C
+C     UIF/Application base error number
+C
+      integer UIFEBA
+      parameter (UIFEBA=250)
+C
+C     Control variables
+C     -----------------
+C
+C     UIF is running flag
+C
+      logical uifrun
+C
+C     UIF error number
+C
+      integer uiferr
+C
+C     'Action is ready for execution' flag
+C
+      logical uifrdy
+C
+C     Action string for execution by application.  Value is the index
+C     of the start of the string into cstore in common file 'STORECOM'.
+C
+      integer uifact
+C
+C     Length of above string.  To access the string, include 'STORECOM'
+C     and look at cstore(uifact:uifact+uifaln-1)
+C
+      integer uifaln
+C
+      common /uifcom/ uifrun, uiferr, uifrdy, uifact, uifaln
+C
+C----------------------------------------------------------------------
+C
+C Copyright (C) 1988-1992 :  Synoptics Ltd,  All Rights Reserved
+C

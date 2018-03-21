@@ -1,0 +1,35 @@
+Some recent versions of Mac's have slightly broken operating systems. There are two problems:
+        a) Inconsistent versions of gcc/g++ and no g77
+        b) A bug in autoconf
+
+a) To solve the first one, one method that works is to install the latest gcc 3.4X version with 
+g++ and g77, and remove gcc 4.0. While gcc 4.X will in the future be better, the associated fortran
+compiler (gfortran) is not really ready (a bit unstable) and at the time of writing lacks one
+intrinsic call (fseek) which has not been patched. Be careful; having multiple different versions
+of gcc on your computer can lead to problems since unless you are very careful your code may not
+be the shared libraries that you think it does. (In addition, Mac's have their own linkers and
+commands such as ldd to check such dependencies do not appear to exist in the standard distributions.)
+
+b) The current version has an autoconf which has been patched for a Mac, but it is 
+possible that this patch might not be present. If you run into a problem in .configure
+and you are using a Mac, you need to:
+
+1) Download a recent autoconf. The latest cvs versions of autoconf have the patch,
+as does the latest Debian but it is not in the "stable" release.
+
+2) Go to autoconf/lib/autoconf/fortran.m4 and find at around line 650
+In autoconf 2.57
+          # Ignore these flags.
+        -lang* | -lcrt0.o | -lc | -lgcc | -libmil | -LANG:=*)
+In autoconf 2.59
+          # Ignore these flags.
+        -lang* | -lcrt[[01]].o | -lc | -lgcc | -libmil | -LANG:=*)
+Change the second line to read
+        -lang* | -lcrt*.o | -lc | -lgcc | -libmil | -LANG:=*)
+
+3) Compile autoconf (./configure; make install) and ensure that you have this
+version first in your PATH, e.g. PATH=/usr/local/bin:$PATH
+
+4) In the top directory of semper, run 'autoconf'
+
+LDM, September 15th, 2005

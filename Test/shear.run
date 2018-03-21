@@ -1,0 +1,11 @@
+u=1,a v=0,b
+ext 1 2 fp siz 360 uv
+sur 2 full ; calc :2-mean to 2
+hp 2 over 30
+mas 2 3 rad 150 wid 30 val 0
+fou 3 ; calc mod(:3) to 3
+full 3
+sur 3 ; max=max/10 
+dis 3 pre tim 2 siz 200
+mar cir rad 52 ; mar cir rad 58
+mar cir rad 32

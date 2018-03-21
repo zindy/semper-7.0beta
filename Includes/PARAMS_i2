@@ -1,0 +1,323 @@
+C Standard parameter definitions
+C
+C ****** CHANGE ******
+C
+C Data representation
+C -------------------
+C Lengths in bytes of INTEGER and FP pixel representations; latter
+C must not be less than former
+C
+      INTEGER LNBYTE,LNINT,LNINT4,LNREAL
+      PARAMETER (LNBYTE=1)
+      PARAMETER (LNINT=2,LNREAL=4)
+C
+C Length in bytes of INTEGER*4 datatype
+C
+      PARAMETER (LNINT4=4)
+C
+C Picture storage devices
+C -----------------------
+C Size in bytes of logical disc blocks
+C - must be a multiple of LNINT
+C
+      INTEGER LNBLK
+      INTEGER*4 LNBLK4
+      PARAMETER (LNBLK=64,LNBLK4=LNBLK)
+C
+C NOBACK indicates that MCTP61 cannot provide backward block and
+C file skips (IOP=7 and 9)
+C
+      LOGICAL NOBACK
+      PARAMETER (NOBACK=.FALSE.)
+C
+C Maximum display look-up table length
+C
+      INTEGER LUTSIZ
+      PARAMETER (LUTSIZ=256)
+C
+C Input/output
+C -----------------
+C Flag numbers for interactive input and output
+C **** NOT FOR USE AS FORTRAN UNIT NUMBERS ****
+C
+      INTEGER TERM1,TERM2
+      PARAMETER (TERM1=5,TERM2=6)
+C
+C Fortran unit numbers for run files and error message file
+C
+      INTEGER RUNFLE,ERMESU
+      PARAMETER (RUNFLE=3,ERMESU=4)
+C
+C Fortran unit number for opening data files
+C   (e.g. in READ/WRITE - see FRDWRT)
+C
+      INTEGER RDWRTU,RDWRT2
+      PARAMETER (RDWRTU=1,RDWRT2=2)
+C
+C Maximum length for fully specified file names
+C
+      INTEGER FILMAX
+      PARAMETER (FILMAX=255)
+C
+C Nesting levels
+C --------------
+C Maximum input depth, FOR loop depth and maximum number of saved
+C variables; no change needed at initial installation time unless
+C to save array space
+C
+      INTEGER INPMAX,FORMAX,LOCMAX
+      PARAMETER (INPMAX=20,FORMAX=20,LOCMAX=300)
+C
+C Array sizes
+C -----------
+C Maximum number of devices that may be assigned at once excluding the
+C workdisc (size of half of the arrays in SEMCBS). If you are using a
+C 16-bit integer model (LNINT=2) then NDVS should not exceed 31.
+C
+      INTEGER NDVS
+      PARAMETER (NDVS=50)
+C
+C Device number for work disc
+C
+      INTEGER WRKDEV
+      PARAMETER (WRKDEV=0)
+C
+C Maximum number of display partition descriptors that may be created
+C at once.  Currently depends only on size of work disc (see SEMINI),
+C but will depend on array size in COMMON when multiple display devices
+C are to be supported.
+C
+      INTEGER DPDMAX
+      PARAMETER (DPDMAX=999)
+C
+C Maximum number of display look-up tables
+C
+      INTEGER LUTNUM
+      PARAMETER (LUTNUM=100)
+C
+C Number of row buffers declared in COMMON /SEMBUF/
+C
+      INTEGER NNBUF
+      PARAMETER (NNBUF=15)
+C
+C Size in bytes of Semper's row buffers (single array RBS declares
+C contiguous series of row buffers)
+C Controls maximum row lengths of pictures processed - must be a
+C multiple of LNBLK and at least 256*LNREAL
+C
+      INTEGER*4 LNBUF
+      PARAMETER (LNBUF=32448)
+C
+C Number of REALs allowed for edge processing at either end of each row
+C buffer
+C
+      INTEGER LNEDGE
+      PARAMETER (LNEDGE=10)
+C
+C Size in bytes of entire row buffer space (including edge pixels)
+C
+      INTEGER*4 LNSBUF
+      PARAMETER (LNSBUF=NNBUF*(LNEDGE*LNREAL+LNBUF+LNEDGE*LNREAL))
+C
+C Maximum number of pictures that may be open at once (size of the PCB
+C arrays)
+C
+      INTEGER NLPS
+      PARAMETER (NLPS=50)
+C
+C Maximum number of variables that can be set at once (size of the value
+C and name arrays in common SEMTAB)
+C
+      INTEGER NVARS
+      PARAMETER (NVARS=1000)
+C
+C Maximum length to which input command line may be continued (size of
+C the array LINBUF), and size in blocks.
+C
+      INTEGER LNLINB,LINSZE
+      PARAMETER (LNLINB=2048)
+      PARAMETER (LINSZE=1+(LNLINB-1)/LNBLK)
+C
+C Maximum length of the temporary work disc name
+C
+      INTEGER LNWORK
+      PARAMETER (LNWORK=80)
+C
+C ****** ****** ******
+C
+C Maximum number of options, keys and open definitions supported by
+C any one command
+C
+      INTEGER MAXKEY,MAXOPT,MAXOPE
+      PARAMETER (MAXKEY=50,MAXOPT=50,MAXOPE=6)
+C
+C Enumerated class numbers
+C
+      INTEGER NCLIMA,NCLMAC,NCLFOU,NCLSPE,NCLCOR
+      INTEGER NCLUND,NCLWAL,NCLPLI,NCLHIS,NCLLUT
+C
+      PARAMETER (NCLIMA=1,NCLMAC=NCLIMA+1,NCLFOU=NCLMAC+1)
+      PARAMETER (NCLSPE=NCLFOU+1,NCLCOR=NCLSPE+1,NCLUND=NCLCOR+1)
+      PARAMETER (NCLWAL=NCLUND+1,NCLPLI=NCLWAL+1,NCLHIS=NCLPLI+1)
+      PARAMETER (NCLLUT=NCLHIS+1)
+C
+C Enumerated form numbers
+C
+      INTEGER NFMBYT,NFMINT,NFMFP,NFMCOM
+      PARAMETER (NFMBYT=0,NFMINT=NFMBYT+1,NFMFP=NFMINT+1)
+      PARAMETER (NFMCOM=NFMFP+1)
+C
+C Enumerated medium numbers
+C
+      INTEGER MEDDC,MEDTP,MEDDS,MEDFL,MEDVM
+      PARAMETER (MEDDC=1,MEDTP=MEDDC+1,MEDDS=MEDTP+1,MEDFL=MEDDS+1)
+      PARAMETER (MEDVM=MEDFL+1)
+C
+C Enumerated file device types
+C
+      INTEGER FLTPIC,FLTHEL,FLTRUN,FLTTEX,FLTBIN
+      PARAMETER (FLTPIC=1,FLTHEL=FLTPIC+1,FLTRUN=FLTHEL+1)
+      PARAMETER (FLTTEX=FLTRUN+1,FLTBIN=FLTTEX+1)
+C
+C Enumerated signal position numbers
+C
+      INTEGER SSIGBE,SSIGGO,SSIGEX,SSIGIN,SSIGPR
+      PARAMETER (SSIGBE=0,SSIGGO=1,SSIGEX=2,SSIGIN=3,SSIGPR=4)
+C
+C Picture label item parameters
+C
+      INTEGER LBNC1,LBNC2,LBNR1,LBNR2,LBNL1,LBNL2
+      INTEGER LBCC1,LBCC2,LBCR1,LBCR2,LBCL1,LBCL2
+      INTEGER LBCLAS,LBFORM,LBWP,LBYEAR,LBMON,LBDAY
+      INTEGER LBHOUR,LBMIN,LBSEC
+      INTEGER LBNCRR,LBRR1,LBRR2,LBPLTY
+C
+      PARAMETER (LBNC1=7,LBNC2=LBNC1+1,LBNR1=LBNC2+1,LBNR2=LBNR1+1)
+      PARAMETER (LBNL1=LBNR2+1,LBNL2=LBNL1+1,LBCC1=LBNL2+1)
+      PARAMETER (LBCC2=LBCC1+1,LBCR1=LBCC2+1,LBCR2=LBCR1+1)
+      PARAMETER (LBCL1=LBCR2+1,LBCL2=LBCL1+1,LBCLAS=LBCL2+1)
+      PARAMETER (LBFORM=LBCLAS+1,LBWP=LBFORM+1,LBYEAR=LBWP+1)
+      PARAMETER (LBMON=LBYEAR+1,LBDAY=LBMON+1,LBHOUR=LBDAY+1)
+      PARAMETER (LBMIN=LBHOUR+1,LBSEC=LBMIN+1,LBNCRR=LBSEC+1)
+      PARAMETER (LBRR1=LBNCRR+1,LBRR2=LBRR1+26,LBPLTY=LBRR2+1)
+C
+C Items LBPLTY+1 (57) to 99 currently unused
+C
+      INTEGER LBNCTT,LBTT1,LBTT2
+      PARAMETER (LBNCTT=100,LBTT1=LBNCTT+1,LBTT2=256)
+C
+C Derived parameters
+C
+C Number of bytes/blocks in a picture label
+C
+      INTEGER LNLAB,LABSZE
+      INTEGER*4 LNLAB4
+      PARAMETER (LNLAB=256,LNLAB4=LNLAB)
+      PARAMETER (LABSZE=1+(LNLAB-1)/LNBLK)
+C
+C Number of bytes/blocks in a DPD
+C
+      INTEGER*4 LNDPD4
+      INTEGER LNDPD,DPDSZE
+      PARAMETER (LNDPD=10*LNREAL+12*LNINT,LNDPD4=LNDPD)
+      PARAMETER (DPDSZE=1+(LNDPD-1)/LNBLK)
+C
+C Number of integers need to pad DPD to next block boundary (1 added to
+C ensure NDPPAD always greater than zero)
+C
+      INTEGER NDPPAD
+      PARAMETER (NDPPAD=1+(DPDSZE*LNBLK-LNDPD)/LNINT)
+C
+C Size of Procedure directory slots in bytes/blocks etc.
+C Size of index area array in entries/blocks
+C
+      INTEGER PRNMIN,PRNACT,PRCSZE,LNPROC,LNINDX,IDXSZE
+      PARAMETER (PRNMIN=8)
+      PARAMETER (PRCSZE=1+(((2*LNINT4)+(4*LNINT)+PRNMIN)-1)/LNBLK)
+      PARAMETER (LNPROC=(PRCSZE*LNBLK))
+C ****** WOS ******
+C increased from 256 to 512 - but is this safe?
+      PARAMETER (LNINDX=512)
+C ****** *** ******
+      PARAMETER (IDXSZE=1+((LNINDX*LNINT)-1)/LNBLK)
+C
+C Maximum length of procedure name
+C
+      PARAMETER (PRNACT=LNPROC-(2*LNINT4)-(4*LNINT))
+C
+C Enumerated type of Program types
+C
+      INTEGER TIDEND,TIDLIN,TIDFOR,TIDLOO,TIDLAB
+      PARAMETER (TIDEND=0,TIDLIN=TIDEND+1,TIDFOR=TIDLIN+1)
+      PARAMETER (TIDLOO=TIDFOR+1,TIDLAB=TIDLOO+1)
+C
+C Enumerated type for logical output streams
+C
+      INTEGER NOSCON,NOSDIA,NOSLOG,NOSMON,NOSCOM,NOSINP
+      PARAMETER (NOSCON=1, NOSDIA=2, NOSLOG=3)
+      PARAMETER (NOSMON=4, NOSCOM=5, NOSINP=6)
+C
+C Diagnostic message severity values
+C
+      INTEGER NDIMES,NDIWAR,NDIERR,NDIFAT
+      PARAMETER (NDIMES=0, NDIWAR=1, NDIERR=2, NDIFAT=3)
+C
+C Size of input/output buffer for centralised I/O
+C
+      INTEGER RECLEN
+      PARAMETER (RECLEN=200)
+C
+C Number of monitor channel
+C
+      INTEGER NMCHAN
+      PARAMETER (NMCHAN=16)
+C
+C Length of COMPLEX pixels
+C
+      INTEGER LNCOMP
+      PARAMETER (LNCOMP=2*LNREAL)
+C
+C Last protected and last fixed variable in SEMTAB
+C
+      INTEGER NPROT,NFIXED
+      PARAMETER (NPROT=11,NFIXED=20)
+C
+C Number of global options, keys defined in SEMFVD
+C
+      INTEGER NGOPTS,NGKEYS
+      PARAMETER (NGOPTS=8,NGKEYS=0)
+C
+C Standard values for pi and 2*pi
+C
+      REAL PI,TWOPI
+      PARAMETER (PI=3.14159265359,TWOPI=2.0*PI)
+C
+C Remote Sensing Commands base error address
+C
+      INTEGER EBASRS
+      PARAMETER (EBASRS = 500)
+C
+C User written Commands base error address
+C
+      INTEGER USRERR
+      PARAMETER (USRERR = 900)
+C
+C Length of keyboard buffer array entry
+C
+      INTEGER KBUFL
+      PARAMETER (KBUFL=80)
+C
+C Maximum number of keyboard buffers
+C
+      INTEGER KBUFM
+      PARAMETER (KBUFM=40)
+C
+C Special error codes
+C
+      INTEGER BRKERR,PAGERR,INTERR,FATERR
+      PARAMETER (BRKERR=4, PAGERR=997, INTERR=998, FATERR=999)
+C
+      INCLUDE 'ICSET'
+C
+C Copyright (C) 1988-1993 Synoptics Ltd
+C

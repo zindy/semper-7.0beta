@@ -1,0 +1,659 @@
+COPYRIGHT()
+type 'Semper 6.45 Plus library file'
+type 'Copyright (C) 1988-1996: Synoptics Ltd, All Rights Reserved'
+end
+
+ROW()
+! Types all pixels in row 'ROW'
+local $a,$b
+if set(row) $a=row; unless set(row) ask 'Row number? ' $a
+pcb; if form=3 jump complex
+for $b x1,x2; type $b,#7,p($b,$a); loop $b; return
+complex:
+for $b x1,x2; type $b,#7,re($b,$a),#20,im($b,$a); loop $b
+end
+
+COL()
+! Types all pixels in col 'COL'
+local $a,$b
+if set(col) $a=col; unl set(col) ask 'Col number? ' $a
+pcb; if form=3 jump complex
+for $b y2,y1; type $b,#7,p($a,$b); loop $b; return
+complex:
+for $b y2,y1; type $b,#7,re($a,$b),#20,im($a,$b); loop $b
+end
+
+MOLECULE()
+! Generates a small test picture in 'IN'
+Local $a
+If set(IN) $a=IN; Unl set(IN) ask 'Picture number for molecule? ' $a
+Create $a size 32
+Calc to $a exp(-rr/100) +
++ 1.5*exp(-((x-12)^2+(y-12)^2)/4) +
++ 1.5*exp(-((x+12)^2+(y-12)^2)/4) +
++ 1.5*exp(-((x+9)^2+(y+4)^2)/4) +
++ 1.5*exp(-((x-9)^2+(y+4)^2)/4) +
++ 1.5*exp(-(x^2+(y+12)^2)/4)
+Calc :$a +
++ 0.8*exp(-(x^2+(y-5)^2)/2.25) +
++ 0.8*exp(-(x^2+(y+5)^2)/2.25) +
++ 0.8*exp(-((x-5)^2+y^2)/2.25) +
++ 0.8*exp(-((x+5)^2+y^2)/2.25)
+end
+
+PREPARE()
+! Prepare model in 901, projections in 903, 904, etc.
+  in=901 dt=0.3; library molecule
+  display times 4; mark=yes
+  p=903; for t=-pi/2,pi/2,dt; project in to p angle t; p=p+1; loop
+end
+
+RECON()
+! Reconstuct projections into 902 (Multiplicative ART)
+  rec=902 dt=0.3
+  create rec size 32 val 1; title text 'ART reconstruction'
+  min=0 max=2; display rec times 4 preset; mark=yes
+  for ncycle=1,2; p=903
+    for t=-pi/2,pi/2,dt; project rec to 999 angle t
+      calculate :p/(:999+0.1) to 999
+      backproject multiply rec with 999 angle t
+      display rec times 4 preset
+      p=p+1
+    loop t
+    type 'Reconstruction after cycle',ncycle
+  loop ncycle
+end
+
+LATTICE()
+! Define lattice vectors U,V via display cursor
+Local $a,$b,$c,$d,$e
+Type 'Mark an origin'; xwires nover; W=X,Y
+Mark pos W,W2 text 'O'; Mark pos W,W2 mkmode 5
+Type 'Mark some other point you can index'; xwires; $a=x-w,y-w2
+Ask  '  and enter its indices (e.g. 4,1): ' $b,$b2
+la1:
+Type 'Mark another (independent) point'; xwires; $c=x-w,y-w2
+Ask  '             and enter its indices: ' $d,$d2
+$e=$d*$b2-$b*$d2; Unless $e jump la1
+U=($b2*$c-$d2*$a)/$e,($b2*$c2-$d2*$a2)/$e
+V=($d*$a-$b*$c)/$e,($d*$a2-$b*$c2)/$e
+Type 'Base vectors U=',U,',',U2,' length ',MOD(U,U2)
+Type '             V=',V,',',V2,' length ',MOD(V,V2)
+$d=phase(V,V2)-phase(U,U2)
+Type 'Angle (U to V) ',$d,'rad, i.e. ',$d*180/pi,'deg'
+Mark posn W+U,W2+U2 text 'U'; Mark posn W+V,W2+V2 text 'V'
+! $b=$b+1 $c=$c+1 $d=fix($b/2) $e=fix(($c-1)/2)
+Lattice mark dis
+end
+
+PARTITIONS()
+! Define partitions dividing up display frame conveniently
+Local $a,$b,$c,$d,$e,$l,$x,$y,$p,$p2
+Ask 'First partition number to be used: ' $d
+Ask 'Number of columns,rows wanted: ' $a,$b
+if nfr=1 Ask 'Display frame number: ' $c
+if nfr=1 $l=$c
+unless nfr=1 Ask 'First,Last display frame number: ' $c,$l
+$e=$d; $p=fix(fsize/$a),fix(fs2/$b)
+for $y=1,$b
+ for $x=1,$a
+   partn $d frame $c,$l size $p,$p2 posn ($x-1)*fsize/$a,(1-$y)*fs2/$b top left
+   $d=$d+1
+ loop $x
+loop $y
+show partitions $e,$d-1
+end
+
+INVERT()
+! Inverts U,V for inverse extraction of unit cell size UCS[,UC2]
+local $a,$a2,$b,$c,$d,$e,$f
+unset $a2; if set(uc2) $a2=uc2
+if set(ucs) $a=ucs; unl set(ucs) ask 'Unit cell dim(s)? ' $a,$a2
+unless set($a2) $a2=$a
+$b=U $c=U2 $d=V $e=V2 $f=$b*$e-$c*$d
+U=$e*$a/$f,-$c*$a2/$f V=-$d*$a/$f,$b*$a2/$f lib $r
+end
+
+$r()
+! local output routine for INVERT and RECIPROCAL
+type 'New vectors: U=',U,',',U2
+type '             V=',V,',',V2
+end
+
+RECIPROCAL()
+! Obtains reciprocal vectors from U,V given pic size UCS
+Local $b,$c,$d,$e,$f
+if set(ucs) $f=ucs; unl set(ucs) ask 'Picture size? ' $f
+$b=U $c=U2 $d=V $e=V2 $f=$f/mod($b*$e-$d*$c)
+U=$e*$f,-$d*$f V=-$c*$f,$b*$f lib $r
+end
+
+EM()
+! Sets up microscope parameters interactively
+ Ask 'Physical units rather than reduced? [yes/no; RETURN=yes] ' phy
+ Unless set(phy) jump phy; if phy jump phy
+
+Reduced:
+ unset phy
+ Ask 'Image plane sampling interval/Gl [half max F-plane period]: ' step
+ unless set(step) return
+ Ask 'Defocus/Sch (underfocus positive) [RETURN=0]: ' defocus
+ Ask 'Astigmatism/Sch [RETURN=0]: ' astig
+ If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+ Ask 'Rms beam divergence/(Gl/Sch) [RETURN=0]: ' swidth
+ Ask 'Rms focus spread/Sch [RETURN=0]: ' ewidth
+ Ask 'Beam tilt/(Gl/Sch) [RETURN=0]: ' tilt
+ If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+ Ask 'Objective aperture radius/(Gl/Sch) [RETURN=infinite]: ' oaradius
+ Unless set(oar) jump next
+  Ask '..displacement magnitude/(Gl/Sch) [RETURN=0]: ' oadisp
+  If set(oad) if oad +
+   ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+Next:
+ Ask 'Magnitude of uniform specimen drift/Gl [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/Gl (rms) [RETURN=0]: ' vibr
+ return
+
+Physical: phy=yes
+Local $a,$b
+Ask 'Voltage/kV, Spherical aberration/mm: ' kv,cs
+$a=kv*1e3 $b=cs*1e6 lam=$a*1.60206e-4/9.1083/2.99793^2
+lam=6.62517/root(2*1.60206*9.1083*$a*(1+lam/2))
+sch=root($b*lam) gl=$b^.25*lam^.75
+Type 'Sch=',sch,'nm   Gl=',gl,'nm   Gl/Sch=',gl/sch*1e3,'mrad'
+Ask 'Image plane sampling interval/nm [half max F-plane period]: ' step
+  unless set(step) return
+Ask 'Defocus/nm (underfocus positive) [RETURN=0]: ' defocus
+Ask 'Astigmatism/nm [RETURN=0]: ' astig
+If set(astig) if astig +
+  ask '..azimuth/rad (anticl. from +X to max underfoc) [RETURN=0]: ' aphi
+Ask 'Rms beam divergence/mrad [RETURN=0]: ' swidth
+Ask 'Rms focus spread/nm [RETURN=0]: ' ewidth
+Ask 'Beam tilt/mrad [RETURN=0]: ' tilt
+If set(tilt) if tilt +
+  ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' tphi
+Ask 'Objective aperture radius/mrad [RETURN=infinite]: ' oaradius
+Unless set(oar) jump Pnext
+  Ask '..displacement magnitude/mrad [RETURN=0]: ' oadisp
+  If set(oad) if oad +
+   ask '..azimuth/rad (anticl. from +X) [RETURN=0]: ' oaphi
+PNext:
+ Ask 'Magnitude of uniform specimen drift/nm [RETURN=0]: ' drift
+ If set(drift) if drift ask '..azimuth/rad (anticl. from +X): ' dphi
+ Ask 'Isotropic vibration level/nm (rms) [RETURN=0]: ' vibr
+ return
+end
+
+ELLIPSE()
+! Masks N1 to N2 outside ellipse radius R,R2 angle THETA background VALUE
+Local $a,$b,$c,$d,$e,$f,$ce,$se
+If set(N1) $a=N1; unl set(N1) ask 'From picture: ' $a
+If set(N2) $b=N2; unl set(N2) ask 'To picture: ' $b
+If set(R) $c=R; unl set(R) ask 'Semimajor axis: ' $c
+If set(R2) $d=R; unl set(R2) ask 'Semiminor axis: ' $d
+If set(THE) $e=THE
+  unl set(THE) ask 'Azimuth of major axis (radians anticl. from +X): ' $e
+If set(VAL) $f=VAL; unl set(VAL) ask 'Background value: ' $f
+$ce=cos($e)
+$se=sin($e)
+calc ifelse(((x*$ce+y*$se)/$c)^2+((y*$ce-x*$se)/$d)^2<1,:$a,$f) to $b
+end
+
+GENBMMAP()
+! Generates map for use with binary morphology verbs ERODE/DILATE
+ask 'Map number: ' m
+create m size 256,1 value 0
+origin left
+for m = 0,255
+  for b = 0,7
+    b#b = (and(m,2^b) ~= 0)
+  loop
+  type 'Index ',m,'  Configuration',#25,b7,b6,b5
+  type #25,b0,'   ',b4
+  type #25,b1,b2,b3
+  ask 'Map value: ' x
+  pixel m = x
+loop
+end
+
+SEPARATE()
+
+   local nx,ny,nz,i1,i2,dmax,nu,d,u,n,i,p1,p2,p3,p4,p5,p6,p7,d,p,status
+   local source,dest,ult,dt,dlist,mp0,mp1,bp1,bp2,bp3,dd,du,monitor
+
+!  Region separation algorithm, for deagglomeration of convex regions and
+!  grain boundary reconstructions.
+
+!  The following argument variables must be set:
+
+!  $SOURCE  = picture number for the source image
+!  $DEST    = picture number for the final result
+!  $TD      = Scratch picture disc large enough to store 1 floating-point,
+!             and 3 byte form pictures of the same size as the source image
+
+!  The following argument variable can be set to return the set of ultimate
+!  erosions, as these have to be generated by the separation algorithm anyway:
+
+!  $ULT     = picture number for the ultimate erosions
+
+!  The following argument variables can also be set to control the
+!  operation of the separation algorithm (default values are provided):
+
+!  $DD      = loop increment in terms of distance from background
+!  $DU      = backward/forward increment to filter ultimate erosions
+!  $MONITOR = display result of each iteration of the separation algorithm
+
+!  Region separation is achieved in the following way:
+
+!  The DT command is used to obtain the Euclidean distance transform of the
+!  source image.  This describes all the possible stages of erosion of the
+!  source image and allows us to set up a list of distance values which
+!  define the stages of erosion which will be used by the separation loop.
+!  Each stage of erosion is obtained from the distance transform simply by
+!  thresholding it.
+
+!  Starting with the last stage of erosion, the ultimate erosions for the
+!  current stage are added to the result so far and the sum is dilated back
+!  to the previous stage of erosion, all the time maintaining the separation
+!  between regions.
+
+!  The ultimate erosions are subjected to an extra stage of processing in
+!  order to merge together fragmented ultimate erosions.  The degree to
+!  which this is done depends on the value of the variable $DU with respect
+!  to value of the variable $DD, which specifies the increment in terms of
+!  distance between each iteration of the separation algorithm.
+
+!  The value of the $DD variable determines the resolution of the separation
+!  algorithm.  Set $DD to 1 for maximum resolution.
+
+!  First check that argument variables are set that need to be set
+
+   if ( set($source) & set($dest) & set($td) ) jump argset
+
+   type 'One or more argument variable not set ($source,$dest,$td)'
+
+   return
+
+argset:
+
+!  Construct fully specified picture numbers from $source, $dest
+!  and $ult (if $ult is set)
+
+   d = round ( $source / 1000 )
+   if ( d = 0 ) d = cd
+   p = round ( rem ( $source, 1000 ) )
+
+   source = d:p
+
+   d = round ( $dest / 1000 )
+   if ( d = 0 ) d = cd
+   p = round ( rem ( $dest, 1000 ) )
+
+   dest = d:p
+
+   if (  set($ult) ) d = round ( $ult / 1000 )
+   if (  set($ult) ) if ( d = 0 ) d = cd
+   if (  set($ult) ) p = round ( rem ( $ult, 1000 ) )
+
+   if ( ~set($ult) ) ult = 0
+   if (  set($ult) ) ult = d:p
+
+!  Find first 7 free picture numbers on device $TD
+
+   n = 0
+
+   for i = 1, 999
+
+      trap = 30 select $td:i; status = rc
+
+      if ( ~status ) next
+
+      if ( td:i = dest ) next
+      if ( td:i = ult  ) next
+
+      n = n + 1
+
+      p#n = $td:i
+
+      if ( n = 7 ) jump picset
+
+   loop
+
+   type 'Not enough free picture numbers on device ',$td
+
+   return
+
+picset:
+
+!  Assign picture numbers for intermediate results
+
+   dt    = p1
+   dlist = p2
+   mp0   = p3
+   mp1   = p4
+   bp1   = p5
+   bp2   = p6
+   bp3   = p7
+
+!  Provide default value for DD
+
+   if ( ~set($dd) ) dd = 2
+   if (  set($dd) ) dd = $dd
+
+!  Make sure DD is greater than or equal to 1
+
+   dd = max ( dd,  1 )
+
+!  Provide default value for DU
+
+   if ( ~set($du) ) du = 2 * dd
+   if (  set($du) ) du = $du
+
+!  Make sure DU is greater than or equal to DD
+
+   du = max ( du, dd )
+
+!  Set up monitor flag
+
+   if ( ~set($monitor) ) monitor = 0
+   if (  set($monitor) ) monitor = $monitor
+
+!  If monitor flag set, display source image
+
+   if ( monitor ) min = 0 max = 1 display source noborder noletter preset
+   if ( monitor ) erase display overlay
+
+!  Calculate Euclidean distance transform
+
+   dt source to dt
+
+!  Maximum distance value = maximum number of erosions possible
+
+   picture dt size range
+
+   dmax = i2
+
+!  Count number of iterations
+
+   nu = 0
+
+   for d = 0.5 + du, dmax, dd
+
+      nu = nu + 1
+
+      if ( d + du > dmax ) break
+
+   loop
+
+!  Set up table of distance values
+
+   create dlist size nu+1,1 fp
+
+   origin dlist left
+
+   u = 0
+
+   for d = 0.5 + du, dmax, dd
+
+      u = u + 1
+
+      pixel u = d
+
+      if ( d + du > dmax ) break
+
+   loop
+
+!  Last stage of erosion gives the first component of the ultimate erosions
+!  which is also the starting image for the dilation process
+
+!  Fetch distance value for last stage of erosion
+
+   select dlist
+
+   d = p(nu)
+
+!  Generate mask images for (d) and (d - du) erosions
+
+   threshold dt to bp1 ge d
+
+   threshold dt to bp2 ge d - du
+
+!  Flood mask for (d - du) erosions with mask for (d) erosions to merge
+!  together fragmented ultimate erosions (this is the starting image for
+!  the dilation process)
+
+   flood bp2 with bp1 to dest
+
+!  If necessary, set up picture to hold ultimate erosions
+
+   if ( set(ult) ) copy dest ult
+
+!  If monitor flag set, overlay source image with results so far
+
+   if ( monitor ) ovwrite display with dest threshold 0.5
+
+!  Set up 3 x 3 neighbourhood mapping tables for dilating regions while
+!  maintaining separation between regions (alternate use is made of two
+!  mapping tables to reduce directional bias in the dilation process)
+
+   bmlut mp0 if p4 | ( c8=1 & ( ~p1 & p7 ) ), +
+                p4 | ( c8=1 & ( ~p7 & p1 ) ), +
+                p4 | ( c8=1 & ( ~p3 & p5 ) ), +
+                p4 | ( c8=1 & ( ~p5 & p3 ) )
+
+   bmlut mp1 if p4 | ( c8=1 & ( ~p3 & p5 ) ), +
+                p4 | ( c8=1 & ( ~p5 & p3 ) ), +
+                p4 | ( c8=1 & ( ~p1 & p7 ) ), +
+                p4 | ( c8=1 & ( ~p7 & p1 ) )
+
+!  Now we can start the processing loop
+
+   for u = nu - 1, 1
+
+!  Fetch distance value for current stage of erosion
+
+      select dlist
+
+      d = p(u)
+
+!  Generate mask image for (d - du) erosions
+
+      threshold dt to bp1 ge d - du
+
+!  Dilate the result so far, within the mask, maintaining separation between
+!  regions (make alternate use of two 3 x 3 neighbourhood mapping tables)
+
+      n = rem ( u, 2 )
+
+      bmmap dest with mp#n mask bp1 times 0
+
+!  Generate mask image for (d + du) erosions
+
+      threshold dt to bp2 ge d + du
+
+!  Flood the mask for (d - du) erosions with the mask for (d + du) erosions
+!  to establish connectivity over that range of erosions
+
+      flood bp1 with bp2 to bp3
+
+!  Generate mask image for the current stage of erosion
+
+      threshold dt to bp2 ge d
+
+!  Ultimate erosions consist of pixels in the current stage of erosion,
+!  which disappear after (d + du) erosions and which are not connected
+!  to any regions which span stages of erosion (d - du) to (d + du)
+
+      calculate bp2:bp2 & ~bp3:bp3 to bp2 byte
+
+!  Flood stage of erosion (d - du) with ultimate erosions to merge together
+!  fragmented ultimate erosions
+
+      flood bp1 with bp2 to bp3
+
+!  Add current set of ultimate erosions to the result
+
+      calculate dest:dest | bp3:bp3 to dest byte
+
+!  If necessary, accumulate ultimate erosions in separate picture
+
+      if ( set(ult) ) calculate ult:ult | bp3:bp3 to ult byte
+
+!  If monitor flag set, overlay source image with results so far
+
+      if ( monitor ) ovwrite display with dest threshold 0.5
+
+   loop
+
+!  Delete scratch pictures
+
+   delete dt
+   delete dlist
+   delete mp0
+   delete mp1
+   delete bp1
+   delete bp2
+   delete bp3
+
+   return
+
+end
+
+AUTO( )
+
+   local source,dest,his,cut,lpd
+   local d,p,i,n,xr,i1,i2,nx,ny,nz,imin,pmin,p1,p2,p3,status
+
+!  Auto thresholding assuming bi-modal historgram
+
+!  Threshold level is lowest point between two largest peaks in the histogram
+
+!  Supplied variables:
+
+!  $SOURCE = source image (single layer, grey scale)
+!  $DEST   = thresholded binary image (0 = dark regions, 1 = light regions)
+!  $TD     = device for creating pictures
+
+!  First check that argument variables are set
+
+   if ( set($source) & set($dest) & set($td) ) jump argset
+
+   type 'One or more argument variable not set ($source,$dest,$td)'
+
+   return
+
+argset:
+
+!  Construct fully specified picture numbers from $source and $dest
+
+   d = round ( $source / 1000 )
+   if ( d = 0 ) d = cd
+   p = round ( rem ( $source, 1000 ) )
+
+   source = d:p
+
+   d = round ( $dest / 1000 )
+   if ( d = 0 ) d = cd
+   p = round ( rem ( $dest, 1000 ) )
+
+   dest = d:p
+
+!  Find first 3 free picture numbers on device $TD
+
+   n = 0
+
+   for i = 1, 999
+
+      trap = 30 select $td:i; status = rc
+
+      if ( ~status ) next
+
+      if ( td:i = dest ) next
+
+      n = n + 1
+
+      p#n = $td:i
+
+      if ( n = 3 ) jump picset
+
+   loop
+
+   type 'Not enough free picture numbers on device ',$td
+
+   return
+
+picset:
+
+!  Assign picture numbers for intermediate results
+
+   his = p1
+   cut = p2
+   lpd = p3
+
+!  Calculate source histogram
+
+   histogram source his
+
+!  Obtain dimensions of histogram
+
+   picture his size
+
+!  Extract histogram counts as separate 1-D picture
+
+   cut his cut size nx-2,1 left
+
+   reclass cut image
+
+   lmean cut over 3
+
+   origin cut left
+
+!  Detect peaks in histogram counts
+
+   lpd cut plist lpd nolin height 100
+
+!  Fault histogram with not enough peaks
+
+   if n < 2 beep
+   if n < 2 type 'Insufficient detail in source histogram'
+   if n < 2 return
+
+!  Fetch positions of two most significant peaks
+
+   pset plist lpd xref sort area descending index 1; i1 = xr
+   pset plist lpd xref sort area descending index 2; i2 = xr
+
+!  Search for lowest histogram count between selected peaks
+
+   select cut
+
+   imin = i1; pmin = p(i1)
+
+   for i = i1 + 1, i2
+
+      if p(i) >= pmin next
+
+      imin = i; pmin = p(i)
+
+   loop
+
+!  Obtain source intensity range
+
+   picture source range
+
+!  Apply threshold to source image
+
+   threshold source dest ge i1 + ( imin + 0.5 ) * ( i2 - i1 ) / ( nx - 2 )
+
+!  Tidy up by deleting intermediate pictures
+
+   delete his
+   delete cut
+   delete lpd
+
+   return
+
+end

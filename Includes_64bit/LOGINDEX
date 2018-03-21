@@ -1,0 +1,34 @@
+c---------------------------------------------------------
+c
+c       Common block for dynamic memory allocation system
+c
+c       Is the system initialised? flag
+c
+        logical isinit
+c
+c       Highest logical index slot used
+c
+        integer hilind
+c
+c       Highest physical index slot used
+c
+        integer hipind
+c
+c       Define the size of the logical index entry (integers)
+c
+        integer ENTSIZ
+        parameter (ENTSIZ=1)
+c
+c       Define the size of the logical index table (integers)
+c
+        integer MXLTAB
+        parameter (MXLTAB=1024)
+c
+c       Define the logical index table, block size table,
+c       and the common block for it
+c
+        integer litab(MXLTAB)
+        integer lstab(MXLTAB)
+        common /lstore/ isinit, hilind, hipind, litab, lstab
+c
+c---------------------------------------------------------

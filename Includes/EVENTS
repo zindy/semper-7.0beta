@@ -1,0 +1,47 @@
+C Standard event definition file
+C
+C Standard sources
+C
+      INTEGER MANYS,MBREAK,MKEY,MPOINT,MBUT
+      PARAMETER (MANYS=0,MBREAK=MANYS+1,MKEY=MBREAK+1,
+     +           MPOINT=MKEY+1,MBUT=MPOINT+1)
+C
+C Standard arguments
+C
+C QRUN = Allow events
+C QWAIT = Disable events but maintain queue activity
+C QOPEN = Flush queue and allow events
+C QCLOSE = Disable events with no queue activity
+C
+      INTEGER QRUN,QWAIT,QOPEN,QCLOSE
+      PARAMETER (QRUN=0,QWAIT=QRUN+1,QOPEN=QWAIT+1,QCLOSE=QOPEN+1)
+C
+C QTAKE = Read and remove queue head entry
+C QLOOK = Read but keep queue entry, point to next entry
+C QSNAP = Examine current source status (e.g. mouse position)
+C
+      INTEGER QTAKE,QLOOK,QSNAP
+      PARAMETER (QTAKE=0,QLOOK=QTAKE+1,QSNAP=QLOOK+1)
+C
+C ECHNON = No hardware echo.
+C ECHDSP = Hardware echo on the display.
+C ECHHST = Hardware echo on the host (VDU?).
+C ECHALL = Hardware echo on both.
+C
+      INTEGER ECHNON,ECHDSP,ECHHST,ECHALL
+      PARAMETER (ECHNON=0,ECHDSP=ECHNON+1,
+     +           ECHHST=ECHDSP+1,ECHALL=ECHHST+1)
+C
+C Operations allowed when modifying queue data
+C
+C OSETL = Set pointer lock
+C OSETG = Set pointer gearing
+C OSETS = Set pointer sensitivity
+C OINSRT = Insert keyboard character
+C
+      INTEGER OSETL,OSETG,OSETS,OINSRT
+      PARAMETER (OSETL=0,OSETG=OSETL+1,OSETS=OSETG+1)
+      PARAMETER (OINSRT=0)
+C
+C Copyright (C) 1988, 1989, 1990:  Synoptics Ltd,  All Rights Reserved
+C

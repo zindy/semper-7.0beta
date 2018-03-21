@@ -1,0 +1,727 @@
+C----------------------------------------------------------------------
+C
+C     UIF internal parameters and common blocks
+C     -------------------------------------------
+C
+C     First, define the number of each type of object allowed.
+C     --------------------------------------------------------
+C
+C     If more of any object type are needed, this is the place to
+C     change the declarations.  For each object type, the parameter
+C     MXN... defines the number of objects of that type (e.g. MXNPAN is
+C     the maximum number of panels).  If new element types are added,
+C     change the definition of MXNELE to take account of the number of
+C     them allowed.  Note the range of each object type is defined in
+C     terms of the number of those objects and the end of the range of
+C     the preceding object.  This MUST be maintained, as the ranges are
+C     used to determine object types.
+C
+C     Some parameters are also in UIFCOM.FOR
+C
+C     Maximum number and range of panels...
+C
+      integer MXNPAN, MINPAN, MAXPAN
+      parameter (MXNPAN=50)
+      parameter (MINPAN=1, MAXPAN=MINPAN+MXNPAN-1)
+C
+C     Maximum number and range of scrolling areas...
+C
+      integer MXNSCR, MINSCR, MAXSCR
+      parameter (MXNSCR=2)
+      parameter (MINSCR=MAXPAN+1, MAXSCR=MINSCR+MXNSCR-1)
+C
+C     Thus the maximum number and range of all windows
+C
+      integer MXNWIN, MINWIN, MAXWIN
+      parameter (MXNWIN=MXNPAN+MXNSCR)
+      parameter (MINWIN=MINPAN, MAXWIN=MINWIN+MXNWIN-1)
+C
+C     Maximum number and range of cells...
+C
+      integer MXNCEL, MINCEL, MAXCEL
+      parameter (MXNCEL=240)
+      parameter (MINCEL=MAXWIN+1, MAXCEL=MINCEL+MXNCEL-1)
+C
+C     Maximum number and range of menus...
+C
+      integer MXNMEN, MINMEN, MAXMEN
+      parameter (MXNMEN=40)
+      parameter (MINMEN=MAXCEL+1, MAXMEN=MINMEN+MXNMEN-1)
+C
+C     Maximum number and range of textfields...
+C
+      integer MXNTEX, MINTEX, MAXTEX
+      parameter (MXNTEX=40)
+      parameter (MINTEX=MAXMEN+1, MAXTEX=MINTEX+MXNTEX-1)
+C
+C     Thus the maximum number and range of all elements...
+C
+      integer MXNELE, MINELE, MAXELE
+      parameter (MXNELE=MXNCEL+MXNMEN+MXNTEX)
+      parameter (MINELE=MAXWIN+1, MAXELE=MINELE+MXNELE-1)
+C
+C     Thus the maximum number and range of all objects...
+C
+      integer MXNOBJ, MINOBJ, MAXOBJ
+      parameter (MXNOBJ=MXNWIN+MXNELE)
+      parameter (MINOBJ=MINWIN, MAXOBJ=MINOBJ+MXNOBJ-1)
+C
+C
+C     Now declare the data for the objects
+C     ------------------------------------
+C
+C     First, data applicable to all objects.
+C     --------------------------------------
+C     This data is initialised by routine uixoin, which must be updated
+C     if data is changed.
+C
+C     Name...
+C
+      integer objnam(MINOBJ:MAXOBJ)
+C
+C     Position...
+C
+      integer objxpo(MINOBJ:MAXOBJ), objypo(MINOBJ:MAXOBJ)
+C
+C     Size...
+C
+      integer objxsi(MINOBJ:MAXOBJ), objysi(MINOBJ:MAXOBJ)
+C
+C     Colour...
+C
+      integer objfgc(MINOBJ:MAXOBJ), objbgc(MINOBJ:MAXOBJ)
+C
+C     Positioning information...
+C
+      integer objhor(MINOBJ:MAXOBJ), objver(MINOBJ:MAXOBJ)
+C
+C     Next, data applicable to windows.  Subclass of OBJECT
+C     -----------------------------------------------------
+C     This data is initialised by routine uixwin, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer winnam(MINWIN:MAXWIN)
+      integer winxpo(MINWIN:MAXWIN), winypo(MINWIN:MAXWIN)
+      integer winxsi(MINWIN:MAXWIN), winysi(MINWIN:MAXWIN)
+      integer winfgc(MINWIN:MAXWIN), winbgc(MINWIN:MAXWIN)
+      integer winhor(MINWIN:MAXWIN), winver(MINWIN:MAXWIN)
+      equivalence (winnam(MINWIN),objnam(MINWIN))
+      equivalence (winxpo(MINWIN),objxpo(MINWIN))
+      equivalence (winypo(MINWIN),objypo(MINWIN))
+      equivalence (winxsi(MINWIN),objxsi(MINWIN))
+      equivalence (winysi(MINWIN),objysi(MINWIN))
+      equivalence (winfgc(MINWIN),objfgc(MINWIN))
+      equivalence (winbgc(MINWIN),objbgc(MINWIN))
+      equivalence (winhor(MINWIN),objhor(MINWIN))
+      equivalence (winver(MINWIN),objver(MINWIN))
+C
+C     Window types...
+C
+      integer PANEL, SCAREA
+      parameter (PANEL=1,SCAREA=2)
+C
+C     Border widths...
+C
+      integer SINGLE, DOUBLE
+      parameter (SINGLE=1,DOUBLE=2)
+C
+C     Owning device id...
+C
+      integer winode(MINWIN:MAXWIN)
+C
+C     Window showing flag...
+C
+      logical winiss(MINWIN:MAXWIN)
+C
+C     Window created flag...
+C
+      logical winisc(MINWIN:MAXWIN)
+C
+C     Window identifier...
+C
+      integer winwid(MINWIN:MAXWIN)
+C
+C     Window obscured flag...
+C
+      logical winobs(MINWIN:MAXWIN)
+C
+C     Window stack postition...
+C
+      integer winstk(MINWIN:MAXWIN)
+C
+C     Border width...
+C
+      integer winbwi(MINWIN:MAXWIN)
+C
+C     Explicly sized flag...
+C
+      logical winexs(MINWIN:MAXWIN)
+C
+C     Explicit minimum size...
+C
+      integer winesx(MINWIN:MAXWIN), winesy(MINWIN:MAXWIN)
+C
+C     Next, data applicable to panels only.  Subclass of WINDOW
+C     ---------------------------------------------------------
+C     This data is initialised by routine uixpin, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer pannam(MINPAN:MAXPAN)
+      integer panxpo(MINPAN:MAXPAN), panypo(MINPAN:MAXPAN)
+      integer panxsi(MINPAN:MAXPAN), panysi(MINPAN:MAXPAN)
+      integer panfgc(MINPAN:MAXPAN), panbgc(MINPAN:MAXPAN)
+      integer panhor(MINPAN:MAXPAN), panver(MINPAN:MAXPAN)
+      equivalence (pannam(MINPAN),winnam(MINPAN))
+      equivalence (panxpo(MINPAN),winxpo(MINPAN))
+      equivalence (panypo(MINPAN),winypo(MINPAN))
+      equivalence (panxsi(MINPAN),winxsi(MINPAN))
+      equivalence (panysi(MINPAN),winysi(MINPAN))
+      equivalence (panfgc(MINPAN),winfgc(MINPAN))
+      equivalence (panbgc(MINPAN),winbgc(MINPAN))
+      equivalence (panhor(MINPAN),winhor(MINPAN))
+      equivalence (panver(MINPAN),winver(MINPAN))
+C
+      integer panode(MINPAN:MAXPAN)
+      logical paniss(MINPAN:MAXPAN)
+      logical panisc(MINPAN:MAXPAN)
+      integer panwid(MINPAN:MAXPAN)
+      logical panobs(MINPAN:MAXPAN)
+      integer panstk(MINPAN:MAXPAN)
+      integer panbwi(MINPAN:MAXPAN)
+      logical panexs(MINPAN:MAXPAN)
+      integer panesx(MINPAN:MAXPAN), panesy(MINPAN:MAXPAN)
+      equivalence (panode(MINPAN),winode(MINPAN))
+      equivalence (paniss(MINPAN),winiss(MINPAN))
+      equivalence (panisc(MINPAN),winisc(MINPAN))
+      equivalence (panwid(MINPAN),winwid(MINPAN))
+      equivalence (panobs(MINPAN),winobs(MINPAN))
+      equivalence (panstk(MINPAN),winstk(MINPAN))
+      equivalence (panbwi(MINPAN),winbwi(MINPAN))
+      equivalence (panexs(MINPAN),winexs(MINPAN))
+      equivalence (panesx(MINPAN),winesx(MINPAN))
+      equivalence (panesy(MINPAN),winesy(MINPAN))
+C
+C     Auto-sizing flag...
+C
+      logical panaut(MINPAN:MAXPAN)
+C
+C     Fixed panel flag...
+C
+      logical panfix(MINPAN:MAXPAN)
+C
+C     Mandatory panel flag...
+C
+      logical panman(MINPAN:MAXPAN)
+C
+C     Next, data applicable to scrolling areas only.  Subclass of WINDOW
+C     ------------------------------------------------------------------
+C     This data is initialised by routine uixsin, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer scrnam(MINSCR:MAXSCR)
+      integer scrxpo(MINSCR:MAXSCR), scrypo(MINSCR:MAXSCR)
+      integer scrxsi(MINSCR:MAXSCR), scrysi(MINSCR:MAXSCR)
+      integer scrfgc(MINSCR:MAXSCR), scrbgc(MINSCR:MAXSCR)
+      integer scrhor(MINSCR:MAXSCR), scrver(MINSCR:MAXSCR)
+      equivalence (scrnam(MINSCR),winnam(MINSCR))
+      equivalence (scrxpo(MINSCR),winxpo(MINSCR))
+      equivalence (scrypo(MINSCR),winypo(MINSCR))
+      equivalence (scrxsi(MINSCR),winxsi(MINSCR))
+      equivalence (scrysi(MINSCR),winysi(MINSCR))
+      equivalence (scrfgc(MINSCR),winfgc(MINSCR))
+      equivalence (scrbgc(MINSCR),winbgc(MINSCR))
+      equivalence (scrhor(MINSCR),winhor(MINSCR))
+      equivalence (scrver(MINSCR),winver(MINSCR))
+C
+      integer scrode(MINSCR:MAXSCR)
+      logical scriss(MINSCR:MAXSCR)
+      logical scrisc(MINSCR:MAXSCR)
+      integer scrwid(MINSCR:MAXSCR)
+      logical scrobs(MINSCR:MAXSCR)
+      integer scrstk(MINSCR:MAXSCR)
+      integer scrbwi(MINSCR:MAXSCR)
+      logical screxs(MINSCR:MAXSCR)
+      integer scresx(MINSCR:MAXSCR), scresy(MINSCR:MAXSCR)
+      equivalence (scrode(MINSCR),winode(MINSCR))
+      equivalence (scriss(MINSCR),winiss(MINSCR))
+      equivalence (scrisc(MINSCR),winisc(MINSCR))
+      equivalence (scrwid(MINSCR),winwid(MINSCR))
+      equivalence (scrobs(MINSCR),winobs(MINSCR))
+      equivalence (scrstk(MINSCR),winstk(MINSCR))
+      equivalence (scrbwi(MINSCR),winbwi(MINSCR))
+      equivalence (screxs(MINSCR),winexs(MINSCR))
+      equivalence (scresx(MINSCR),winesx(MINSCR))
+      equivalence (scresy(MINSCR),winesy(MINSCR))
+C
+C     Contents line buffers...
+C
+      integer scrlin(MINSCR:MAXSCR)
+C
+C     Number of lines...
+C
+      integer scrnli(MINSCR:MAXSCR)
+C
+C     Number of characters/line...
+C
+      integer scrnch(MINSCR:MAXSCR)
+C
+C     Next, data applicable to all elements.  Subclass of OBJECT
+C     ----------------------------------------------------------
+C     This data is initialised by routine uixein, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer elenam(MINELE:MAXELE)
+      integer elexpo(MINELE:MAXELE), eleypo(MINELE:MAXELE)
+      integer elexsi(MINELE:MAXELE), eleysi(MINELE:MAXELE)
+      integer elefgc(MINELE:MAXELE), elebgc(MINELE:MAXELE)
+      integer elehor(MINELE:MAXELE), elever(MINELE:MAXELE)
+      equivalence (elenam(MINELE),objnam(MINELE))
+      equivalence (elexpo(MINELE),objxpo(MINELE))
+      equivalence (eleypo(MINELE),objypo(MINELE))
+      equivalence (elexsi(MINELE),objxsi(MINELE))
+      equivalence (eleysi(MINELE),objysi(MINELE))
+      equivalence (elefgc(MINELE),objfgc(MINELE))
+      equivalence (elebgc(MINELE),objbgc(MINELE))
+      equivalence (elehor(MINELE),objhor(MINELE))
+      equivalence (elever(MINELE),objver(MINELE))
+C
+C     Owning panel id...
+C
+      integer eleopa(MINELE:MAXELE)
+C
+C     Begins action...
+C
+      integer elebac(MINELE:MAXELE)
+C
+C     Changes action...
+C
+      integer elecac(MINELE:MAXELE)
+C
+C     Ends action...
+C
+      integer eleeac(MINELE:MAXELE)
+C
+C     Explicly sized flag...
+C
+      logical eleexs(MINELE:MAXELE)
+C
+C     Explicit minimum size...
+C
+      integer eleesx(MINELE:MAXELE), eleesy(MINELE:MAXELE)
+C
+C     Next, data applicable to cell elements only.  Subclass of ELEMENT
+C     -----------------------------------------------------------------
+C     This data is initialised by routine uixcin, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer celnam(MINCEL:MAXCEL)
+      integer celxpo(MINCEL:MAXCEL), celypo(MINCEL:MAXCEL)
+      integer celxsi(MINCEL:MAXCEL), celysi(MINCEL:MAXCEL)
+      integer celfgc(MINCEL:MAXCEL), celbgc(MINCEL:MAXCEL)
+      integer celhor(MINCEL:MAXCEL), celver(MINCEL:MAXCEL)
+      logical celexs(MINCEL:MAXCEL)
+      integer celesx(MINCEL:MAXCEL), celesy(MINCEL:MAXCEL)
+      equivalence (celnam(MINCEL),elenam(MINCEL))
+      equivalence (celxpo(MINCEL),elexpo(MINCEL))
+      equivalence (celypo(MINCEL),eleypo(MINCEL))
+      equivalence (celxsi(MINCEL),elexsi(MINCEL))
+      equivalence (celysi(MINCEL),eleysi(MINCEL))
+      equivalence (celfgc(MINCEL),elefgc(MINCEL))
+      equivalence (celbgc(MINCEL),elebgc(MINCEL))
+      equivalence (celhor(MINCEL),elehor(MINCEL))
+      equivalence (celver(MINCEL),elever(MINCEL))
+      equivalence (celexs(MINCEL),eleexs(MINCEL))
+      equivalence (celesx(MINCEL),eleesx(MINCEL))
+      equivalence (celesy(MINCEL),eleesy(MINCEL))
+C
+      integer celopa(MINCEL:MAXCEL)
+      integer celbac(MINCEL:MAXCEL)
+      integer celcac(MINCEL:MAXCEL)
+      integer celeac(MINCEL:MAXCEL)
+      equivalence (celopa(MINCEL),eleopa(MINCEL))
+      equivalence (celbac(MINCEL),elebac(MINCEL))
+      equivalence (celcac(MINCEL),elecac(MINCEL))
+      equivalence (celeac(MINCEL),eleeac(MINCEL))
+C
+C     Type... (defined in UIFCOM.FOR)
+C
+      integer celtyp(MINCEL:MAXCEL)
+C
+C     Contents...
+C
+      integer celcon(MINCEL:MAXCEL)
+C
+C     Style... (defined in UIFCOM.FOR)
+C
+      integer celsty(MINCEL:MAXCEL)
+C
+C     Cycle state... (NOTE: NORMAL and INVERS are used internally for
+C     text drawing style, so fiddle carefully)
+C
+      integer NORMAL, INVERS, TICKED, CROSS, NONE
+      parameter (NORMAL=1,INVERS=2,TICKED=3,CROSS=4,NONE=5)
+      integer celcyc(MINCEL:MAXCEL)
+C
+C     Owning menu id... (0=not on menu, > 0 = id of fixed menu,
+C     < 0 = id of pulldown/popup menu)
+C
+      integer celome(MINCEL:MAXCEL)
+C
+C     Menu row and column (-1 indicates not placed by row,column)...
+C
+      integer celrow(MINCEL:MAXCEL), celcol(MINCEL:MAXCEL)
+C
+C     Offset of cell within menu...
+C
+      integer celxof(MINCEL:MAXCEL), celyof(MINCEL:MAXCEL)
+C
+C     'Is a drop cell' flag...
+C
+      logical celdro(MINCEL:MAXCEL)
+C
+C     'Cell is boxed' flag...
+C
+      logical celbox(MINCEL:MAXCEL)
+C
+C     Next, data applicable to menu elements only.  Subclass of ELEMENT
+C     -----------------------------------------------------------------
+C     This data is initialised by routine uixmin, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer mennam(MINMEN:MAXMEN)
+      integer menxpo(MINMEN:MAXMEN), menypo(MINMEN:MAXMEN)
+      integer menxsi(MINMEN:MAXMEN), menysi(MINMEN:MAXMEN)
+      integer menfgc(MINMEN:MAXMEN), menbgc(MINMEN:MAXMEN)
+      integer menhor(MINMEN:MAXMEN), menver(MINMEN:MAXMEN)
+      equivalence (mennam(MINMEN),elenam(MINMEN))
+      equivalence (menxpo(MINMEN),elexpo(MINMEN))
+      equivalence (menypo(MINMEN),eleypo(MINMEN))
+      equivalence (menxsi(MINMEN),elexsi(MINMEN))
+      equivalence (menysi(MINMEN),eleysi(MINMEN))
+      equivalence (menfgc(MINMEN),elefgc(MINMEN))
+      equivalence (menbgc(MINMEN),elebgc(MINMEN))
+      equivalence (menhor(MINMEN),elehor(MINMEN))
+      equivalence (menver(MINMEN),elever(MINMEN))
+C
+      integer menopa(MINMEN:MAXMEN)
+      integer menbac(MINMEN:MAXMEN)
+      integer mencac(MINMEN:MAXMEN)
+      integer meneac(MINMEN:MAXMEN)
+      logical menexs(MINMEN:MAXMEN)
+      integer menesx(MINMEN:MAXMEN), menesy(MINMEN:MAXMEN)
+      equivalence (menopa(MINMEN),eleopa(MINMEN))
+      equivalence (menbac(MINMEN),elebac(MINMEN))
+      equivalence (mencac(MINMEN),elecac(MINMEN))
+      equivalence (meneac(MINMEN),eleeac(MINMEN))
+      equivalence (menexs(MINMEN),eleexs(MINMEN))
+      equivalence (menesx(MINMEN),eleesx(MINMEN))
+      equivalence (menesy(MINMEN),eleesy(MINMEN))
+C
+C     Type...
+C
+      integer mentyp(MINMEN:MAXMEN)
+C
+C     Style...
+C
+      integer mensty(MINMEN:MAXMEN)
+C
+C     'Is active' flag
+C
+      logical menisa(MINMEN:MAXMEN)
+C
+C     Currently selected cell id...
+C
+      integer mencid(MINMEN:MAXMEN)
+C
+C     Menu panel (only relevent popup and pulldown menus)...
+C
+      integer menpan(MINMEN:MAXMEN)
+C
+C     Data applicable to textfield elements only.  Subclass of ELEMENT
+C     ----------------------------------------------------------------
+C     This data is initialised by routine uixtin, which must be updated
+C     if data is changed.
+C
+C     Equivalence the superclass data in...
+C
+      integer texnam(MINTEX:MAXTEX)
+      integer texxpo(MINTEX:MAXTEX), texypo(MINTEX:MAXTEX)
+      integer texxsi(MINTEX:MAXTEX), texysi(MINTEX:MAXTEX)
+      integer texfgc(MINTEX:MAXTEX), texbgc(MINTEX:MAXTEX)
+      integer texhor(MINTEX:MAXTEX), texver(MINTEX:MAXTEX)
+      equivalence (texnam(MINTEX),elenam(MINTEX))
+      equivalence (texxpo(MINTEX),elexpo(MINTEX))
+      equivalence (texypo(MINTEX),eleypo(MINTEX))
+      equivalence (texxsi(MINTEX),elexsi(MINTEX))
+      equivalence (texysi(MINTEX),eleysi(MINTEX))
+      equivalence (texfgc(MINTEX),elefgc(MINTEX))
+      equivalence (texbgc(MINTEX),elebgc(MINTEX))
+      equivalence (texhor(MINTEX),elehor(MINTEX))
+      equivalence (texver(MINTEX),elever(MINTEX))
+C
+      integer texopa(MINTEX:MAXTEX)
+      integer texbac(MINTEX:MAXTEX)
+      integer texcac(MINTEX:MAXTEX)
+      integer texeac(MINTEX:MAXTEX)
+      logical texexs(MINTEX:MAXTEX)
+      integer texesx(MINTEX:MAXTEX), texesy(MINTEX:MAXTEX)
+      equivalence (texopa(MINTEX),eleopa(MINTEX))
+      equivalence (texbac(MINTEX),elebac(MINTEX))
+      equivalence (texcac(MINTEX),elecac(MINTEX))
+      equivalence (texeac(MINTEX),eleeac(MINTEX))
+      equivalence (texexs(MINTEX),eleexs(MINTEX))
+      equivalence (texesx(MINTEX),eleesx(MINTEX))
+      equivalence (texesy(MINTEX),eleesy(MINTEX))
+C
+C     Numeric textfield flag...
+C
+      logical texnum(MINTEX:MAXTEX)
+C
+C     Write protected textfield flag...
+C
+      logical texwp(MINTEX:MAXTEX)
+C
+C     Contents...
+C
+      integer texcon(MINTEX:MAXTEX)
+C
+C     Current contents length...
+C
+      integer texcle(MINTEX:MAXTEX)
+C
+C     Max. contents length (and default length)...
+C
+      integer DEFLEN
+      parameter (DEFLEN=5)
+      integer texlen(MINTEX:MAXTEX)
+C
+C     Cursor position...
+C
+      integer texcpo(MINTEX:MAXTEX)
+C
+C     Minimum of range expression...
+C
+      integer texmir(MINTEX:MAXTEX)
+C
+C     Maximum of range expression...
+C
+      integer texmar(MINTEX:MAXTEX)
+C
+C     Minimum operator...
+C
+      integer NOCHEK, LT, LE, EQ, GE, GT
+      parameter (NOCHEK=1, LT=2, LE=3, EQ=4, GE=5, GT=6)
+      integer texmio(MINTEX:MAXTEX)
+C
+C     Maximum operator...
+C
+      integer texmao(MINTEX:MAXTEX)
+C
+C     Out of range action...
+C
+      integer texoor(MINTEX:MAXTEX)
+C
+C     'Field on tab'...
+C
+      integer textaf(MINTEX:MAXTEX)
+C
+C     Now define some global variables
+C     --------------------------------
+C
+C     'UIF is initialised' flag
+C
+      logical uifisi
+C
+C     Current device, panel and element id's...
+C
+      integer curdev, curpid, curid
+C
+C     Mandatory panel is showing flag...
+C
+      logical mpansh
+C
+C     Mandatory panel id...
+C
+      integer mpanid
+C
+C     Begins and ends actions active...
+C
+      logical uifaac
+C
+C     Begings and ends actions...
+C
+      integer befact, aftact
+C
+C     Device sizes, character sizes and mouse scales (device dependent
+C     units)...  Note that HOST, FSTORE and BOTH are used to indicate
+C     active devices for mouse selection, so change carefully.
+C
+      integer NDEVIC, HOST, FSTORE, BOTH
+      parameter (NDEVIC=2, HOST=1, FSTORE=2, BOTH=3)
+C
+      integer devxsi(NDEVIC), devysi(NDEVIC)
+      integer devcxs(NDEVIC), devcys(NDEVIC)
+      integer devmxs(NDEVIC), devmys(NDEVIC)
+C
+C     Device minimum coordinates
+C
+      integer devxmi(NDEVIC), devymi(NDEVIC)
+C
+C     Device top-left offset
+C
+      integer devxof(NDEVIC), devyof(NDEVIC)
+C
+C     'Device has panels' flags
+C
+      logical devhap(NDEVIC)
+C
+C     Number of colours supported
+C
+      integer devnco(NDEVIC)
+C
+C     Positioning point...
+C
+      integer verpos, horpos
+C
+C     Clipping rectangle...
+C
+      integer clipr, clipl, clipt, clipb
+C
+C     Selected textfield...
+C
+      integer seltex
+C
+C     Active device for mouse selection...
+C
+      integer actdev
+C
+C     Mouse button actions (left, centre, right)...
+C
+      integer lmbact, cmbact, rmbact
+C
+C     Current mouse and cursor positions on devices...
+C     (mouse position is the position mouse was at when cursor last
+C      moved on the device)
+      integer curmox(NDEVIC), curmoy(NDEVIC),
+     +        curxpo(NDEVIC), curypo(NDEVIC)
+C
+C     Cursor position stacks for devices...
+C     Stack size...
+C
+      integer STKSIZ
+      parameter (STKSIZ=4)
+C
+C     Stack tops...
+C
+      integer stktop(NDEVIC)
+C
+C     Stacks...
+C
+      integer stkxpo(NDEVIC,STKSIZ), stkypo(NDEVIC,STKSIZ)
+C
+C     Left, centre and right mouse button numbers...
+C
+      integer lbnumb, cbnumb, rbnumb
+C
+C     'I've moved the cursor' flag
+C
+      logical havmov
+C
+C----------------------------------------------------------------------
+C
+C     Event queueing information
+C     --------------------------
+C
+C     Event queue size, must be a power of two...
+      integer QSIZE
+      parameter (QSIZE=64)
+C
+C     Mask for wrapping around queue...
+C
+      integer QMASK
+      parameter (QMASK=QSIZE-1)
+C
+C     Queue read and write pointers...
+C
+      integer qread, qinto
+C
+C     Event types... (entered, selected and left panel/element, keyboard
+C     key, action for execution, action for exec. then free)
+C
+      integer EVENTR, EVSELE, EVLEFT, EVKBRD, EVACTI, EVAFRE, EVNULL
+      parameter (EVENTR=1, EVSELE=2, EVLEFT=3, EVKBRD=4, EVACTI=5,
+     +           EVAFRE=6, EVNULL=7)
+C
+C     Event type queue...
+C
+      integer evtype(0:QSIZE-1)
+C
+C     Event data queue...  (contains object (panel or element) id for
+C     EVENTR, EVSELE, EVLEFT events, character code for EVKBRD event,
+C     and logical index of store for EVACTI event.)
+C
+      integer evdata(0:QSIZE-1)
+C
+C     Last scanned panel and element on each device
+C
+      integer pidl(NDEVIC), eidl(NDEVIC)
+C
+C     File buffer and pointer for UIF SAVE/READ
+C
+      integer UBUFSZ
+      parameter (UBUFSZ=512)
+      integer uifbuf(UBUFSZ), uifbpr
+C
+C     And at last the common blocks!!
+C     -------------------------------
+C
+      common /uixco0/ uifisi, curdev, curpid, curid,  uifaac, befact,
+     +                aftact, mpansh, mpanid, devxof, devyof, devxmi,
+     +                devymi, devxsi, devysi, devcxs, devcys, devmxs,
+     +                devmys, devhap, devnco, verpos, horpos, clipr,
+     +                clipl,  clipt,  clipb,  seltex, actdev, lmbact,
+     +                cmbact, rmbact, curmox, curmoy, curxpo, curypo,
+     +                stktop, stkxpo, stkypo, lbnumb, cbnumb, rbnumb,
+     +                havmov
+C
+      common /uixco1/ objnam, objxpo, objypo, objxsi, objysi,
+     +                objfgc, objbgc, objhor, objver
+C
+      common /uixco2/ winode, winiss, winisc, winwid, winobs,
+     +                winstk, winbwi, winexs, winesx, winesy
+C
+      common /uixco3/ panaut, panfix, panman
+C
+      common /uixco4/ scrlin, scrnli, scrnch
+C
+      common /uixco5/ eleopa, elebac, elecac, eleeac, eleexs, eleesx,
+     +                eleesy
+C
+      common /uixco6/ celtyp, celcon, celsty, celcyc, celome, celrow,
+     +                celcol, celxof, celyof, celdro, celbox
+C
+      common /uixco7/ mentyp, mensty, menisa, mencid, menpan
+C
+      common /uixco8/ texnum, texwp, texcon, texcle, texlen, texcpo,
+     +                texmir, texmar, texmio, texmao, texoor, textaf
+C
+      common /uixfbf/ uifbpr, uifbuf
+C
+      common /uixequ/ qinto, qread, evtype, evdata, pidl, eidl
+C
+C----------------------------------------------------------------------
+C
+C Copyright (C) 1988, 1989, 1990:  Synoptics Ltd,  All Rights Reserved
+C

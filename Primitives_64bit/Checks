@@ -1,0 +1,448 @@
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT a1conv.o -MD -MP -MF ".deps/a1conv.Tpo" -c -o a1conv.o a1conv.c; \
+then mv -f ".deps/a1conv.Tpo" ".deps/a1conv.Po"; else rm -f ".deps/a1conv.Tpo"; exit 1; fi
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT bitfld.o -MD -MP -MF ".deps/bitfld.Tpo" -c -o bitfld.o bitfld.c; \
+then mv -f ".deps/bitfld.Tpo" ".deps/bitfld.Po"; else rm -f ".deps/bitfld.Tpo"; exit 1; fi
+bitfld.c: In function `bshift_':
+bitfld.c:717: warning: suggest parentheses around + or - inside shift
+bitfld.c: In function `bform_':
+bitfld.c:919: warning: comparing floating point with == or != is unsafe
+bitfld.c:930: warning: comparing floating point with == or != is unsafe
+bitfld.c:981: warning: comparing floating point with == or != is unsafe
+bitfld.c:994: warning: comparing floating point with == or != is unsafe
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT bmap33.o -MD -MP -MF ".deps/bmap33.Tpo" -c -o bmap33.o bmap33.c; \
+then mv -f ".deps/bmap33.Tpo" ".deps/bmap33.Po"; else rm -f ".deps/bmap33.Tpo"; exit 1; fi
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT ccache.o -MD -MP -MF ".deps/ccache.Tpo" -c -o ccache.o ccache.c; \
+then mv -f ".deps/ccache.Tpo" ".deps/ccache.Po"; else rm -f ".deps/ccache.Tpo"; exit 1; fi
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT cdisc.o -MD -MP -MF ".deps/cdisc.Tpo" -c -o cdisc.o cdisc.c; \
+then mv -f ".deps/cdisc.Tpo" ".deps/cdisc.Po"; else rm -f ".deps/cdisc.Tpo"; exit 1; fi
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT cform.o -MD -MP -MF ".deps/cform.Tpo" -c -o cform.o cform.c; \
+then mv -f ".deps/cform.Tpo" ".deps/cform.Po"; else rm -f ".deps/cform.Tpo"; exit 1; fi
+cform.c: In function `cform_':
+cform.c:69: warning: passing arg 3 of `memcpy' as unsigned due to prototype
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT cunix.o -MD -MP -MF ".deps/cunix.Tpo" -c -o cunix.o cunix.c; \
+then mv -f ".deps/cunix.Tpo" ".deps/cunix.Po"; else rm -f ".deps/cunix.Tpo"; exit 1; fi
+In file included from /usr/include/sys/types.h:219,
+                 from cunix.c:21:
+/usr/include/sys/sysmacros.h: In function `gnu_dev_major':
+/usr/include/sys/sysmacros.h:44: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_minor':
+/usr/include/sys/sysmacros.h:50: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_makedev':
+/usr/include/sys/sysmacros.h:57: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h:58: warning: negative integer implicitly converted to unsigned type
+cunix.c: In function `cunix_':
+cunix.c:134: warning: implicit declaration of function `flush_pipe'
+cunix.c:220: warning: passing arg 1 of `malloc' as unsigned due to prototype
+cunix.c: In function `flush_pipe':
+cunix.c:257: warning: passing arg 3 of `read' with different width due to prototype
+cunix.c:250: warning: unused variable `npipe'
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT dcache.o -MD -MP -MF ".deps/dcache.Tpo" -c -o dcache.o dcache.c; \
+then mv -f ".deps/dcache.Tpo" ".deps/dcache.Po"; else rm -f ".deps/dcache.Tpo"; exit 1; fi
+In file included from /usr/include/sys/types.h:219,
+                 from dcache.c:22:
+/usr/include/sys/sysmacros.h: In function `gnu_dev_major':
+/usr/include/sys/sysmacros.h:44: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_minor':
+/usr/include/sys/sysmacros.h:50: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_makedev':
+/usr/include/sys/sysmacros.h:57: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h:58: warning: negative integer implicitly converted to unsigned type
+dcache.c: In function `allocate_memory':
+dcache.c:145: warning: int format, different type arg (arg 2)
+dcache.c: In function `resize_memory':
+dcache.c:183: warning: int format, different type arg (arg 2)
+dcache.c: In function `resize_file':
+dcache.c:324: warning: int format, different type arg (arg 3)
+dcache.c: In function `read_file':
+dcache.c:361: warning: int format, different type arg (arg 3)
+dcache.c:361: warning: int format, different type arg (arg 4)
+dcache.c: In function `write_file':
+dcache.c:385: warning: int format, different type arg (arg 3)
+dcache.c:385: warning: int format, different type arg (arg 4)
+dcache.c: In function `zero_file':
+dcache.c:412: warning: int format, different type arg (arg 3)
+dcache.c:412: warning: int format, different type arg (arg 4)
+dcache.c: In function `create_cache':
+dcache.c:507: warning: int format, different type arg (arg 2)
+dcache.c:507: warning: int format, different type arg (arg 3)
+dcache.c: In function `free_cache':
+dcache.c:664: warning: unused variable `j'
+dcache.c: In function `allocate_segment':
+dcache.c:927: warning: int format, different type arg (arg 3)
+dcache.c: In function `free_segment':
+dcache.c:1085: warning: int format, different type arg (arg 3)
+dcache.c: In function `load_segment':
+dcache.c:1167: warning: int format, different type arg (arg 3)
+dcache.c: In function `flush_segment':
+dcache.c:1229: warning: int format, different type arg (arg 3)
+dcache.c: In function `read_segment':
+dcache.c:1324: warning: int format, different type arg (arg 3)
+dcache.c:1324: warning: int format, different type arg (arg 4)
+dcache.c:1324: warning: int format, different type arg (arg 5)
+dcache.c: In function `write_segment':
+dcache.c:1358: warning: int format, different type arg (arg 3)
+dcache.c:1358: warning: int format, different type arg (arg 4)
+dcache.c:1358: warning: int format, different type arg (arg 5)
+dcache.c: In function `zero_segment':
+dcache.c:1400: warning: int format, different type arg (arg 3)
+dcache.c:1400: warning: int format, different type arg (arg 4)
+dcache.c:1400: warning: int format, different type arg (arg 5)
+dcache.c: In function `read_segment_data':
+dcache.c:1455: warning: int format, different type arg (arg 3)
+dcache.c:1455: warning: int format, different type arg (arg 4)
+dcache.c:1455: warning: int format, different type arg (arg 7)
+dcache.c: In function `write_segment_data':
+dcache.c:1501: warning: int format, different type arg (arg 3)
+dcache.c:1501: warning: int format, different type arg (arg 4)
+dcache.c:1501: warning: int format, different type arg (arg 8)
+dcache.c: In function `resize_device':
+dcache.c:1948: warning: int format, different type arg (arg 3)
+dcache.c: In function `flush_device':
+dcache.c:2079: warning: int format, different type arg (arg 3)
+dcache.c:2079: warning: int format, different type arg (arg 4)
+dcache.c: In function `read_device':
+dcache.c:2216: warning: int format, different type arg (arg 3)
+dcache.c:2216: warning: int format, different type arg (arg 4)
+dcache.c: In function `write_device':
+dcache.c:2314: warning: int format, different type arg (arg 3)
+dcache.c:2314: warning: int format, different type arg (arg 4)
+dcache.c: In function `zero_device':
+dcache.c:2415: warning: int format, different type arg (arg 3)
+dcache.c:2415: warning: int format, different type arg (arg 4)
+dcache.c: In function `read_device_data':
+dcache.c:2535: warning: int format, different type arg (arg 3)
+dcache.c:2535: warning: int format, different type arg (arg 4)
+dcache.c: In function `write_device_data':
+dcache.c:2717: warning: int format, different type arg (arg 3)
+dcache.c:2717: warning: int format, different type arg (arg 4)
+dcache.c:2753: warning: int format, different type arg (arg 2)
+dcache.c:2759: warning: int format, different type arg (arg 2)
+dcache.c:2759: warning: int format, different type arg (arg 3)
+dcache.c:2759: warning: int format, different type arg (arg 4)
+dcache.c:2760: warning: int format, different type arg (arg 2)
+dcache.c:2761: warning: int format, different type arg (arg 2)
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT eikio.o -MD -MP -MF ".deps/eikio.Tpo" -c -o eikio.o eikio.c; \
+then mv -f ".deps/eikio.Tpo" ".deps/eikio.Po"; else rm -f ".deps/eikio.Tpo"; exit 1; fi
+In file included from /usr/include/sys/types.h:219,
+                 from /usr/include/bits/fcntl.h:25,
+                 from /usr/include/fcntl.h:33,
+                 from eikio.c:14:
+/usr/include/sys/sysmacros.h: In function `gnu_dev_major':
+/usr/include/sys/sysmacros.h:44: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_minor':
+/usr/include/sys/sysmacros.h:50: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_makedev':
+/usr/include/sys/sysmacros.h:57: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h:58: warning: negative integer implicitly converted to unsigned type
+eikio.c: In function `eikexi_':
+eikio.c:71: warning: implicit declaration of function `access'
+eikio.c: In function `eikdel_':
+eikio.c:124: warning: implicit declaration of function `unlink'
+eikio.c: In function `eikcha_':
+eikio.c:255: warning: implicit declaration of function `read'
+eikio.c:263: warning: implicit declaration of function `write'
+eikio.c: In function `eikclo_':
+eikio.c:507: warning: implicit declaration of function `close'
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT fs.o -MD -MP -MF ".deps/fs.Tpo" -c -o fs.o fs.c; \
+then mv -f ".deps/fs.Tpo" ".deps/fs.Po"; else rm -f ".deps/fs.Tpo"; exit 1; fi
+In file included from /usr/include/sys/types.h:219,
+                 from /usr/X11R6/include/X11/Xlib.h:51,
+                 from fs.c:13:
+/usr/include/sys/sysmacros.h: In function `gnu_dev_major':
+/usr/include/sys/sysmacros.h:44: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_minor':
+/usr/include/sys/sysmacros.h:50: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_makedev':
+/usr/include/sys/sysmacros.h:57: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h:58: warning: negative integer implicitly converted to unsigned type
+fs.c: At top level:
+fs.c:98: warning: initialization makes integer from pointer without a cast
+fs.c:99: warning: initialization makes integer from pointer without a cast
+fs.c:100: warning: initialization makes integer from pointer without a cast
+fs.c:191: warning: initialization makes integer from pointer without a cast
+fs.c:192: warning: initialization makes integer from pointer without a cast
+fs.c:193: warning: initialization makes integer from pointer without a cast
+fs.c: In function `xsdmen':
+fs.c:721: warning: passing arg 3 of `XSetForeground' with different width due to prototype
+fs.c:724: warning: passing arg 3 of `XSetBackground' with different width due to prototype
+fs.c:747: warning: passing arg 3 of `XSetForeground' with different width due to prototype
+fs.c:750: warning: passing arg 3 of `XSetBackground' with different width due to prototype
+fs.c: In function `xsster':
+fs.c:955: warning: passing arg 7 of `XCopyArea' as unsigned due to prototype
+fs.c:955: warning: passing arg 8 of `XCopyArea' as unsigned due to prototype
+fs.c: In function `semtou_':
+fs.c:1194: warning: implicit declaration of function `write'
+fs.c: In function `sx11ct_':
+fs.c:1740: warning: unused parameter `above'
+fs.c: In function `exdraw':
+fs.c:1926: warning: passing arg 3 of `XCreateImage' as unsigned due to prototype
+fs.c:1926: warning: passing arg 7 of `XCreateImage' as unsigned due to prototype
+fs.c:1926: warning: passing arg 8 of `XCreateImage' as unsigned due to prototype
+fs.c: In function `xsddis':
+fs.c:1990: warning: passing arg 3 of `XCreateImage' as unsigned due to prototype
+fs.c:2061: warning: passing arg 3 of `XCreateImage' as unsigned due to prototype
+fs.c: In function `xsmvir':
+fs.c:2241: warning: passing arg 7 of `XCopyArea' as unsigned due to prototype
+fs.c:2241: warning: passing arg 8 of `XCopyArea' as unsigned due to prototype
+fs.c: In function `xsfupd':
+fs.c:2266: warning: implicit declaration of function `sxrout'
+fs.c: In function `xsdnot':
+fs.c:2309: warning: implicit declaration of function `sxrins'
+fs.c: In function `xsqstr':
+fs.c:2388: warning: implicit declaration of function `abreak'
+fs.c:2426: warning: implicit declaration of function `semend_'
+fs.c:2431: warning: implicit declaration of function `eqxxke_'
+fs.c: In function `sx11ex_':
+fs.c:2523: warning: comparison between pointer and integer
+fs.c:2526: warning: assignment makes integer from pointer without a cast
+fs.c:2529: warning: comparison between pointer and integer
+fs.c:2532: warning: assignment makes integer from pointer without a cast
+fs.c:2535: warning: comparison between pointer and integer
+fs.c:2538: warning: assignment makes integer from pointer without a cast
+fs.c: In function `sx11ce_':
+fs.c:2759: warning: implicit declaration of function `eqxxse_'
+fs.c:2769: warning: passing arg 1 of `XLookupString' from incompatible pointer type
+fs.c:2971: warning: implicit declaration of function `fsx11m_'
+fs.c:3108: warning: implicit declaration of function `uixxrm_'
+fs.c:3130: warning: implicit declaration of function `eqxxpe_'
+fs.c: In function `sx11in_':
+fs.c:3487: warning: passing arg 2 of `XGetVisualInfo' with different width due to prototype
+fs.c:3658: warning: passing arg 5 of `XCreateWindow' as unsigned due to prototype
+fs.c:3658: warning: passing arg 6 of `XCreateWindow' as unsigned due to prototype
+fs.c:3727: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:3286: warning: unused variable `unseen'
+fs.c:3292: warning: unused variable `last_resort'
+fs.c: In function `fsbsri_':
+fs.c:4566: warning: comparing floating point with == or != is unsafe
+fs.c:4566: warning: comparing floating point with == or != is unsafe
+fs.c: In function `fsisri_':
+fs.c:4627: warning: comparing floating point with == or != is unsafe
+fs.c:4627: warning: comparing floating point with == or != is unsafe
+fs.c: In function `fsfsri_':
+fs.c:4690: warning: comparing floating point with == or != is unsafe
+fs.c:4690: warning: comparing floating point with == or != is unsafe
+fs.c: In function `fscsri_':
+fs.c:4745: warning: comparing floating point with == or != is unsafe
+fs.c:4745: warning: comparing floating point with == or != is unsafe
+fs.c: In function `fsas61_':
+fs.c:5147: warning: implicit declaration of function `sxrsiz'
+fs.c:5327: warning: implicit declaration of function `fsx11p_'
+fs.c:5365: warning: passing arg 5 of `XCreateWindow' as unsigned due to prototype
+fs.c:5365: warning: passing arg 6 of `XCreateWindow' as unsigned due to prototype
+fs.c:5381: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:5436: warning: passing arg 3 of `XCreatePixmap' as unsigned due to prototype
+fs.c:5436: warning: passing arg 4 of `XCreatePixmap' as unsigned due to prototype
+fs.c:5446: warning: passing arg 6 of `XFillRectangle' as unsigned due to prototype
+fs.c:5446: warning: passing arg 7 of `XFillRectangle' as unsigned due to prototype
+fs.c:5458: warning: passing arg 5 of `XGetImage' as unsigned due to prototype
+fs.c:5458: warning: passing arg 6 of `XGetImage' as unsigned due to prototype
+fs.c:4872: warning: unused variable `cells'
+fs.c:4872: warning: unused variable `saved'
+fs.c:4872: warning: unused variable `depth'
+fs.c:4878: warning: unused variable `best'
+fs.c:4878: warning: unused variable `bclass'
+fs.c:4879: warning: unused variable `maxind'
+fs.c: In function `fsxdcu':
+fs.c:5576: warning: implicit declaration of function `semdln_'
+fs.c:5577: warning: implicit declaration of function `semuln_'
+fs.c: In function `fscc61_':
+fs.c:5709: warning: negative integer implicitly converted to unsigned type
+fs.c:5715: warning: passing arg 4 of `XGrabPointer' with different width due to prototype
+fs.c:5814: warning: negative integer implicitly converted to unsigned type
+fs.c:5815: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:5844: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:5669: warning: unused parameter `frame'
+fs.c: In function `fsde61_':
+fs.c:5964: warning: comparison between pointer and integer
+fs.c:5967: warning: assignment makes integer from pointer without a cast
+fs.c:5953: warning: unused parameter `ierror'
+fs.c: In function `fsex61_':
+fs.c:6095: warning: unused parameter `ierror'
+fs.c: In function `fsfl61_':
+fs.c:6121: warning: unused parameter `iop'
+fs.c:6121: warning: unused parameter `ierror'
+fs.c: In function `fslu61_':
+fs.c:6713: warning: unused variable `grey'
+fs.c:6714: warning: unused variable `lutr'
+fs.c:6714: warning: unused variable `lutg'
+fs.c:6714: warning: unused variable `lutb'
+fs.c:6710: warning: unused parameter `ierror'
+fs.c: In function `fsoi61_':
+fs.c:6817: warning: unused parameter `frame'
+fs.c:6817: warning: unused parameter `ierror'
+fs.c: In function `fsoo61_':
+fs.c:6888: warning: unused parameter `frame'
+fs.c:6888: warning: unused parameter `ierror'
+fs.c: In function `x11dtx_':
+fs.c:7168: warning: unused parameter `normal'
+fs.c: In function `fsvw61_':
+fs.c:7343: warning: unused parameter `izoom'
+fs.c:7343: warning: unused parameter `iblank'
+fs.c:7343: warning: unused parameter `nx'
+fs.c:7343: warning: unused parameter `ny'
+fs.c:7343: warning: unused parameter `ix'
+fs.c:7343: warning: unused parameter `iy'
+fs.c:7343: warning: unused parameter `ifr'
+fs.c: In function `eqxxpo_':
+fs.c:7412: warning: negative integer implicitly converted to unsigned type
+fs.c:7414: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:7415: warning: negative integer implicitly converted to unsigned type
+fs.c:7417: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:7418: warning: negative integer implicitly converted to unsigned type
+fs.c:7420: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c: In function `eqxxpc_':
+fs.c:7442: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:7445: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c:7448: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c: In function `xsmmen':
+fs.c:7576: warning: passing arg 5 of `XCreateWindow' as unsigned due to prototype
+fs.c:7576: warning: passing arg 6 of `XCreateWindow' as unsigned due to prototype
+fs.c:7615: warning: passing arg 3 of `XSelectInput' as signed due to prototype
+fs.c: In function `dhocmo_':
+fs.c:7687: warning: negative integer implicitly converted to unsigned type
+fs.c:7692: warning: passing arg 4 of `XGrabPointer' with different width due to prototype
+fs.c: In function `dhodst_':
+fs.c:7936: warning: unused parameter `dummy'
+fs.c: In function `dhodsh_':
+fs.c:8058: warning: unused parameter `dummy'
+fs.c: In function `dhoscr_':
+fs.c:8085: warning: unused parameter `xpos'
+fs.c:8085: warning: unused parameter `xsize'
+fs.c:8085: warning: unused parameter `ysize'
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT gethid.o -MD -MP -MF ".deps/gethid.Tpo" -c -o gethid.o gethid.c; \
+then mv -f ".deps/gethid.Tpo" ".deps/gethid.Po"; else rm -f ".deps/gethid.Tpo"; exit 1; fi
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT mcdc61.o -MD -MP -MF ".deps/mcdc61.Tpo" -c -o mcdc61.o mcdc61.c; \
+then mv -f ".deps/mcdc61.Tpo" ".deps/mcdc61.Po"; else rm -f ".deps/mcdc61.Tpo"; exit 1; fi
+mcdc61.c: In function `mcdc61_':
+mcdc61.c:62: warning: implicit declaration of function `printf'
+mcdc61.c:41: warning: unused parameter `NUM'
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT mctime.o -MD -MP -MF ".deps/mctime.Tpo" -c -o mctime.o mctime.c; \
+then mv -f ".deps/mctime.Tpo" ".deps/mctime.Po"; else rm -f ".deps/mctime.Tpo"; exit 1; fi
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT mctp61.o -MD -MP -MF ".deps/mctp61.Tpo" -c -o mctp61.o mctp61.c; \
+then mv -f ".deps/mctp61.Tpo" ".deps/mctp61.Po"; else rm -f ".deps/mctp61.Tpo"; exit 1; fi
+mctp61.c: In function `mctp61_':
+mctp61.c:61: warning: suggest parentheses around comparison in operand of |
+mctp61.c:61: warning: suggest parentheses around comparison in operand of |
+mctp61.c:61: warning: suggest parentheses around comparison in operand of |
+mctp61.c:49: warning: unused parameter `idev'
+mctp61.c:50: warning: unused parameter `n'
+mctp61.c:51: warning: unused parameter `ibuff'
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT semhan.o -MD -MP -MF ".deps/semhan.Tpo" -c -o semhan.o semhan.c; \
+then mv -f ".deps/semhan.Tpo" ".deps/semhan.Po"; else rm -f ".deps/semhan.Tpo"; exit 1; fi
+In file included from /usr/include/sys/types.h:219,
+                 from semhan.c:20:
+/usr/include/sys/sysmacros.h: In function `gnu_dev_major':
+/usr/include/sys/sysmacros.h:44: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_minor':
+/usr/include/sys/sysmacros.h:50: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_makedev':
+/usr/include/sys/sysmacros.h:57: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h:58: warning: negative integer implicitly converted to unsigned type
+semhan.c: In function `semhan_':
+semhan.c:51: warning: implicit declaration of function `printf'
+semhan.c:58: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c:60: warning: implicit declaration of function `semini_'
+semhan.c:65: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c:73: warning: implicit declaration of function `semain_'
+semhan.c: In function `eqxxbo_':
+semhan.c:105: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c: In function `abreak':
+semhan.c:202: warning: implicit declaration of function `semcon_'
+semhan.c:203: warning: implicit declaration of function `eqxxkc_'
+semhan.c:205: warning: implicit declaration of function `semend_'
+semhan.c:210: warning: implicit declaration of function `eqxxbe_'
+semhan.c:216: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c: In function `afperr':
+semhan.c:356: warning: passing arg 2 of `signal' from incompatible pointer type
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT stdio.o -MD -MP -MF ".deps/stdio.Tpo" -c -o stdio.o stdio.c; \
+then mv -f ".deps/stdio.Tpo" ".deps/stdio.Po"; else rm -f ".deps/stdio.Tpo"; exit 1; fi
+stdio.c: In function `readsi_':
+stdio.c:48: warning: implicit declaration of function `read'
+stdio.c: In function `writso_':
+stdio.c:120: warning: implicit declaration of function `writfd'
+stdio.c: In function `writfd':
+stdio.c:185: warning: implicit declaration of function `write'
+if gcc -DHAVE_CONFIG_H -I. -I. -I..   -I/usr/X11R6/include  -I/usr/local/include -L/usr/local/lib -INONE/include -LNONE/lib  -I../Includes -m64 -I../Includes -DMONITOR -Wall -W -Wsystem-headers -Wfloat-equal -Wconversion -MT xrect.o -MD -MP -MF ".deps/xrect.Tpo" -c -o xrect.o xrect.c; \
+then mv -f ".deps/xrect.Tpo" ".deps/xrect.Po"; else rm -f ".deps/xrect.Tpo"; exit 1; fi
+In file included from /usr/include/sys/types.h:219,
+                 from /usr/X11R6/include/X11/Xlib.h:51,
+                 from xrect.c:13:
+/usr/include/sys/sysmacros.h: In function `gnu_dev_major':
+/usr/include/sys/sysmacros.h:44: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_minor':
+/usr/include/sys/sysmacros.h:50: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h: In function `gnu_dev_makedev':
+/usr/include/sys/sysmacros.h:57: warning: negative integer implicitly converted to unsigned type
+/usr/include/sys/sysmacros.h:58: warning: negative integer implicitly converted to unsigned type
+xrect.c: In function `sxrdrw':
+xrect.c:235: warning: implicit declaration of function `xsdvir'
+rm -f libsPrimitives.a
+ar cru libsPrimitives.a a1conv.o bitfld.o bmap33.o ccache.o cdisc.o cform.o cunix.o dcache.o eikio.o fs.o gethid.o mcdc61.o mctime.o mctp61.o semhan.o stdio.o xrect.o 
+ranlib libsPrimitives.a
+g77  -I../Includes -m64 -I../Includes -c -o cform_test.o cform_test.f
+cform_test.f: In program `cform_test':
+cform_test.f:66: warning:
+         CALL CFORM(IB1,IB2,it1,it1,I4256)
+              1
+cform_test.f:81: (continued):
+            CALL CFORM(IB2,IB2,OLDF,NEWF,I4256)
+                 2
+Argument #3 of `cform' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+cform_test.f:66: warning:
+         CALL CFORM(IB1,IB2,it1,it1,I4256)
+              1
+cform_test.f:81: (continued):
+            CALL CFORM(IB2,IB2,OLDF,NEWF,I4256)
+                 2
+Argument #4 of `cform' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+cform_test.f: In subroutine `cfver':
+cform_test.f:67: warning:
+         CALL CFVER(IB2,TERM2)
+              1
+cform_test.f:115: (continued):
+         SUBROUTINE CFVER(N,TERM2)
+                    2
+Argument #2 (named `term2') of `cfver' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+g77  -I../Includes -m64 -I../Includes   -o cform_test  cform_test.o cform.o  -L/usr/X11R6/lib64  -lSM -lICE -lX11  -lm  
+g77  -I../Includes -m64 -I../Includes -c -o mctime_test.o mctime_test.f
+g77  -I../Includes -m64 -I../Includes   -o mctime_test -L../Commands -L../Kernel -L../Middle -L../ProgramM -L../UserInterface -L../Graphics -L../Primitives -L../Locals -L../Patches mctime_test.o -lsPrimitives -lsCommands -lsLocals -lsMiddle -lsProgramM -lsPatches -lsUserInterface -lsGraphics -lsKernel -lsPrimitives -lsCommands -lsLocals -lsMiddle -lsProgramM -lsPatches -lsUserInterface -lsGraphics -lsKernel -L/usr/X11R6/lib64  -lSM -lICE -lX11  -lm  
+g77  -I../Includes -m64 -I../Includes -c -o mcdc61_test.o mcdc61_test.f
+mcdc61_test.f: In program `mcdc61_test':
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:86: (continued):
+         call mcdc61(IOP,ndev,dsize,NUM,name(1,ndev),error)
+              2
+Argument #4 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:86: (continued):
+         call mcdc61(IOP,ndev,dsize,NUM,name(1,ndev),error)
+              2
+Argument #5 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:178: (continued):
+            call mcdc61(mode,n,i40,num,name(1,n),error)
+                 2
+Argument #2 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:178: (continued):
+            call mcdc61(mode,n,i40,num,name(1,n),error)
+                 2
+Argument #4 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:178: (continued):
+            call mcdc61(mode,n,i40,num,name(1,n),error)
+                 2
+Argument #5 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+g77  -I../Includes -m64 -I../Includes   -o mcdc61_test -L../Commands -L../Kernel -L../Middle -L../ProgramM -L../UserInterface -L../Graphics -L../Primitives -L../Locals -L../Patches mcdc61_test.o -lsPrimitives -lsCommands -lsLocals -lsMiddle -lsProgramM -lsPatches -lsUserInterface -lsGraphics -lsKernel -lsPrimitives -lsCommands -lsLocals -lsMiddle -lsProgramM -lsPatches -lsUserInterface -lsGraphics -lsKernel -L/usr/X11R6/lib64  -lSM -lICE -lX11  -lm  
+g77  -I../Includes -m64 -I../Includes -c -o a1conv_test.o a1conv_test.f
+g77  -I../Includes -m64 -I../Includes   -o a1conv_test -L../Commands -L../Kernel -L../Middle -L../ProgramM -L../UserInterface -L../Graphics -L../Primitives -L../Locals -L../Patches a1conv_test.o -lsPrimitives -lsCommands -lsLocals -lsMiddle -lsProgramM -lsPatches -lsUserInterface -lsGraphics -lsKernel -lsPrimitives -lsCommands -lsLocals -lsMiddle -lsProgramM -lsPatches -lsUserInterface -lsGraphics -lsKernel -L/usr/X11R6/lib64  -lSM -lICE -lX11  -lm  

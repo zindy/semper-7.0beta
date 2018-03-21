@@ -1,0 +1,99 @@
+#ifndef INCLUDE_PARAMS
+#define INCLUDE_PARAMS
+
+/*-----------------------------------------------------------------------
+ *  The following #defines MUST match those defined in the FORTRAN
+ *  include file 'PARAMS'
+ */
+
+#define LUTNUM (100)			/*  Number of lookup tables	*/
+#define LUTSIZ (256)			/*  Max. LUT length (0-255)	*/
+
+/*
+  Logical disc block
+  ------------------
+  Length in bytes of Semper's logical disc block
+*/
+
+#define LNBLK (64)
+
+/*
+  Data representation
+  -------------------
+  Lengths in bytes of pixel representations
+*/
+
+#define LNBYTE (1)
+#define LNINT  (4)
+#define LNREAL (4)
+#define LNCOMP (8)
+
+/*
+  Maximum length of fully specified file name
+*/
+
+#define FILMAX (255)
+
+/*
+  Enumerated class numbers
+*/
+
+#define NCLIMA (1)
+#define NCLMAC (NCLIMA+1)
+#define NCLFOU (NCLMAC+1)
+#define NCLSPE (NCLFOU+1)
+#define NCLCOR (NCLSPE+1)
+#define NCLUND (NCLCOR+1)
+#define NCLWAL (NCLUND+1)
+#define NCLPLI (NCLWAL+1)
+#define NCLHIS (NCLPLI+1)
+#define NCLLUT (NCLHIS+1)
+
+/*
+  Enumerated form numbers
+*/
+
+#define NFMBYT (0)			/*  Row byte type		*/
+#define NFMINT (NFMBYT+1)		/*  Row integer type		*/
+#define NFMFP  (NFMINT+1)		/*  Row floating point type	*/
+#define NFMCOM (NFMFP+1)		/*  Row complex type		*/
+
+/*
+  Enumerated medium numbers
+*/
+
+#define MEDDC (1)
+#define MEDTP (MEDDC+1)
+#define MEDDS (MEDTP+1)
+#define MEDFL (MEDDS+1)
+#define MEDVM (MEDFL+1)
+
+/*
+  Enumerated file device types
+*/
+
+#define FLTPIC (1)
+#define FLTHEL (FLTPIC+1)
+#define FLTRUN (FLTHEL+1)
+#define FLTTEX (FLTRUN+1)
+#define FLTBIN (FLTTEX+1)
+
+/*
+  Enumerated signal position numbers
+*/
+
+#define SSIGBE (0)
+#define SSIGGO (SSIGBE+1)
+#define SSIGEX (SSIGGO+1)
+#define SSIGIN (SSIGEX+1)
+#define SSIGPR (SSIGIN+1)
+
+#define NDVS   (50)			/*  Number of devices - 1	*/
+
+#define NDIMES (0)			/*  Informational message	*/
+#define NDIWAR (1)			/*  Warning message		*/
+#define NDIERR (2)			/*  Error message		*/
+#define NDIFAT (3)			/*  Fatal error message		*/
+
+/*  Copyright (C) 1988-1992 :  Synoptics Ltd,  All Rights Reserved  */
+#endif

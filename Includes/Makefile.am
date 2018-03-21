@@ -1,0 +1,6 @@
+
+        EXTRA_DIST = \
+COMMON  EQCOM   ICSET     params.h_i2  PARAMS_i4  UIFERR \
+EMFDC2  EQXCOM  LOGINDEX  params.h_i4  STORECOM   UIXCOM \
+EMFDCL  EVENTS  PARAMS    PARAMS_i2    UIFCOM ftypes.h_i2 ftypes.h_i4
+

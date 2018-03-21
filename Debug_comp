@@ -1,0 +1,1287 @@
+acf.f: In subroutine `acf':
+acf.f:11: warning: unused variable `ipack'
+bdiler.f: In subroutine `bdiler':
+bdiler.f:50: warning: unused variable `ipack'
+bhmt.f: In subroutine `bhmt':
+bhmt.f:54: warning: unused variable `ipack'
+bmlut.f: In subroutine `bmlut':
+bmlut.f:18: warning: `k1' might be used uninitialized in this function
+bmlut.f:18: warning: `k2' might be used uninitialized in this function
+bmlut.f:19: warning: `iptrif' might be used uninitialized in this function
+bmlut.f:19: warning: `iptrun' might be used uninitialized in this function
+bmmap.f: In subroutine `bmmap':
+bmmap.f:56: warning: unused variable `ipack'
+bopclo.f: In subroutine `bopclo':
+bopclo.f:53: warning: unused variable `ipack'
+box.f: In subroutine `box':
+box.f:100: warning:
+             IF (SEMROW(1, RB6(IX0), NFMFP, J, I, LP2)) GOTO 120
+                 1
+box.f:167: (continued):
+           IF (SEMROW(2, IB5, NFMINT, I, 1, LP)) GOTO 120
+               2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+cache.f: In subroutine `cache':
+cache.f:27: warning: unused variable `ipack'
+calc.f: In subroutine `calc':
+calc.f:34: warning: `v1' might be used uninitialized in this function
+calc.f:36: warning: `nargs' might be used uninitialized in this function
+calc.f:36: warning: `newpri' might be used uninitialized in this function
+calc.f:39: warning: `ccol' might be used uninitialized in this function
+calc.f:39: warning: `crow' might be used uninitialized in this function
+calc.f:39: warning: `clay' might be used uninitialized in this function
+calc.f:41: warning: `n22' might be used uninitialized in this function
+chull.f: In subroutine `chull':
+chull.f:10: warning: unused variable `ipack'
+colour.f: In subroutine `colour':
+colour.f:12: warning: unused variable `ipack'
+covar.f: In subroutine `covar':
+covar.f:22: warning: unused variable `ipack'
+ctf1.f: In subroutine `ctf1':
+ctf1.f:34: warning: `mode' might be used uninitialized in this function
+ctf2.f: In subroutine `ctf2':
+ctf2.f:40: warning: `mode' might be used uninitialized in this function
+cut.f: In subroutine `cut':
+cut.f:181: warning:
+                  IF (SEMROW(1,RB1,INFORM,J,K,LP1)) GOTO 70
+                      1
+cut.f:192: (continued):
+                        IF (SEMROW(2,IB1(I1),NFMINT,JOUT,KOUT,LP2)) GOTO 70
+                            2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+cut.f:158: warning:
+         CALL CFORM(RB3,RB4,INFORM,FORM,NCOL4)
+              1
+cut.f:201: (continued):
+                        CALL CFORM(IB3,IB2,NFMINT,NFMINT,NCOL4)
+                             2
+Argument #1 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+cut.f:158: warning:
+         CALL CFORM(RB3,RB4,INFORM,FORM,NCOL4)
+              1
+cut.f:201: (continued):
+                        CALL CFORM(IB3,IB2,NFMINT,NFMINT,NCOL4)
+                             2
+Argument #2 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+cut.f:158: warning:
+         CALL CFORM(RB3,RB4,INFORM,FORM,NCOL4)
+              1
+cut.f:202: (continued):
+                        CALL CFORM(IB1(I1),IB2(I1+IOFF),NFMINT,NFMINT,N4)
+                             2
+Argument #1 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+cut.f:158: warning:
+         CALL CFORM(RB3,RB4,INFORM,FORM,NCOL4)
+              1
+cut.f:202: (continued):
+                        CALL CFORM(IB1(I1),IB2(I1+IOFF),NFMINT,NFMINT,N4)
+                             2
+Argument #2 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+ddiler.f: In subroutine `ddiler':
+ddiler.f:11: warning: unused variable `ipack'
+deass.f: In subroutine `deass':
+deass.f:170: warning:
+            CALL MCDC61(MODE,DEVICE,I40,0,NAME,ERROR)
+                 1
+deass.f:181: (continued):
+            CALL MCDC61(10,DEVICE,I40,0,RB1,ERROR)
+                 2
+Argument #5 of `mcdc61' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+deass.f:7: warning: unused variable `ipack'
+disp.f: In subroutine `disp':
+disp.f:13: warning: `aspr' might be used uninitialized in this function
+disp.f:13: warning: `s' might be used uninitialized in this function
+dlabel.f: In function `dlabl1':
+dlabel.f:10: warning: unused variable `ipack'
+dmanu.f: In subroutine `dmanu':
+dmanu.f:23: warning: `from' might be used uninitialized in this function
+dopclo.f: In subroutine `dopclo':
+dopclo.f:11: warning: unused variable `ipack'
+drag.f: In subroutine `drag':
+drag.f:19: warning: unused variable `ipack'
+dskiz.f: In subroutine `dskiz':
+dskiz.f:20: warning: unused variable `ipack'
+dt.f: In subroutine `dt':
+dt.f:133: warning:
+               IF (SEMROW(2,DX(1,K2),NFMINT,J,1,LP3)) GOTO 50
+                   1
+dt.f:174: (continued):
+               IF (SEMROW(2,DIST,NFMFP,J,1,LP2)) GOTO 50
+                   2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+dt.f:8: warning: unused variable `ipack'
+dzone.f: In subroutine `dzone':
+dzone.f:15: warning: unused variable `ipack'
+editor.f: In function `edit2':
+editor.f:127: warning: `abe' might be used uninitialized in this function
+erase.f: In subroutine `erase':
+erase.f:14: warning: unused variable `ipack'
+eventc.f: In subroutine `eventc':
+eventc.f:21: warning: unused variable `ipack'
+exampd.f: In subroutine `exampd':
+exampd.f:13: warning: unused variable `ipack'
+extra2.f: In subroutine `extra2':
+extra2.f:139: warning:
+               IF (SEMROW(1,RB1,NFMFP,JBUF,1,LP3)) GOTO 60
+                   1
+extra2.f:184: (continued):
+                     IF (SEMROW(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
+                         2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+extra3.f: In subroutine `extra3':
+extra3.f:11: warning: `rdiv' might be used uninitialized in this function
+extra3.f:12: warning: `idiv' might be used uninitialized in this function
+extra3.f:14: warning: `jrep' might be used uninitialized in this function
+extra4.f: In subroutine `extra4':
+extra4.f:159: warning:
+                     IF (SEMROW(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
+                         1
+extra4.f:161: (continued):
+                     IF (SEMROW(2,RB2(M),INFORM,JBUF,K,LP2)) GOTO 60
+                         2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+extra4.f:159: warning:
+                     IF (SEMROW(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
+                         1
+extra4.f:163: (continued):
+                     IF (SEMROW(2,CB2(1,M),INFORM,JBUF,K,LP2)) GOTO 60
+                         2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+fft.f: In subroutine `fft':
+fft.f:11: warning: unused variable `ipack'
+fitlc.f: In subroutine `fitlc':
+fitlc.f:35: warning: `h' might be used uninitialized in this function
+fitlc.f:35: warning: `k' might be used uninitialized in this function
+fitlc.f:36: warning: `i4nc' might be used uninitialized in this function
+fitlc.f:37: warning: `ih' might be used uninitialized in this function
+fitlc.f:37: warning: `iktl' might be used uninitialized in this function
+fitlc.f: In function `fitlc2':
+fitlc.f:471: warning:
+        +           ' component ',G12.4,','G12.4)
+                    ^
+Missing comma in FORMAT statement at (^)
+fitlc.f:471: warning:
+        +           ' component ',G12.4,','G12.4)
+                                           ^
+Missing comma in FORMAT statement at (^)
+flood.f: In subroutine `flood':
+flood.f:157: warning:
+               IF (SEMROW(1,XSEED,NFMFP,1,1,LP3)) GOTO 240
+                   1
+flood.f:208: (continued):
+                  IF (SEMROW(2,SEED,NFMINT,J,1,LPS)) GOTO 240
+                      2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+flood.f:157: warning:
+               IF (SEMROW(1,XSEED,NFMFP,1,1,LP3)) GOTO 240
+                   1
+flood.f:612: (continued):
+               IF (SEMROW(2,IB1,NFMINT,J,1,LPT)) GOTO 240
+                   2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+flood.f:157: warning:
+               IF (SEMROW(1,XSEED,NFMFP,1,1,LP3)) GOTO 240
+                   1
+flood.f:648: (continued):
+            IF (SEMROW(1,IB1,NFMINT,J,1,LPT)) GOTO 240
+                2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+flood.f:157: warning:
+               IF (SEMROW(1,XSEED,NFMFP,1,1,LP3)) GOTO 240
+                   1
+flood.f:670: (continued):
+            IF (SEMROW(2,IB1,NFMINT,J,1,LP2)) GOTO 240
+                2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+flood.f:14: warning: unused variable `ipack'
+flood.f: In function `flood2':
+flood.f:157: warning:
+               IF (SEMROW(1,XSEED,NFMFP,1,1,LP3)) GOTO 240
+                   1
+flood.f:750: (continued):
+         IF (SEMROW(1,MASK,NFMINT,ROW,1,LPM)) GOTO 70
+             2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+flood.f:157: warning:
+               IF (SEMROW(1,XSEED,NFMFP,1,1,LP3)) GOTO 240
+                   1
+flood.f:755: (continued):
+             IF (SEMROW(1,SEED,NFMINT,ROW,1,LPS)) GOTO 70
+                 2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+frdwrf.f: In function `frdwrf':
+frdwrf.f:13: warning: unused variable `ipack'
+frdwrt.f: In subroutine `frdwrt':
+frdwrt.f:8: warning: unused variable `ipack'
+frdwru.f: In function `frdwru':
+frdwru.f:85: warning: unused variable `ipack'
+gau.f: In subroutine `gau':
+gau.f:12: warning: `a' might be used uninitialized in this function
+gau.f:12: warning: `a2' might be used uninitialized in this function
+gau.f:12: warning: `b2' might be used uninitialized in this function
+gau.f:12: warning: `centre' might be used uninitialized in this function
+gau.f:12: warning: `d' might be used uninitialized in this function
+halful.f: In subroutine `halful':
+halful.f:80: warning:
+                  IF (SEMROW(1,IB1(INP),FORM,N,L,LP1)) GOTO 40
+                      1
+halful.f:83: (continued):
+                  IF (SEMROW(1,RB1(INP),FORM,N,L,LP1)) GOTO 40
+                      2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+halful.f:80: warning:
+                  IF (SEMROW(1,IB1(INP),FORM,N,L,LP1)) GOTO 40
+                      1
+halful.f:84: (continued):
+                  IF (SEMROW(1,RB2(INP),FORM,NCONJ,L,LP1)) GOTO 40
+                      2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+halful.f:80: warning:
+                  IF (SEMROW(1,IB1(INP),FORM,N,L,LP1)) GOTO 40
+                      1
+halful.f:139: (continued):
+                  IF (SEMROW(2,RB1(OUTP),FORM,N,L,LP2)) GOTO 40
+                      2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+halful.f:80: warning:
+                  IF (SEMROW(1,IB1(INP),FORM,N,L,LP1)) GOTO 40
+                      1
+halful.f:140: (continued):
+                  IF (SEMROW(2,RB2(OUTP),FORM,NCONJ,L,LP2)) GOTO 40
+                      2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+hfill.f: In subroutine `hfill':
+hfill.f:6: warning: unused variable `ipack'
+hplj.f: In subroutine `hplj':
+hplj.f:49: warning: `n1' might be used uninitialized in this function
+hplj.f:51: warning: `iguess' might be used uninitialized in this function
+hplj.f:52: warning: `lold' might be used uninitialized in this function
+label.f: In subroutine `label':
+label.f:9: warning: unused variable `ipack'
+lattic.f: In subroutine `lattic':
+lattic.f:12: warning: `rr' might be used uninitialized in this function
+lmanu.f: In subroutine `lmanu':
+lmanu.f:20: warning: `lchang' might be used uninitialized in this function
+lmanu.f:41: warning: `idir' might be used uninitialized in this function
+locals.f: In subroutine `locals':
+locals.f:19: warning: unused variable `ipack'
+lpdet.f: In subroutine `lpdet':
+lpdet.f:92: warning: unused variable `ipack'
+lpdet.f:101: warning: `sum' might be used uninitialized in this function
+lpdet.f:101: warning: `ymax' might be used uninitialized in this function
+lpdet.f:101: warning: `ymin' might be used uninitialized in this function
+lutadj.f: In subroutine `lutadj':
+lutadj.f:23: warning: `ivarx' might be used uninitialized in this function
+lutadj.f:23: warning: `ivary' might be used uninitialized in this function
+lutadj.f:24: warning: `lred' might be used uninitialized in this function
+lutadj.f:24: warning: `lgreen' might be used uninitialized in this function
+lutadj.f:24: warning: `lblue' might be used uninitialized in this function
+lutadj.f: In subroutine `rgbhsv':
+lutadj.f:908: warning: `range' might be used uninitialized in this function
+lutset.f: In subroutine `lutset':
+lutset.f:12: warning: unused variable `ipack'
+lutset.f:20: warning: `lred' might be used uninitialized in this function
+lutset.f:20: warning: `lgreen' might be used uninitialized in this function
+lutset.f:20: warning: `lblue' might be used uninitialized in this function
+mask1.f: In subroutine `mask1':
+mask1.f:26: warning: `rrg' might be used uninitialized in this function
+mask1.f:26: warning: `s' might be used uninitialized in this function
+mask1.f:26: warning: `t' might be used uninitialized in this function
+mask1.f:27: warning: `width' might be used uninitialized in this function
+mask1.f:27: warning: `ww' might be used uninitialized in this function
+mask1.f:29: warning: `extlen' might be used uninitialized in this function
+mask2.f: In subroutine `mask2':
+mask2.f:23: warning: `s' might be used uninitialized in this function
+mask2.f:23: warning: `t' might be used uninitialized in this function
+mask2.f:24: warning: `extlen' might be used uninitialized in this function
+maxlik.f: In subroutine `maxlik':
+maxlik.f:167: warning:
+             IF (SEMROW(1, RB6(IX0), NFMFP, J, I, LP2)) GOTO 110
+                 1
+maxlik.f:198: (continued):
+           IF (SEMROW(2, IB5, NFMINT, I, 1, LP)) GOTO 110
+               2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+maxlik.f: In subroutine `maxhod':
+maxlik.f:314: warning: `last' might be used uninitialized in this function
+mindis.f: In subroutine `mindis':
+mindis.f:131: warning:
+             IF (SEMROW(1, RB6(IX0), NFMFP, J, I, LP2)) GOTO 90
+                 1
+mindis.f:164: (continued):
+           IF (SEMROW(2, IB5, NFMINT, I, 1, LP)) GOTO 90
+               2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+mindis.f: Outside of any program unit:
+mindis.f:235: warning: `d1' might be used uninitialized in this function
+morph.f: In subroutine `morph':
+morph.f:98: warning: `nnghs' might be used uninitialized in this function
+motif.f: In subroutine `motif':
+motif.f:21: warning: `lregio' might be used uninitialized in this function
+noise.f: In subroutine `noise':
+noise.f:26: warning: `dose' might be used uninitialized in this function
+noise.f:26: warning: `width' might be used uninitialized in this function
+paste.f: In subroutine `paste':
+paste.f:184: warning:
+                  CALL CFORM(IB1(IOFF+I1),IB2(I1),NFMINT,NFMINT,N4COLS)
+                       1
+paste.f:186: (continued):
+                  CALL CFORM(RB1(IOFF+I1),RB2(I1),NFMFP,NFMFP,N4COLS)
+                       2
+Argument #1 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+paste.f:184: warning:
+                  CALL CFORM(IB1(IOFF+I1),IB2(I1),NFMINT,NFMINT,N4COLS)
+                       1
+paste.f:186: (continued):
+                  CALL CFORM(RB1(IOFF+I1),RB2(I1),NFMFP,NFMFP,N4COLS)
+                       2
+Argument #2 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+pcurve.f: In subroutine `pcurve':
+pcurve.f:32: warning: `sumii' might be used uninitialized in this function
+pcurve.f:32: warning: `sumix' might be used uninitialized in this function
+pcurve.f:32: warning: `sumiy' might be used uninitialized in this function
+pcurve.f:32: warning: `sumixx' might be used uninitialized in this function
+pcurve.f:32: warning: `sumiyy' might be used uninitialized in this function
+pcurve.f:32: warning: `sumixy' might be used uninitialized in this function
+pdraw.f: In subroutine `pdraw':
+pdraw.f:20: warning: unused variable `ipack'
+pextr.f: In subroutine `pextr':
+pextr.f:21: warning: `value' might be used uninitialized in this function
+phrand.f: In subroutine `phrand':
+phrand.f:16: warning: `crow' might be used uninitialized in this function
+picdat.f: In subroutine `picdat':
+picdat.f:60: warning:
+               CALL CFORM(LABEL(LBNCTT-I*4),VALUE,NFMINT,NFMBYT,I44)
+                    1
+picdat.f:72: (continued):
+               CALL CFORM(VALUE,LABEL(LBNCTT-I*4),NFMBYT,NFMINT,I44)
+                    2
+Argument #1 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+picdat.f:60: warning:
+               CALL CFORM(LABEL(LBNCTT-I*4),VALUE,NFMINT,NFMBYT,I44)
+                    1
+picdat.f:72: (continued):
+               CALL CFORM(VALUE,LABEL(LBNCTT-I*4),NFMBYT,NFMINT,I44)
+                    2
+Argument #2 of `cform' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+picdat.f:16: warning: unused variable `ipack'
+pictur.f: In subroutine `pictur':
+pictur.f:35: warning: unused variable `ipack'
+pmanu.f: In subroutine `pmanu':
+pmanu.f:10: warning: unused variable `ipack'
+pmanu.f:23: warning: `ipltyp' might be used uninitialized in this function
+pmomen.f: In subroutine `pmomen':
+pmomen.f:21: warning: `is0' might be used uninitialized in this function
+pmomen.f:23: warning: `rs1' might be used uninitialized in this function
+pmomen.f:23: warning: `rs2' might be used uninitialized in this function
+pmomen.f:23: warning: `rs3' might be used uninitialized in this function
+pmomen.f:23: warning: `rsi0' might be used uninitialized in this function
+pmomen.f:23: warning: `rsi1' might be used uninitialized in this function
+pmomen.f:23: warning: `rsi2' might be used uninitialized in this function
+pmomen.f:23: warning: `rsi3' might be used uninitialized in this function
+prdwrt.f: In subroutine `prdwrt':
+prdwrt.f:8: warning: unused variable `ipack'
+ps.f: In subroutine `ps':
+ps.f:13: warning: unused variable `ipack'
+pshow.f: In subroutine `pshow':
+pshow.f:55: warning: `hu1' might be used uninitialized in this function
+pshow.f:55: warning: `dhue' might be used uninitialized in this function
+psout.f: In subroutine `psout':
+psout.f:61: warning: `imoff' might be used uninitialized in this function
+psout.f:64: warning: `annot' might be used uninitialized in this function
+psout.f:65: warning: `a' might be used uninitialized in this function
+psout.f:65: warning: `b' might be used uninitialized in this function
+psout1.f: In function `psout1':
+psout1.f:6: warning: unused variable `ipack'
+psout1.f:13: warning: `lold' might be used uninitialized in this function
+psout4.f: In function `psout4':
+psout4.f:17: warning: `n1' might be used uninitialized in this function
+psout4.f:17: warning: `n2' might be used uninitialized in this function
+psout4.f:17: warning: `n3' might be used uninitialized in this function
+ptype.f: In subroutine `ptype':
+ptype.f:47: warning: `ind' might be used uninitialized in this function
+pxcon.f: In subroutine `pxcon':
+pxcon.f:31: warning: `h1' might be used uninitialized in this function
+rank.f: In subroutine `rank':
+rank.f:96: warning:
+         IF (SEMROW(1,IB1LHS(N4),1,ROW,1,LP1)) GOTO 100
+             1
+rank.f:177: (continued):
+         IF (SEMROW(2,RB6,1,J,1,LP2)) GOTO 100
+             2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+reinit.f: In subroutine `reinit':
+reinit.f:7: warning: unused variable `ipack'
+reinit.f:10: warning: `slots' might be used uninitialized in this function
+reinit.f:10: warning: `drsize' might be used uninitialized in this function
+rgb.f: In subroutine `semrgb':
+rgb.f:101: warning: `tmax' might be used uninitialized in this function
+rgb.f:101: warning: `tmin' might be used uninitialized in this function
+rgb.f: In subroutine `semfal':
+rgb.f:500: warning: `tmin' might be used uninitialized in this function
+rgb.f:500: warning: `tmax' might be used uninitialized in this function
+saver.f: In subroutine `saver':
+saver.f:8: warning: unused variable `ipack'
+sectn.f: In subroutine `sectn':
+sectn.f:26: warning: `gap' might be used uninitialized in this function
+semend.f: In subroutine `semend':
+semend.f:5: warning: unused variable `lnblnk'
+semfor.f: In subroutine `semfor':
+semfor.f:31: warning: `labfor' might be used uninitialized in this function
+show.f: In subroutine `show':
+show.f:26: warning: unused variable `ipack'
+show.f:31: warning: `medium' might be used uninitialized in this function
+show9.f: In function `show9':
+show9.f:98: warning:
+            DO 20 I = 1,NGKEYS
+                      ^
+Iterative DO loop begin, end, and step-count values known to result in no iterations at (^)
+stack.f: In subroutine `stack':
+stack.f:14: warning: `l1' might be used uninitialized in this function
+stack.f:14: warning: `l2' might be used uninitialized in this function
+thresh.f: In subroutine `thresh':
+thresh.f:207: warning:
+               IF (SEMROW(1,RB1,INFORM,J,K,LP1)) GOTO 270
+                   1
+thresh.f:345: (continued):
+               IF (SEMROW(2,IB2,NFMINT,J,K,LP2)) GOTO 270
+                   2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+train.f: In function `train2':
+train.f:206: warning: `ix' might be used uninitialized in this function
+train.f:206: warning: `iy' might be used uninitialized in this function
+type.f: In subroutine `type':
+type.f:19: warning: unused variable `ipack'
+vgcon.f: In subroutine `vgcon':
+vgcon.f:16: warning: `tl' might be used uninitialized in this function
+vgcon.f:16: warning: `bl' might be used uninitialized in this function
+view.f: In subroutine `view':
+view.f:31: warning: unused variable `ipack'
+waitu.f: In subroutine `waitu':
+waitu.f:24: warning: unused variable `ipack'
+walsh.f: In subroutine `walsh':
+walsh.f:11: warning: unused variable `ipack'
+warp.f: In subroutine `warp':
+warp.f:161: warning:
+            IF (SEMROW(1, RB5(IX), NFMFP, 1, J, LP)) GOTO 130
+                1
+warp.f:285: (continued):
+            IF (SEMROW(2, IB6(IX), NFMINT, I, 1, LPB)) GOTO 130
+                2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+warp.f:161: warning:
+            IF (SEMROW(1, RB5(IX), NFMFP, 1, J, LP)) GOTO 130
+                1
+warp.f:335: (continued):
+               IF (SEMROW(1,IB6(IX),NFMINT,I,1,LPB)) GOTO 130
+                   2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+window.f: In subroutine `window':
+window.f:25: warning: `r' might be used uninitialized in this function
+xwires.f: In subroutine `xwires':
+xwires.f:17: warning: `sample' might be used uninitialized in this function
+xwires.f:20: warning: `size' might be used uninitialized in this function
+xwires.f:20: warning: `usize' might be used uninitialized in this function
+xwires.f:20: warning: `vsize' might be used uninitialized in this function
+xwires.f:21: warning: `nseg' might be used uninitialized in this function
+xwires.f:25: warning: `closed' might be used uninitialized in this function
+eqsetd.f:60: warning: `status' might be used uninitialized in this function
+fssubs.f: In function `fsri61':
+fssubs.f:246: warning: `fsri61' might be used uninitialized in this function
+semxa1.f: In function `semxa1':
+semxa1.f:29: warning: `ik' might be used uninitialized in this function
+semxa1.f:29: warning: `ip' might be used uninitialized in this function
+semxa1.f:29: warning: `iv' might be used uninitialized in this function
+assdis.f: In function `assdis':
+assdis.f:13: warning: unused variable `ipack'
+assfil.f: In function `assfil':
+assfil.f:9: warning: unused variable `ipack'
+assnew.f: In function `assnew':
+assnew.f:10: warning: unused variable `ipack'
+assold.f: In function `assold':
+assold.f:9: warning: unused variable `ipack'
+asssiz.f: In function `asssiz':
+asssiz.f:15: warning: unused variable `ipack'
+asssiz.f:19: warning: `slots' might be used uninitialized in this function
+bmmdsk.f: In function `bmmdsk':
+bmmdsk.f:8: warning: unused variable `ipack'
+bmmmem.f: In function `bmmmem':
+bmmmem.f:8: warning: unused variable `ipack'
+bmmmem.f:12: warning: `kout' might be used uninitialized in this function
+bmpdsk.f: In function `bmpdsk':
+bmpdsk.f:9: warning: unused variable `ipack'
+bmpmem.f: In function `bmpmem':
+bmpmem.f:9: warning: unused variable `ipack'
+bmpmem.f:14: warning: `kout' might be used uninitialized in this function
+colft.f: In function `colft':
+colft.f:19: warning: `th1' might be used uninitialized in this function
+colft.f:21: warning: `inc1' might be used uninitialized in this function
+colft.f:22: warning: `np2l' might be used uninitialized in this function
+compm.f: In function `compm':
+compm.f:30: warning: `froind' might be used uninitialized in this function
+compm.f:33: warning: `size' might be used uninitialized in this function
+dspsub.f: In function `dspsub':
+dspsub.f:25: warning: `chsiz2' might be used uninitialized in this function
+ecdec.f: In function `ecdec':
+ecdec.f:34: warning: `lpst' might be used uninitialized in this function
+filopn.f: In function `filopn':
+filopn.f:30: warning: `patlen' might be used uninitialized in this function
+findcm.f: In function `findcm':
+findcm.f:26: warning: `rr' might be used uninitialized in this function
+findcm.f:26: warning: `x0' might be used uninitialized in this function
+findcm.f:26: warning: `y0' might be used uninitialized in this function
+findcm.f:26: warning: `sx' might be used uninitialized in this function
+findcm.f:26: warning: `sy' might be used uninitialized in this function
+findcm.f:26: warning: `ts' might be used uninitialized in this function
+findcm.f:26: warning: `pc' might be used uninitialized in this function
+findcm.f:27: warning: `i1' might be used uninitialized in this function
+findcm.f:27: warning: `i2' might be used uninitialized in this function
+findcm.f:27: warning: `j1' might be used uninitialized in this function
+findcm.f:27: warning: `j2' might be used uninitialized in this function
+findcm.f:28: warning: `first' might be used uninitialized in this function
+findcm.f:28: warning: `positv' might be used uninitialized in this function
+findcm.f:28: warning: `lowest' might be used uninitialized in this function
+ft1d.f: In subroutine `ft1':
+ft1d.f:67: warning: `t2i' might be used uninitialized in this function
+ft1d.f:67: warning: `t2r' might be used uninitialized in this function
+ft1d.f:67: warning: `t3i' might be used uninitialized in this function
+ft1d.f:67: warning: `t3r' might be used uninitialized in this function
+gamfn.f: In function `gcfra':
+gamfn.f:160: warning: `gthis' might be used uninitialized in this function
+inpbmp.f: In subroutine `inpbmp':
+inpbmp.f:205: warning:
+               IF (SEMROW(2,RED,NFMINT,1,1,LP2)) GOTO 140
+                   1
+inpbmp.f:281: (continued):
+               IF (SEMROW(2,RB1,NFMBYT,I,1,LP1)) GOTO 140
+                   2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+inpbmp.f:9: warning: unused variable `ipack'
+inpnem.f: In subroutine `inpnem':
+inpnem.f:38: warning: unused variable `ibchar'
+inpnem.f:10: warning: unused variable `ipack'
+inpnem.f:9: warning: unused variable `unsign'
+inpras.f: In subroutine `inpras':
+inpras.f:86: warning:
+         IF ( MRDBIN ( FD,32,SWTEMP,NFMFP,.TRUE. ) ) GOTO 80
+              1
+inpras.f:235: (continued):
+                  IF (MRDBIN(FD,IXFR,IB1,FORM,.TRUE.)) GOTO 80
+                      2
+Argument #3 of `mrdbin' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+inpras.f:9: warning: unused variable `ipack'
+inpras.f: In function `mrdrfi':
+inpras.f:86: warning:
+         IF ( MRDBIN ( FD,32,SWTEMP,NFMFP,.TRUE. ) ) GOTO 80
+              1
+inpras.f:388: (continued):
+            IF (.NOT.MRDBIN(FD,RXFR,DBUF,NFMBYT,.TRUE.)) THEN
+                     2
+Argument #3 of `mrdbin' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+inpraw.f: In subroutine `inpraw':
+inpraw.f:10: warning: unused variable `ipack'
+inptif.f: In subroutine `inptif':
+inptif.f:10: warning: unused variable `ipack'
+inpunf.f: In subroutine `inpunf':
+inpunf.f:62: warning:
+         IF ( MRDBIN ( FD,12,SWTEMP,NFMINT,.FALSE. ) ) GOTO 60
+              1
+inpunf.f:88: (continued):
+            IF ( MRDBIN ( FD, J, LABEL(LBNCTT+1),
+                 2
+Argument #3 of `mrdbin' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+inpunf.f:62: warning:
+         IF ( MRDBIN ( FD,12,SWTEMP,NFMINT,.FALSE. ) ) GOTO 60
+              1
+inpunf.f:96: (continued):
+            IF ( MRDBIN ( FD, 512, LABEL,
+                 2
+Argument #3 of `mrdbin' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+inpunf.f:62: warning:
+         IF ( MRDBIN ( FD,12,SWTEMP,NFMINT,.FALSE. ) ) GOTO 60
+              1
+inpunf.f:116: (continued):
+               IF (MRDBIN(FD,IXFR,IB1,FORM,.FALSE.)) GOTO 60
+                   2
+Argument #3 of `mrdbin' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+inpunf.f:10: warning: unused variable `ipack'
+magsub.f: In function `magsub':
+magsub.f:21: warning: `t' might be used uninitialized in this function
+outbmp.f: In subroutine `outbmp':
+outbmp.f:11: warning: unused variable `ipack'
+outras.f: In subroutine `outras':
+outras.f:10: warning: unused variable `ipack'
+outraw.f: In subroutine `outraw':
+outraw.f:10: warning: unused variable `ipack'
+outtif.f: In subroutine `outtif':
+outtif.f:53: warning:
+            IF (SEMROW(1,RED,NFMINT,1,1,LPN)) GOTO 180
+                1
+outtif.f:540: (continued):
+                  IF (SEMROW(1,RB1,NFMBYT,J,K,LP1)) GOTO 160
+                      2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+outtif.f:10: warning: unused variable `ipack'
+outunf.f: In subroutine `outunf':
+outunf.f:91: warning:
+         IF ( MWRBIN ( FD,12,SWTEMP,NFMINT,.FALSE. ) ) GOTO 80
+              1
+outunf.f:133: (continued):
+               IF (MWRBIN(FD,IXFR,IB1,FORM,.FALSE.)) GOTO 80
+                   2
+Argument #3 of `mwrbin' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+outunf.f:10: warning: unused variable `ipack'
+range.f: In function `range':
+range.f:23: warning: `imin' might be used uninitialized in this function
+range.f:23: warning: `imax' might be used uninitialized in this function
+semcom.f: In function `semcom':
+semcom.f:15: warning: unused variable `ipack'
+semexp.f: In function `semexp':
+semexp.f:76: warning: `nargs' might be used uninitialized in this function
+semexp.f:76: warning: `newpri' might be used uninitialized in this function
+semhel.f: In subroutine `semhel':
+semhel.f:13: warning: `eblk' might be used uninitialized in this function
+semhel.f:16: warning: `eitem' might be used uninitialized in this function
+semhel.f:20: warning: `master' might be used uninitialized in this function
+semini.f: In subroutine `semini':
+semini.f:450: warning:
+         IF (DISC(0,0,I4ZERO,RB1,I4ZERO,0,0)) THEN
+             1
+semini.f:485: (continued):
+            IF (DISC(2,WRKDEV,I4ONE,STRING,BLKN,NFMINT,NFMBYT)) GOTO 140
+                2
+Argument #4 of `disc' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+semini.f:7: warning: unused variable `ipack'
+seminx.f: In subroutine `seminx':
+seminx.f:53: warning: `macfnd' might be used uninitialized in this function
+semktx.f: In function `filstr':
+semktx.f:235: warning: unused variable `ipack'
+semopn.f: In function `semopn':
+semopn.f:44: warning: `psize' might be used uninitialized in this function
+uvdevi.f: In subroutine `uvdevi':
+uvdevi.f:51: warning: unused variable `uifdlo'
+uvdevi.f:26: warning: `status' might be used uninitialized in this function
+uvele1.f:31: warning: `status' might be used uninitialized in this function
+uvpane.f: In subroutine `uvpane':
+uvpane.f:26: warning: `status' might be used uninitialized in this function
+pruadd.f: In function `pruadd':
+pruadd.f:30: warning: unused variable `ipack'
+pruinf.f:3: warning: `pruinf' might be used uninitialized in this function
+pruslt.f: In function `pruslt':
+pruslt.f:13: warning: unused variable `ldum'
+allocx.f: In function `allocx':
+allocx.f:64: warning: `nindex' might be used uninitialized in this function
+fsxw61.f: In function `fsxwtr':
+fsxw61.f:155: warning: `clobut' might be used uninitialized in this function
+fsxw61.f:180: warning: `moveit' might be used uninitialized in this function
+uifcad.f: In function `uifcad':
+uifcad.f:38: warning: `status' might be used uninitialized in this function
+uifccy.f: In function `uifccy':
+uifccy.f:34: warning: `status' might be used uninitialized in this function
+uifepo.f: In function `uifepo':
+uifepo.f:47: warning: `mpid' might be used uninitialized in this function
+uifepo.f:50: warning: `device' might be used uninitialized in this function
+uifpco.f: In function `uifpco':
+uifpco.f:36: warning: `status' might be used uninitialized in this function
+uifrea.f: In function `getfin':
+uifrea.f:265: warning:
+               IF ( GETFIL ( 3, VALUE ) ) GOTO 160
+                    1
+uifrea.f:317: (continued):
+         GETFIN = GETFIL ( 1, VALUE )
+                  2
+Argument #2 of `getfil' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifrea.f: In function `getflg':
+uifrea.f:265: warning:
+               IF ( GETFIL ( 3, VALUE ) ) GOTO 160
+                    1
+uifrea.f:329: (continued):
+         GETFLG = GETFIL ( 2, VALUE )
+                  2
+Argument #2 of `getfil' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifrea.f:112: warning:
+               IF ( GETFLG ( WINISS(I) ) ) GOTO 160
+                    1
+uifrea.f:321: (continued):
+         LOGICAL FUNCTION GETFLG ( VALUE )
+                          2
+Argument #1 (named `value') of `getflg' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifrea.f: In function `getfil':
+uifrea.f:265: warning:
+               IF ( GETFIL ( 3, VALUE ) ) GOTO 160
+                    1
+uifrea.f:333: (continued):
+         LOGICAL FUNCTION GETFIL ( TYPE, VALUE )
+                          2
+Argument #2 (named `value') of `getfil' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifrea.f: Outside of any program unit:
+uifrea.f:348: warning: `status' might be used uninitialized in this function
+uifsav.f: In function `putfin':
+uifsav.f:259: warning:
+               IF ( PUTFIL ( 3, VARTAB(I) ) ) GOTO 150
+                    1
+uifsav.f:283: (continued):
+         PUTFIN = PUTFIL( 1, VALUE )
+                  2
+Argument #2 of `putfil' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifsav.f: In function `putflg':
+uifsav.f:259: warning:
+               IF ( PUTFIL ( 3, VARTAB(I) ) ) GOTO 150
+                    1
+uifsav.f:294: (continued):
+         PUTFLG = PUTFIL( 2, VALUE )
+                  2
+Argument #2 of `putfil' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifsav.f:99: warning:
+               IF ( PUTFLG ( WINISS(I) ) ) GOTO 150
+                    1
+uifsav.f:287: (continued):
+         LOGICAL FUNCTION PUTFLG ( VALUE )
+                          2
+Argument #1 (named `value') of `putflg' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifsav.f: In function `putfil':
+uifsav.f:259: warning:
+               IF ( PUTFIL ( 3, VARTAB(I) ) ) GOTO 150
+                    1
+uifsav.f:298: (continued):
+         LOGICAL FUNCTION PUTFIL ( TYPE, VALUE )
+                          2
+Argument #2 (named `value') of `putfil' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+uifsav.f: Outside of any program unit:
+uifsav.f:313: warning: `status' might be used uninitialized in this function
+uifsaw.f:38: warning: `status' might be used uninitialized in this function
+uifsaz.f:38: warning: `status' might be used uninitialized in this function
+uixise.f: In function `uixise':
+uixise.f:42: warning: `status' might be used uninitialized in this function
+uixmsi.f: In function `uixmsi':
+uixmsi.f:33: warning: `status' might be used uninitialized in this function
+wdxbox.f: In function `wdxfvs':
+wdxbox.f:462: warning: `botwin' might be used uninitialized in this function
+wdxclr.f: In function `wdxfns':
+wdxclr.f:532: warning: `rigwin' might be used uninitialized in this function
+wdxtex.f: In function `wdxtex':
+wdxtex.f:51: warning: `status' might be used uninitialized in this function
+wdxtex.f: In function `wdxfst':
+wdxtex.f:167: warning: `rigwin' might be used uninitialized in this function
+WOSLocals/crdwrt.f: In subroutine `crdwrt':
+WOSLocals/crdwrt.f:159: warning:
+            IF ( EIKBYA ( IOP, FD, HEADER, 76 ) )   GOTO 90
+                 1
+WOSLocals/crdwrt.f:164: (continued):
+                  IF ( EIKBYA ( IOP, FD, RB1, NCOL ) ) GOTO 90
+                       2
+Argument #3 of `eikbya' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/crdwrt.f:159: warning:
+            IF ( EIKBYA ( IOP, FD, HEADER, 76 ) )   GOTO 90
+                 1
+WOSLocals/crdwrt.f:192: (continued):
+                     IF ( EIKBYA ( IOP, FD, RB1, NCOL ) ) GOTO 90
+                          2
+Argument #3 of `eikbya' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/crdwrt.f:159: warning:
+            IF ( EIKBYA ( IOP, FD, HEADER, 76 ) )   GOTO 90
+                 1
+WOSLocals/crdwrt.f:197: (continued):
+                     IF ( EIKBYA ( IOP, FD, RB1, NCOL+NCOL ) ) GOTO 90
+                          2
+Argument #3 of `eikbya' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/crdwrt.f:50: warning: unused variable `eikint'
+WOSLocals/crdwrt.f:50: warning: unused variable `eikcha'
+WOSLocals/crdwrt.f:13: warning: unused variable `l'
+WOSLocals/funix.f: In subroutine `funix':
+WOSLocals/funix.f:9: warning: unused variable `ipack'
+WOSLocals/iptget.f: In subroutine `iptget':
+WOSLocals/iptget.f:24: warning: unused variable `pathnm'
+WOSLocals/iptget.f:24: warning: unused variable `file'
+WOSLocals/iptget.f:20: warning: unused variable `exists'
+WOSLocals/iptget.f:20: warning: unused variable `lwrite'
+WOSLocals/iptget.f:18: warning: unused variable `title'
+WOSLocals/iptget.f:16: warning: unused variable `rmax'
+WOSLocals/iptget.f:16: warning: unused variable `rmin'
+WOSLocals/iptget.f:15: warning: unused variable `nlay'
+WOSLocals/iptget.f:15: warning: unused variable `nrow'
+WOSLocals/iptget.f:15: warning: unused variable `ncol'
+WOSLocals/iptget.f:15: warning: unused variable `npic'
+WOSLocals/iptget.f:15: warning: unused variable `nf'
+WOSLocals/iptget.f:15: warning: unused variable `k'
+WOSLocals/iptget.f:15: warning: unused variable `j'
+WOSLocals/iptget.f:15: warning: unused variable `form'
+WOSLocals/iptget.f:15: warning: unused variable `bpp'
+WOSLocals/iptget.f:13: warning: unused variable `ipack'
+WOSLocals/iptget.f:13: warning: unused variable `lnblnk'
+WOSLocals/iptget.f:13: warning: unused variable `semfrm'
+WOSLocals/iptget.f:13: warning: unused variable `ivalpn'
+WOSLocals/iptget.f:12: warning: unused variable `imgrng'
+WOSLocals/iptget.f:12: warning: unused variable `imgnam'
+WOSLocals/iptget.f:12: warning: unused variable `imgrow'
+WOSLocals/iptget.f:12: warning: unused variable `imgdel'
+WOSLocals/iptget.f:12: warning: unused variable `imgclo'
+WOSLocals/iptget.f:12: warning: unused variable `imgope'
+WOSLocals/iptget.f:11: warning: unused variable `range'
+WOSLocals/iptget.f:11: warning: unused variable `semrow'
+WOSLocals/iptget.f:11: warning: unused variable `semopn'
+WOSLocals/iptget.f:11: warning: unused variable `semtit'
+WOSLocals/iptget.f:11: warning: unused variable `opt'
+WOSLocals/iptget.f:10: warning: unused variable `getrng'
+WOSLocals/iptget.f:10: warning: unused variable `filstr'
+WOSLocals/iptget.f:10: warning: unused variable `filsea'
+WOSLocals/iptget.f:10: warning: unused variable `filmak'
+WOSLocals/iptget.f:10: warning: unused variable `filexi'
+WOSLocals/pl.f: In subroutine `plmark':
+WOSLocals/pl.f:674: warning: unused variable `semcon'
+WOSLocals/pl.f:797: warning: `scf' might be used uninitialized in this function
+WOSLocals/pl.f: In subroutine `shsort':
+WOSLocals/pl.f:910: warning: unused variable `v2'
+WOSLocals/pl.f:910: warning: unused variable `v1'
+WOSLocals/pl.f: In subroutine `pldel2':
+WOSLocals/pl.f:1266: warning: unused variable `pval'
+WOSLocals/pl.f:1264: warning: unused variable `opt'
+WOSLocals/pl.f: In subroutine `plfind':
+WOSLocals/pl.f:1403: warning: `in' might be used uninitialized in this function
+WOSLocals/pl.f:1404: warning: `jn' might be used uninitialized in this function
+WOSLocals/emfds.f: In subroutine `emfds':
+WOSLocals/emfds.f:471: warning:
+            CALL EMFNLM(V,SV,NV,4,.001,NITS,EMFLF)
+                                            ^
+External procedure `emflf' is passed as actual argument at (^) but not explicitly declared EXTERNAL
+WOSLocals/emfds.f:112: warning: unused variable `mp'
+WOSLocals/emfds.f:112: warning: unused variable `m'
+WOSLocals/emfds.f:112: warning: unused variable `ap3'
+WOSLocals/emfds.f:112: warning: unused variable `a3'
+WOSLocals/emfds.f:112: warning: unused variable `ap'
+WOSLocals/emfds.f:112: warning: unused variable `a'
+WOSLocals/emfds.f:112: warning: unused variable `d'
+WOSLocals/emfds.f: In function `emfds2':
+WOSLocals/emfds.f:818: warning: unused variable `semics'
+WOSLocals/emfds.f: In function `emflf':
+WOSLocals/emfds.f:924: warning: unused variable `semcon'
+WOSLocals/emfds.f: In function `emfpms':
+WOSLocals/emfds.f:1367: warning: `d' might be used uninitialized in this function
+WOSLocals/hrems.f: In subroutine `ctf':
+WOSLocals/hrems.f:119: warning: unused variable `val'
+WOSLocals/hrems.f:133: warning: `mode' might be used uninitialized in this function
+WOSLocals/hrems.f: In function `d3fmkm':
+WOSLocals/hrems.f:1201: warning: `r1' might be used uninitialized in this function
+WOSLocals/hrems.f: In subroutine `fmirrd':
+WOSLocals/hrems.f:1279: warning: `j' might be used uninitialized in this function
+WOSLocals/hrems.f: In function `d2fit2':
+WOSLocals/hrems.f:1421: warning: `ix1m' might be used uninitialized in this function
+WOSLocals/hrems.f:1421: warning: `ix2m' might be used uninitialized in this function
+WOSLocals/hrems.f: In subroutine `gjw':
+WOSLocals/hrems.f:1660: warning: unused variable `cfilef'
+WOSLocals/hrems.f:1659: warning: unused variable `dfnam'
+WOSLocals/hrems.f:1647: warning: unused variable `t2'
+WOSLocals/hrems.f:1647: warning: unused variable `t1'
+WOSLocals/hrems.f:1644: warning: unused variable `filmak'
+WOSLocals/hrems.f:1644: warning: unused variable `semxa1'
+WOSLocals/hrems.f: In function `semlay':
+WOSLocals/hrems.f:25: warning:
+            IF (SEMROW(1,RB1,NFMCOM,J,L,LP1)) RETURN
+                1
+WOSLocals/hrems.f:2313: (continued):
+            IF (SEMROW(OPC,A(N1),FORM,J,LAYER,LPN)) RETURN
+                2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/hrems.f:1066: warning:
+         IF (SEMLAY(1,DP,NCOL,NFMFP,1,LP1)) RETURN
+             1
+WOSLocals/hrems.f:2279: (continued):
+         LOGICAL FUNCTION SEMLAY(OPC,A,MP,FORM,LAYER,LPN)
+                          2
+Argument #2 (named `a') of `semlay' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/hrems.f: In subroutine `mandel':
+WOSLocals/hrems.f:25: warning:
+            IF (SEMROW(1,RB1,NFMCOM,J,L,LP1)) RETURN
+                1
+WOSLocals/hrems.f:2390: (continued):
+            IF (SEMROW(2,IB1,NFMINT,J,1,LP1)) RETURN
+                2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/hrems.f: In subroutine `apodis':
+WOSLocals/hrems.f:2417: warning: unused variable `i1'
+WOSLocals/hrems.f:2417: warning: unused variable `imax'
+WOSLocals/hrems.f:2415: warning: unused variable `f'
+WOSLocals/hrems.f:2415: warning: unused variable `yf'
+WOSLocals/hrems.f:2415: warning: unused variable `s'
+WOSLocals/hrems.f:2415: warning: unused variable `v'
+WOSLocals/hrems.f:2415: warning: unused variable `val'
+WOSLocals/hrems.f: In subroutine `dpzero':
+WOSLocals/hrems.f:2630: warning: `k' might be used uninitialized in this function
+WOSLocals/hrems.f:2630: warning: `k2' might be used uninitialized in this function
+WOSLocals/hrems.f:2630: warning: `ko' might be used uninitialized in this function
+WOSLocals/hrems.f:2630: warning: `k2o' might be used uninitialized in this function
+WOSLocals/hrems.f:2630: warning: `co' might be used uninitialized in this function
+WOSLocals/hrems.f:2630: warning: `so' might be used uninitialized in this function
+WOSLocals/hrems.f:2632: warning: `nzo' might be used uninitialized in this function
+WOSLocals/hrems.f: In subroutine `lqsetd':
+WOSLocals/hrems.f:3288: warning: unused variable `con'
+WOSLocals/hrems.f: In subroutine `svdcmd':
+WOSLocals/hrems.f:3335: warning: `l' might be used uninitialized in this function
+WOSLocals/hrems.f:3335: warning: `nm' might be used uninitialized in this function
+WOSLocals/hrems.f: In subroutine `sstr2':
+WOSLocals/hrems.f:3931: warning: `dz' might be used uninitialized in this function
+WOSLocals/hrems.f: In subroutine `svdcmp':
+WOSLocals/hrems.f:4048: warning: `l' might be used uninitialized in this function
+WOSLocals/hrems.f:4048: warning: `nm' might be used uninitialized in this function
+WOSLocals/ll.f: In subroutine `llmanu':
+WOSLocals/ll.f:62: warning: `k' might be used uninitialized in this function
+WOSLocals/ll.f:66: warning: `i4mp' might be used uninitialized in this function
+WOSLocals/ll.f:153: warning: `h' might be used uninitialized in this function
+WOSLocals/ll.f:458: warning: `ncbuf' might be used uninitialized in this function
+WOSLocals/ll.f:459: warning: `nrbuf' might be used uninitialized in this function
+WOSLocals/ll.f: In subroutine `llgrft':
+WOSLocals/ll.f:100: warning:
+            IF (SEMDIA('Symmetry type not found',NDIERR)) RETURN
+                1
+WOSLocals/ll.f:1220: (continued):
+         IF (SEMDIA(RECORD)) RETURN
+             2
+Too few arguments for `semdia' at (2) versus invocation at (1) [info -f g77 M GLOBALS]
+WOSLocals/ll.f:842: warning: unused variable `ch'
+WOSLocals/ll.f:857: warning: `ser1' might be used uninitialized in this function
+WOSLocals/ll.f:858: warning: `ser2' might be used uninitialized in this function
+WOSLocals/ll.f: In subroutine `llres':
+WOSLocals/ll.f:100: warning:
+            IF (SEMDIA('Symmetry type not found',NDIERR)) RETURN
+                1
+WOSLocals/ll.f:1307: (continued):
+            IF (SEMDIA(RECORD)) RETURN
+                2
+Too few arguments for `semdia' at (2) versus invocation at (1) [info -f g77 M GLOBALS]
+WOSLocals/ll.f:1290: warning: unused variable `semcon'
+WOSLocals/ll.f: In function `llres2':
+WOSLocals/ll.f:1510: warning: `x2' might be used uninitialized in this function
+WOSLocals/ll.f:1511: warning: `y2' might be used uninitialized in this function
+WOSLocals/ll.f:1515: warning: `x1' might be used uninitialized in this function
+WOSLocals/ll.f:1516: warning: `y1' might be used uninitialized in this function
+WOSLocals/ll.f: In subroutine `llsl':
+WOSLocals/ll.f:1557: warning: unused variable `semcon'
+WOSLocals/ll.f:1626: warning: `nl' might be used uninitialized in this function
+WOSLocals/zrdwrt.f: In function `zchopf':
+WOSLocals/zrdwrt.f:274: warning: `bstep' might be used uninitialized in this function
+WOSLocals/erdwrt.f: In subroutine `erdwrt':
+WOSLocals/erdwrt.f:16: warning: unused variable `idate'
+WOSLocals/erdwrt.f:15: warning: unused variable `l'
+WOSLocals/erdwrt.f:15: warning: unused variable `i'
+WOSLocals/iirfil.f: In subroutine `iirfil':
+WOSLocals/iirfil.f:22: warning: unused variable `val'
+WOSLocals/iirfil.f:22: warning: unused variable `x'
+WOSLocals/iirfil.f:20: warning: unused variable `n4'
+WOSLocals/iirfil.f:20: warning: unused variable `io'
+WOSLocals/iirfil.f:20: warning: unused variable `i5'
+WOSLocals/iirfil.f:20: warning: unused variable `i4'
+WOSLocals/iirfil.f:20: warning: unused variable `i3'
+WOSLocals/iirfil.f:20: warning: unused variable `i2'
+WOSLocals/iirfil.f:20: warning: unused variable `i1'
+WOSLocals/iirfil.f:20: warning: unused variable `inp'
+WOSLocals/iirfil.f:19: warning: unused variable `lasto'
+WOSLocals/iirfil.f:19: warning: unused variable `p'
+WOSLocals/iirfil.f:19: warning: unused variable `po'
+WOSLocals/iirfil.f:15: warning: unused variable `clap'
+WOSLocals/iirfil.f:15: warning: unused variable `k'
+WOSLocals/iirfil.f:13: warning: unused variable `opt'
+WOSLocals/iirfil.f: In function `iirf2':
+WOSLocals/iirfil.f:154: warning: unused variable `i1'
+WOSLocals/iirfil.f:154: warning: unused variable `io'
+WOSLocals/npsout.f: In subroutine `npsfl':
+WOSLocals/npsout.f:273: warning:
+               IF (SEMROW(1,LUT,NFMINT,N,1,LP2)) GOTO 150
+                   1
+WOSLocals/npsout.f:476: (continued):
+                     IF (SEMROW(1,RB2,NFMCOM,J,K,LP1)) GOTO 150
+                         2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/npsout.f:273: warning:
+               IF (SEMROW(1,LUT,NFMINT,N,1,LP2)) GOTO 150
+                   1
+WOSLocals/npsout.f:484: (continued):
+                     IF (SEMROW(1,RB1,NFMFP,J,K,LP1)) GOTO 150
+                         2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+WOSLocals/npsout.f:118: warning: unused variable `nfalse'
+WOSLocals/npsout.f:93: warning: unused variable `npix'
+WOSLocals/npsout.f:90: warning: `imoff' might be used uninitialized in this function
+WOSLocals/npsout.f:93: warning: `annot' might be used uninitialized in this function
+WOSLocals/npsout.f:95: warning: `a' might be used uninitialized in this function
+WOSLocals/npsout.f:95: warning: `b' might be used uninitialized in this function
+WOSLocals/npsout.f: In function `npsfl1':
+WOSLocals/npsout.f:642: warning: `lold' might be used uninitialized in this function
+WOSLocals/npsout.f: In function `npsfl4':
+WOSLocals/npsout.f:901: warning: `n1' might be used uninitialized in this function
+WOSLocals/npsout.f:901: warning: `n2' might be used uninitialized in this function
+WOSLocals/npsout.f:901: warning: `n3' might be used uninitialized in this function
+NUlocals/distrib.f: In function `sgamma':
+NUlocals/distrib.f:352: warning: `s2' might be used uninitialized in this function
+NUlocals/distrib.f:353: warning: `s' might be used uninitialized in this function
+NUlocals/distrib.f:354: warning: `d' might be used uninitialized in this function
+NUlocals/distrib.f:375: warning: `q0' might be used uninitialized in this function
+NUlocals/distrib.f:386: warning: `b' might be used uninitialized in this function
+NUlocals/distrib.f:387: warning: `si' might be used uninitialized in this function
+NUlocals/distrib.f:388: warning: `c' might be used uninitialized in this function
+NUlocals/distrib.f: In function `kpoiss':
+NUlocals/distrib.f:491: warning: `kpoiss' might be used uninitialized in this function
+NUlocals/distrib.f:517: warning: `s' might be used uninitialized in this function
+NUlocals/distrib.f:518: warning: `d' might be used uninitialized in this function
+NUlocals/distrib.f:524: warning: `l' might be used uninitialized in this function
+NUlocals/distrib.f:538: warning: `fk' might be used uninitialized in this function
+NUlocals/distrib.f:539: warning: `difmuk' might be used uninitialized in this function
+NUlocals/distrib.f:540: warning: `u' might be used uninitialized in this function
+NUlocals/distrib.f:552: warning: `omega' might be used uninitialized in this function
+NUlocals/distrib.f:555: warning: `c3' might be used uninitialized in this function
+NUlocals/distrib.f:556: warning: `c2' might be used uninitialized in this function
+NUlocals/distrib.f:557: warning: `c1' might be used uninitialized in this function
+NUlocals/distrib.f:558: warning: `c0' might be used uninitialized in this function
+NUlocals/distrib.f:559: warning: `c' might be used uninitialized in this function
+NUlocals/distrib.f:575: warning: `e' might be used uninitialized in this function
+NUlocals/distrib.f:625: warning: `m' might be used uninitialized in this function
+NUlocals/distrib.f:627: warning: `p' might be used uninitialized in this function
+NUlocals/distrib.f:628: warning: `q' might be used uninitialized in this function
+NUlocals/distrib.f:629: warning: `p0' might be used uninitialized in this function
+NUlocals/distrib.f: Outside of any program unit:
+NUlocals/distrib.f:82: warning: `r' might be used uninitialized in this function
+NUlocals/enter.f: In subroutine `enter':
+NUlocals/enter.f:86: warning:
+   200             format('Please enter file name > '$)
+                                                     ^
+Missing comma in FORMAT statement at (^)
+NUlocals/enter.f:42: warning: unused variable `show'
+NUlocals/enter.f:41: warning: unused variable `file_open_1__'
+NUlocals/enter.f:40: warning: unused variable `semppn'
+NUlocals/enter.f:39: warning: unused variable `lbyte'
+NUlocals/enter.f:38: warning: unused variable `yon1'
+NUlocals/enter.f:38: warning: unused variable `yon'
+NUlocals/hpldm.f: In subroutine `hpldm':
+NUlocals/hpldm.f:49: warning: `i' might be used uninitialized in this function
+NUlocals/exldm.f: In subroutine `exldm':
+NUlocals/exldm.f:45: warning: unused variable `t0'
+NUlocals/exldm.f:125: warning: `ix2' might be used uninitialized in this function
+NUlocals/exldm.f:126: warning: `iy2' might be used uninitialized in this function
+NUlocals/exldm.f:133: warning: `ix3' might be used uninitialized in this function
+NUlocals/exldm.f:134: warning: `iy3' might be used uninitialized in this function
+NUlocals/exldm.f:139: warning: `ixn' might be used uninitialized in this function
+NUlocals/exldm.f:140: warning: `iyn' might be used uninitialized in this function
+NUlocals/ice.f: In subroutine `ice':
+NUlocals/ice.f:44: warning: unused variable `val'
+NUlocals/pput.f: In subroutine `pput':
+NUlocals/pput.f:63: warning:
+   200   format('Please enter file name > '$)
+                                           ^
+Missing comma in FORMAT statement at (^)
+NUlocals/pput.f:91: warning:
+              if(semrow(1,rb1,iform,j,1,LP1)) goto 100
+                 1
+NUlocals/pput.f:168: (continued):
+              if(semrow(2,cbuf,iform,j,1,LP1)) goto 100
+                 2
+Argument #2 of `semrow' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+NUlocals/pput.f:35: warning: unused variable `semlu'
+NUlocals/matrix-inversion.f: In subroutine `matrix_inversion':
+NUlocals/matrix-inversion.f:33: warning: `irow' might be used uninitialized in this function
+NUlocals/matrix-inversion.f:34: warning: `icol' might be used uninitialized in this function
+bitfld.c: In function `bshift_':
+bitfld.c:717: warning: suggest parentheses around + or - inside shift
+bitfld.c: In function `bform_':
+bitfld.c:746: warning: `bits' might be used uninitialized in this function
+cunix.c: In function `cunix_':
+cunix.c:134: warning: implicit declaration of function `flush_pipe'
+cunix.c: In function `flush_pipe':
+cunix.c:250: warning: unused variable `npipe'
+dcache.c: In function `free_cache':
+dcache.c:659: warning: unused variable `j'
+dcache.c: In function `create_segment_table':
+dcache.c:780: warning: `segment_table' might be used uninitialized in this function
+eikio.c: In function `eikexi_':
+eikio.c:71: warning: implicit declaration of function `access'
+eikio.c: In function `eikdel_':
+eikio.c:124: warning: implicit declaration of function `unlink'
+eikio.c: In function `eikcha_':
+eikio.c:255: warning: implicit declaration of function `read'
+eikio.c:263: warning: implicit declaration of function `write'
+eikio.c: In function `eikclo_':
+eikio.c:507: warning: implicit declaration of function `close'
+fs.c:98: warning: initialization makes integer from pointer without a cast
+fs.c:99: warning: initialization makes integer from pointer without a cast
+fs.c:100: warning: initialization makes integer from pointer without a cast
+fs.c:191: warning: initialization makes integer from pointer without a cast
+fs.c:192: warning: initialization makes integer from pointer without a cast
+fs.c:193: warning: initialization makes integer from pointer without a cast
+fs.c: In function `semtou_':
+fs.c:1194: warning: implicit declaration of function `write'
+fs.c: In function `xsddis':
+fs.c:1957: warning: `cptr' might be used uninitialized in this function
+fs.c:1958: warning: `sptr' might be used uninitialized in this function
+fs.c:1959: warning: `lptr' might be used uninitialized in this function
+fs.c: In function `xsfupd':
+fs.c:2266: warning: implicit declaration of function `sxrout'
+fs.c: In function `xsdnot':
+fs.c:2309: warning: implicit declaration of function `sxrins'
+fs.c: In function `xsqstr':
+fs.c:2388: warning: implicit declaration of function `abreak'
+fs.c:2426: warning: implicit declaration of function `semend_'
+fs.c:2431: warning: implicit declaration of function `eqxxke_'
+fs.c: In function `sx11ex_':
+fs.c:2523: warning: comparison between pointer and integer
+fs.c:2526: warning: assignment makes integer from pointer without a cast
+fs.c:2529: warning: comparison between pointer and integer
+fs.c:2532: warning: assignment makes integer from pointer without a cast
+fs.c:2535: warning: comparison between pointer and integer
+fs.c:2538: warning: assignment makes integer from pointer without a cast
+fs.c: In function `sx11ce_':
+fs.c:2759: warning: implicit declaration of function `eqxxse_'
+fs.c:2769: warning: passing arg 1 of `XLookupString' from incompatible pointer type
+fs.c:2971: warning: implicit declaration of function `fsx11m_'
+fs.c:3108: warning: implicit declaration of function `uixxrm_'
+fs.c:3130: warning: implicit declaration of function `eqxxpe_'
+fs.c: In function `sx11in_':
+fs.c:3286: warning: unused variable `unseen'
+fs.c:3292: warning: unused variable `last_resort'
+fs.c: In function `fsas61_':
+fs.c:5147: warning: implicit declaration of function `sxrsiz'
+fs.c:5327: warning: implicit declaration of function `fsx11p_'
+fs.c:4872: warning: unused variable `cells'
+fs.c:4872: warning: unused variable `saved'
+fs.c:4872: warning: unused variable `depth'
+fs.c:4878: warning: unused variable `best'
+fs.c:4878: warning: unused variable `bclass'
+fs.c:4879: warning: unused variable `maxind'
+fs.c:4878: warning: `n' might be used uninitialized in this function
+fs.c: In function `fsxdcu':
+fs.c:5576: warning: implicit declaration of function `semdln_'
+fs.c:5577: warning: implicit declaration of function `semuln_'
+fs.c: In function `fsde61_':
+fs.c:5964: warning: comparison between pointer and integer
+fs.c:5967: warning: assignment makes integer from pointer without a cast
+fs.c: In function `fslu61_':
+fs.c:6713: warning: unused variable `grey'
+fs.c:6714: warning: unused variable `lutr'
+fs.c:6714: warning: unused variable `lutg'
+fs.c:6714: warning: unused variable `lutb'
+mctp61.c: In function `mctp61_':
+mctp61.c:61: warning: suggest parentheses around comparison in operand of |
+mctp61.c:61: warning: suggest parentheses around comparison in operand of |
+mctp61.c:61: warning: suggest parentheses around comparison in operand of |
+semhan.c: In function `semhan_':
+semhan.c:51: warning: implicit declaration of function `printf'
+semhan.c:58: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c:60: warning: implicit declaration of function `semini_'
+semhan.c:65: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c:73: warning: implicit declaration of function `semain_'
+semhan.c: In function `eqxxbo_':
+semhan.c:105: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c: In function `abreak':
+semhan.c:202: warning: implicit declaration of function `semcon_'
+semhan.c:203: warning: implicit declaration of function `eqxxkc_'
+semhan.c:205: warning: implicit declaration of function `semend_'
+semhan.c:210: warning: implicit declaration of function `eqxxbe_'
+semhan.c:216: warning: passing arg 2 of `signal' from incompatible pointer type
+semhan.c: In function `afperr':
+semhan.c:356: warning: passing arg 2 of `signal' from incompatible pointer type
+stdio.c: In function `readsi_':
+stdio.c:48: warning: implicit declaration of function `read'
+stdio.c: In function `writso_':
+stdio.c:120: warning: implicit declaration of function `writfd'
+stdio.c: In function `writfd':
+stdio.c:185: warning: implicit declaration of function `write'
+usleep.c:15: warning: return type defaults to `int'
+usleep.c: In function `usleep_':
+usleep.c:27: warning: int format, __time_t arg (arg 2)
+usleep.c:28: warning: int format, long int arg (arg 2)
+usleep.c: At top level:
+usleep.c:47: warning: return type defaults to `int'
+usleep.c: In function `usleep_':
+usleep.c:43: warning: control reaches end of non-void function
+usleep.c: In function `usleep':
+usleep.c:51: warning: control reaches end of non-void function
+xrect.c: In function `sxrdrw':
+xrect.c:235: warning: implicit declaration of function `xsdvir'
+xrect.c: In function `sxrout':
+xrect.c:244: warning: `startx' might be used uninitialized in this function
+cform_test.f: In program `cform_test':
+cform_test.f:66: warning:
+         CALL CFORM(IB1,IB2,it1,it1,I4256)
+              1
+cform_test.f:81: (continued):
+            CALL CFORM(IB2,IB2,OLDF,NEWF,I4256)
+                 2
+Argument #3 of `cform' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+cform_test.f:66: warning:
+         CALL CFORM(IB1,IB2,it1,it1,I4256)
+              1
+cform_test.f:81: (continued):
+            CALL CFORM(IB2,IB2,OLDF,NEWF,I4256)
+                 2
+Argument #4 of `cform' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+cform_test.f: In subroutine `cfver':
+cform_test.f:67: warning:
+         CALL CFVER(IB2,TERM2)
+              1
+cform_test.f:115: (continued):
+         SUBROUTINE CFVER(N,TERM2)
+                    2
+Argument #2 (named `term2') of `cfver' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f: In program `mcdc61_test':
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:86: (continued):
+         call mcdc61(IOP,ndev,dsize,NUM,name(1,ndev),error)
+              2
+Argument #4 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:86: (continued):
+         call mcdc61(IOP,ndev,dsize,NUM,name(1,ndev),error)
+              2
+Argument #5 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:178: (continued):
+            call mcdc61(mode,n,i40,num,name(1,n),error)
+                 2
+Argument #2 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:178: (continued):
+            call mcdc61(mode,n,i40,num,name(1,n),error)
+                 2
+Argument #4 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:52: warning:
+         call mcdc61(IOP,IDEV,lnblk4,cbsize,b,error)
+              1
+mcdc61_test.f:178: (continued):
+            call mcdc61(mode,n,i40,num,name(1,n),error)
+                 2
+Argument #5 of `mcdc61' is one precision at (2) but is some other precision at (1) [info -f g77 M GLOBALS]
+mcdc61_test.f:44: warning: unused variable `ibuff'
+semper.f: In subroutine `semain':
+semper.f:1866: warning:
+     190 CALL MERGE
+              ^
+Reference to unimplemented intrinsic `MERGE' at (^) (assumed EXTERNAL)
+helpman.f: In program `MAIN__':
+helpman.f:71: warning: `master' might be used uninitialized in this function
+helpman.f:74: warning: `eblk' might be used uninitialized in this function
+helpman.f:89: warning: `ditem' might be used uninitialized in this function
+helpman.f:89: warning: `eitem' might be used uninitialized in this function
+helpman.f:90: warning: `isort' might be used uninitialized in this function
+helpman.f:91: warning: `kptr' might be used uninitialized in this function
+helpman.f: In function `helpm9':
+helpman.f:190: warning:
+          IF (DISC(0,0,I40,BUFF3,I40,0,0)) GOTO 850
+              1
+helpman.f:1918: (continued):
+            IF (DISC(1,DEVICE,LNBLK4,RB1,I41,1,0)) GOTO 40
+                2
+Argument #4 of `disc' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+helpman.f:190: warning:
+          IF (DISC(0,0,I40,BUFF3,I40,0,0)) GOTO 850
+              1
+helpman.f:1980: (continued):
+            IF (DISC(2,DEVICE,LNBLK4,RB1,I41,1,0)) GOTO 40
+                2
+Argument #4 of `disc' is one type at (2) but is some other type at (1) [info -f g77 M GLOBALS]
+helpman.f: In function `semxa1':
+helpman.f:2016: warning: `ip' might be used uninitialized in this function

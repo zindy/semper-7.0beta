@@ -1,0 +1,53 @@
+July 24:        Initial autoconf/automake functional
+July 25:        Alpha version working in gcc/g77 & icc/ifort
+        Open:   FSEEK intrinsic differs gcc & ifort
+                SGI locals disabled (check for library?)
+                fortran-C communication hacked, not right
+                make dist, make rpm not functional
+                unix command crashes second time around
+                hrems has a different sized ctf !!!
+                pput disabled
+July 26:        Patched gfortran with externals range, unpack
+                WOSLocals/hrems.f may be bad
+                Is gfortran stable ?
+                Patched c-code for portability (hopefully)
+                make dist repaired
+                Got framework for Mozilla help established
+July 27:        Got the patching right, at least for HP
+                Now both gcc & cc seem to work on HP
+                At the same time, verified bigendian is correct
+                Changed "Merge" WOS local to Merges to avoid intrinsic conflict
+                Added KBUFP=max(1,KBUFP) to readln.f, kline.f to avoid segmentation violations
+                Removed bound checks from debug compilation since equivalences kill it
+                Included macro code to find various intrinsics
+                Cambridge group found reallocate problem -- remove the macro?
+                Patch directory added
+July 28:        Solved tiff issues with I2 -- broken badly in I4
+                Added parameters; must remove time (unstable)
+                fort77 nearly works, but
+                        a) Does not find lnblnk.c
+                        b) Needs getcwd, access
+                        c) Has to define some larger values
+                           -Nn1604 -Nx400 -Df2c_i2
+August 2nd:	Patched fort77 -- working version now included
+		fort77 works with cygwin, need to hack -I/usr/local/include -L/usr/local/lib in
+		Identified problem with nacoma 64 bit confusing autoconf macro -- with-CPU=??
+		Patched LSEEk
+		Version in header
+August 3rd	Put PAUSE in at end of semini/helpman for catastrophic errors
+		Moved split uixrea, uixsav and WOSLocals patches, hrems1, hrems2 probably broke
+		TIFF not working with fort77 in cygwin -- char(0) ?
+August 11th     A lot of things repaired
+                Beta ready. Needs documentation.
+Sept 1st        It's become apparent that g++ needs to be installed for input/output tiff to work
+Sept 13-14      Many small changes in intrinsics for gfortran compatibility
+                Small bug in LinkHelp.f repaired
+
+Still to do:    Why does pput not work
+                Create "make cygwin_dist"
+		Test -with-CPU= for nacoma, pentium_m etc
+		Do something about moving discs between big/little endian
+		What is broke?
+                Have fun
+
+2012            Found integer image bug. Seems to be more than one thing. Finally solved, I think

@@ -1,0 +1,23 @@
+There is a very good change that the WOS local hrems is broken.
+
+Assigning a file using the APPEND option is probably broken. FSEEK needs to be 
+repaired (usage of the intrinsic varies with compiler).
+
+make rpm does not work
+
+The unix command is somewhat broken (50% chance of working). This might be due 
+to vfork.h problems, unclear
+
+The NU Mozilla-Help structure is currently broken under cygwin
+
+I/O for bmp and raster probably not working
+
+To date, compilation working on:
+        Cygwin
+        HPUX
+        Suse, Redhat (32 bit)
+        SGI
+
+To date, compilation has failed on:
+        64bit Intel Nacoma: possibly in c code/headers
+        Mac OS:             probably due to broken g77/gcc on Mac

@@ -1,0 +1,145 @@
+!
+! Semper 6 Plus Demonstration User Interface (TUTOR).
+!
+! Copyright (C) 1989-1991:  Synoptics Ltd,  All Rights Reserved
+!
+echo terminal nolog
+page noprompt
+!
+! Determine whether semper is demonstration copy
+!
+$ds=0
+trap=-1 write
+if rc=14 $ds=1
+!
+! First set up the display. Amend this to suit the peculiarities of
+! the framestore.
+!
+trap = -1 assign display
+if (rc = 0) jump ok4
+type 'Cannot assign the display.'
+exit
+!
+! Now set up the library disc, creating it as necessary. If it is
+! created then read in the library programs.
+!
+ok4:
+trap = 44 assign program name 'tutor'
+if ~(rc = 44) jump ok
+type 'Cannot find existing file "tutor.plb"'
+if $ds=1 exit
+type 'Trying to assign new file "tutor.plb"'
+trap = 44 assign new program name 'tutor' size 100 slots 256
+if ~(rc = 44) jump ok2
+type 'Sorry, cannot generate the program disc to run this program.'
+type 'Check that there is at least 200k free on your disc.'
+exit
+ok2:
+cd = n
+add name 'tutor'
+compress device cd
+!
+! Set up the help system. Warn if this is not found but continue.
+!
+ok:
+$i5 = 1
+trap = 44 assign help name 'tutor'
+if (rc = 44) $i5 = 0 type 'Sorry, cannot find help file (tutor.hlb)'
+!
+! Now assign the picture disc. If a new disc try and read in the
+! standard test picture so that there is at least one image to play
+! with.
+!
+if $ds=1 jump sc1
+trap = 44 assign name 'tutor'
+unless (rc = 44) jump okt
+sc1:
+type 'The disc in which you will store pictures does not exist yet.'
+type 'Enter the size that you would like it to be in Mb.'
+type '(The disc must be at least 1Mb in size)'
+dsize = 0
+ask  'Size: ' dsize
+if (dsize < 1) dsize = 1
+trap = 44 assign new name 'tutor' size (dsize * 1000)
+unless (rc = 44) jump ok5
+type 'Sorry, cannot create picture disc for Semper 6 Plus operations'
+type 'Check that you have at least ',dsize,'MB free on your disc'
+exit
+ok5:
+unset dsize
+cd = n
+trap = -1 read 1 name 'semper'
+if (rc = 0) jump ok3
+type 'Sorry, could not read in test picture 1'
+ok3:
+trap = -1 read 2 name 'tutor3'
+if (rc = 0) jump okt
+type 'Sorry, could not read in test picture 2'
+okt:
+cd = n
+!
+! ASSIGNING LOGGING OUTPUT FILES
+!
+  $lc = 0 $lo = 0
+  if $ds=1 jump lo1
+!
+! full Semper version
+!
+! Assign file for logging command stream
+!
+  trap = -1 assign name 'tutorc' file append
+  if (rc = 0) $lc = n ;! Command log id
+!
+! Assign file for logging output stream
+!
+  trap = -1 assign name 'tutorl' file append
+  if (rc = 0) $lo = n ;! Output log id
+!
+  if $lc = 0 type 'Command logging not available during this session.'
+  if $lo = 0 type 'Output  logging not available during this session.'
+  jump loe
+!
+lo1:
+!
+! If demo version, no logging of command or output streams
+!
+  type 'DEMONSTRATION VERSION OF SEMPER, command logging not available.'
+  type 'DEMONSTRATION VERSION OF SEMPER, output  logging not available.'
+!
+loe:
+!
+page prompt
+!
+! Find (terminal) screen limits
+!
+uif enable
+cdi=1
+device query cdi
+$dx = uix $dy = uiy
+$c0 = 1 $c1 = 0 $c2 = 1 $c3 = 0 $c4 = 0 $c5=1 ! Set display colours
+if (nco = 8) $c0 = 1 $c1 = 4 $c2 = 1 $c3 = 2 $c4 = 7 $c5=4
+if (nco = 4) $c0 = 1 $c1 = 2 $c2 = 1 $c3 = 3 $c4 = 2 $c5=1
+$c8 = -1             ;! No source or destination selected
+$c9 = -1
+!
+! Set up the menu interface
+!
+lib make$interface
+!
+! and the default framestore configuration
+!
+lib setup$display
+!
+! Check that the system has a mouse and if not enable the command line
+! interface.
+!
+mouse query
+if ((nbuttons > 0) | ($sm = 1)) jump mpresent
+$sm = 1 lib ss
+mpresent:
+!
+! Set the interface going with initial help too.
+!
+mouse position 0,0
+uif go; lib hfn;
+end

@@ -1,0 +1,167 @@
+C
+C     Semper event queue common blocks/internal parameter declarations
+C     ----------------------------------------------------------------
+C
+C     Break event queue
+C     -----------------
+C
+C     Break queue state
+C
+      INTEGER BRKSTA
+C
+C     Break queue break count
+C
+      INTEGER BRKCNT
+C
+C     Break queue filling/reading disable flag
+C
+      LOGICAL BQDIS
+C
+C     'Break queue is physically there' flag
+C
+      LOGICAL BRKPHS
+C
+      COMMON /EQB/ BRKSTA, BRKCNT, BQDIS, BRKPHS
+C
+C     Keyboard event queue
+C     -------------------
+C
+C     Keyboard queue size - must be power of 2
+C
+      INTEGER KQSIZE
+      PARAMETER (KQSIZE=512)
+C
+C     Keyboard queue size mask
+C
+      INTEGER KQMASK
+      PARAMETER (KQMASK=KQSIZE-1)
+C
+C     Keyboard queue state
+C
+      INTEGER KEYSTA
+C
+C     Keyboard queue write pointer - points at last entry written into
+C     queue.
+C
+      INTEGER KQINTO
+C
+C     Keyboard queue read pointer - points at the last entry read from
+C     queue.
+C
+      INTEGER KQREAD
+C
+C     Keyboard queue last character read
+C
+      INTEGER KQLAST
+C
+C     Keyboard queue filling/reading disable flag
+C
+      LOGICAL KQDIS
+C
+C     'Keyboard queue is physically there' flag
+C
+      LOGICAL KBDPHS
+C
+C     The keyboard queue
+C
+      INTEGER KQUEUE(0:KQSIZE-1)
+C
+      COMMON /EQK/ KEYSTA,KQINTO,KQREAD,KQLAST,KQDIS,KBDPHS,KQUEUE
+C
+C     Pointer event queue
+C     -------------------
+C
+C     Pointer queue size - must be power of 2
+C
+      INTEGER PQSIZE
+      PARAMETER (PQSIZE=256)
+C
+C     Pointer queue size mask
+C
+      INTEGER PQMASK
+      PARAMETER (PQMASK=PQSIZE-1)
+C
+C     Pointer queue state
+C
+      INTEGER PNTSTA
+C
+C     Pointer queue write pointer
+C
+      INTEGER PQINTO
+C
+C     Pointer queue read pointer
+C
+      INTEGER PQREAD
+C
+C     Pointer queue filling/reading disable flag
+C
+      LOGICAL PQDIS
+C
+C     'Pointer queue is physically there' flag
+C
+      LOGICAL PNTPHS
+C
+C     Pointer last delta values
+C
+      INTEGER PNTXLD, PNTYLD
+C
+C     Gearing and sensitivity of mouse in X and Y
+C
+      INTEGER PXGEAR, PYGEAR, PNTXSN, PNTYSN
+C
+C     The Pointer queue
+C
+      INTEGER PQUEUE(2,0:PQSIZE-1)
+C
+      COMMON /EQP/ PNTSTA, PQINTO, PQREAD, PQDIS, PNTPHS,
+     +             PNTXLD, PNTYLD, PXGEAR, PYGEAR,
+     +             PNTXSN, PNTYSN, PQUEUE
+C
+C     Switches event queue
+C     --------------------
+C
+C     Switches queue size - must be power of 2
+C
+      INTEGER SQSIZE
+      PARAMETER (SQSIZE=64)
+C
+C     Keyboard queue size mask
+C
+      INTEGER SQMASK
+      PARAMETER (SQMASK=SQSIZE-1)
+C
+C     Switches queue state
+C
+      INTEGER SWTSTA
+C
+C     Switches queue write pointer
+C
+      INTEGER SQINTO
+C
+C     Switches queue read pointer
+C
+      INTEGER SQREAD
+C
+C     Switches queue last switch open, close and closure set
+C
+      INTEGER SWTLOP, SWTLCL, SWTLCS
+C
+C     Switch queue filling/reading disable flag
+C
+      LOGICAL SQDIS
+C
+C     'Switches queue is physically there' flag
+C
+      LOGICAL SWTPHS
+C
+C     The Switches queue
+C
+      INTEGER SQUEUE(3,0:PQSIZE-1)
+C
+      COMMON /EQS/ SWTSTA, SQINTO, SQREAD, SWTLOP, SWTLCL, SWTLCS,
+     +             SQDIS, SWTPHS, SQUEUE
+C
+C----------------------------------------------------------------------
+C
+C Copyright (C) 1988, 1989, 1990:  Synoptics Ltd,  All Rights Reserved
+C

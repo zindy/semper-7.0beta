@@ -1,0 +1,14 @@
+A woefully short file at the moment!
+
+1) Put the location of semper7 in your PATH variable, e.g.
+PATH=/usr/local/semper-7.0beta/bin:$PATH
+export PATH
+
+2) Copy the contents of /usr/local/semper-7.0beta/Examples (change 
+as needed if you used a different location). This will allow you to
+start. Before you do, you probably want to create a help library
+using helpman7 -- which has fairly self explanatory commands.
+
+3) Run semper. The command help XYZ will provide some information
+which you may have to wade through. In some cases doing help /mon XYZ
+may be better (but rather lengthy).

@@ -1,0 +1,377 @@
+
+Fitdp()
+! Fits D,A to experimental diffgram by merged presentn of
+! ----- theor patterns, with kbd-driven D,A varn in several dirns
+! Uses 998,999..
+
+! Uses IPS=2 (C1,A1,A12)
+
+local step,ram,ips
+local p,s,nx,ny,nz,dinc,ap,oaphi
+local d0,d1,d2,d3,d4,d5,d6,d7
+local t0,t1,t2,t3,t4,t5,t6,t7
+local nk,n,sa,pc,pc2
+
+if ~set(ram) ram=cd
+! Effective focus in dirn t is D + a1*(cos^2-sin^2) + 2*a12*cos*sin
+if ~set(phy) phy=no
+
+! eventq bug: kill SWI locally
+local swi,sbk
+if set(swi) sbk=swi
+unset swi
+
+ask 'Experimental diffgram to be fitted [',sel,']: ' p
+unl set(p) p=sel
+if p<1000 p=cd*1000+p
+sel p
+ask 'Size of region to fit [all]: ' ps
+pic p size
+unl set(ps) ps=nx
+
+l:
+
+unl set(step) ask 'Image plane sampling interval STEP: ' step
+unl set(step) jump l
+! modify to accomodate region size
+step=step*fix(nx/2)/fix(ps/2)
+l2:
+
+dinc=.05
+if phy dinc=5
+if phy unl set(kv&cs) ask 'Voltage/kV, Cs/mm: ' kv,cs
+if phy unl set(kv&cs) jump l2
+! set rounding
+rt=100
+if phy rt=1
+if ~set(c1) c1=0
+
+! list directions, marking unset
+for n=0,7
+  t#n=n*pi/8 d#n=1e9
+loop
+drn=0 dt=c1 a1=0 a12=0 ast=0
+
+! prepare local copy of diffgram, scaled to match ctf
+cut p ram:998 size ps
+pc=25,2
+lib trunchist
+scale preset range 0,2 fp
+erase part 1
+mark part pos -ps/2,-ps/2-15 lj text 'C1 [overfoc pos]'
+mark arc rad .6*ps angle 0,7*pi/8
+for n=0,7
+  mark part pos .6*ps*cos(t#n), .6*ps*sin(t#n) to .65*ps*cos(t#n),.65*ps*sin(t#n)
+loop
+
+! Effective D fitting
+type
+type 'Match rings and Record in at least three directions'
+type 'then RETURN to quit'
+type '    Up,Down: raise,lower [over]focus along current direction'
+type ' Right,Left: Next,Prev direction'
+type '        R/D: Record/Delete current value'
+type '          S: to Swap halves'
+type '        C/F: for Coarser/Finer step'
+type
+ax=0
+
+! new ctf
+nctf:
+
+lib fitdp$s1
+
+! ensure IPS 2 (localled)
+ips=2
+nctf=no
+! new display
+ndis:
+sa=t#drn + ax*pi
+dps ram:998 noerase angle sa
+erase part over pos ps/2-30,-ps/2-15 size 60,20
+if phy mark part pos ps/2,-ps/2-15 rj text rou(dt*rt)/rt,'nm'
+if ~phy mark part pos ps/2,-ps/2-15 rj text '  ', rou(dt*rt)/rt,'ru'
+! be helpful: restore original current pic
+select p
+ndis=no
+
+! poll kbd, with short wait to help when multi-tasking
+pkb:
+
+wait .1
+eventq key count
+unless nk=0 jump rkb
+! no more keys: update display
+if nctf jump nctf
+if ndis jump ndis
+jump pkb
+! process key
+rkb:
+
+
+eventq key read
+if n=3 return
+if n=13 jump q
+! up/downarrows: adjust d-val
+if n=513 jump up
+if n=514 jump down
+! S: immediate redisplay in new orientation
+if n=77 | n=115 ax=1-ax ndis=yes jump pkb
+! left/rightarrows: record and move to new direction
+if n=515 nd=drn jump pdrn
+if n=516 nd=drn jump ndrn
+! R: record current focus
+if n=82 | n=114 jump record
+! D: delete recorded value...........
+if n=68 | n=100 nd=drn jump delete
+! C,F: adjust d-incr
+if n=70 | n=102 dinc=dinc/2 jump pkb
+if n=67 | n=99 dinc=dinc*2 jump pkb
+jump pkb
+
+! change focus - note new D, flag new ctf
+up:
+
+dt=dt+dinc nctf=yes jump pkb
+down:
+
+dt=dt-dinc nctf=yes
+jump pkb
+! record current focus - and note on display
+record:
+
+d#drn=dt
+mark part pos .75*ps*cos(t#drn),.75*ps*sin(t#drn) text rou(dt*rt)/rt
+! type 'DEBUG: d0-7: ',d0,d1,d2,d3,d4,d5,d6,d7
+jump pkb
+! change dirn - mark dirn, set D in new dirn, flag new disp
+ndrn:
+
+nd=rem(nd+1,8)
+jump nd
+pdrn:
+nd=rem(nd+7,8)
+nd:
+
+! mark size ps,1 ang t#drn
+! d#drn=dt
+nd2:
+
+drn=nd ndis=yes
+c=cos(t#drn) s=sin(t#drn)
+dt=c1+a1*(c^2-s^2)+2*a12*c*s
+! type 'DEBUG: d0-7: ',d0,d1,d2,d3,d4,d5,d6,d7
+jump pkb
+! delete record - and erase note from display
+delete:
+
+d#drn=1e9
+erase part over pos .75*ps*cos(t#drn),.75*ps*sin(t#drn) size 45,20
+! type 'DEBUG: d0-7: ',d0,d1,d2,d3,d4,d5,d6,d7
+jump pkb
+
+! make final LS fit on all three params
+q:
+
+! type 'DEBUG: d0-7: ',d0,d1,d2,d3,d4,d5,d6,d7
+lib fitdp$s2
+if det=0 return
+! note misfit
+d=0 nr=0
+for drn=0,7
+
+  if d#drn=1e9 next
+  ci=cos(t#drn) si=sin(t#drn)
+  d=d + (d#drn - c1-a1*(ci^2-si^2)-2*a12*ci*si)^2
+  nr=nr+1
+loop
+s=0
+if n>1 s=root(d/(n-1))
+if phy rt=10
+type 'RMS misfit between measured,fitted focus values: ',rou(s*rt)/rt
+! d=root(e11^2+e12^2+e13^2)*s
+! d2=root(e21^2+e22^2+e23^2)*s d3=root(e31^2+e32^2+e33^2)*s
+! type '=> Underfocus ',c1,' with std.err. ',round(d*rt)/rt
+! type '   Astigmatism 2-cmps ',a1,a12,' with std.errs ', round(d2*rt)/rt,round(d3*rt)/rt
+type '                  IPS=2: C1 = ',rou(c1*rt)/rt, +
+', A1 = ',rou(a1*rt)/rt,',',rou(a12*rt)/rt
+def=-c1 ast=2*mod(a1,a12) aphi=.5*pha(a1,a12)
+type 'Final Parameters: IPS=1: DEF = ',rou(def*rt)/rt, +
+', AST,APHI = ',rou(ast*rt)/rt,',',rou(aphi*1000)/1000
+
+! display as finally fitted
+
+mill:
+
+trap=4 dps ram:998 angle sa noerase
+if rc=4 jump q2
+! loop till user gets bored
+sa=sa+pi/32
+jump mill
+
+! be helpful: restore original current pic
+q2:
+sel p
+return
+
+end
+
+Trunchist()
+! given histogram, sets MIN,MAX so as to truncate PC[2]%
+! --------- of current picture data range at lower,upper end
+! Use ram:999
+local c,nc,b,w,t,mean,sd,pc,pc2,n
+
+! # channels
+nc=500
+
+! note current
+n=select
+hist to ram:999 channels nc
+reclass image
+
+if ~set(pc) ask 'Percentages to truncate left,right [0.1,%left]: ' pc,pc2
+if ~set(pc) pc=.1
+if ~set(pc2) pc2=pc
+
+b=p(nc) w=p(nc+1) dx=(w-b)/nc
+
+! find PC% of total counts
+survey left size nc full nover
+
+! accumulate counts from left
+tgt=mean*nc*pc/100
+pc=0 t=0
+nl:
+
+t=t+p(pc)
+if t<tgt pc=pc+1 jump nl
+pc=pc+1-(t-tgt)/p(pc)
+min=b+pc/nc*(w-b)
+
+! accumulate counts from right
+tgt=mean*nc*pc2/100
+pc=nc-1 t=0
+nr:
+
+t=t+p(pc)
+if t<tgt pc=pc-1 jump nr
+pc=pc+(t-tgt)/p(pc)
+max=b+pc/nc*(w-b)
+
+! restore original current
+select n
+
+end
+
+Fitdp$s1()
+! Adjust C1,A1,A12 to match DT along current dirn and
+! -------- LS fit any others recorded
+!
+c=cos(t#drn) s=sin(t#drn)
+
+sqq=0 sqr=0 srr=0 spq=0 spr=0 nr=0
+for i=0,7
+  if d#i=1e9 next
+  if i=drn next
+  nr=nr+1 ci=cos(t#i) si=sin(t#i)
+  dd=dt-d#i q=c^2-s^2-ci^2+si^2 r=2*(c*s-ci*si)
+  sqq=sqq+q^2 sqr=sqr+q*r srr=srr+r^2 spq=spq+dd*q spr=spr+dd*r
+loop
+! No other dirns measured: return zero astig and DT
+if nr=0 a1=0 a12=0 jump q
+! One other dirn measured: return min astig fixing DT and other D
+if nr=1 ci=dd/q si=-r/q a12=-ci*si/(si*si+1) a1=ci+si*a12 jump q
+! Two or more other dirns measured: LSfit D,A1,A12 fixing DT
+det=sqq*srr-sqr^2 a1=(spq*srr-sqr*spr)/det a12=(sqq*spr-spq*sqr)/det
+
+q:
+
+c1=dt-a1*(c^2-s^2)-2*a12*c*s
+! type 'FITDP$S1: new C1,A1,A12 ',c1,a1,a12
+! check fit by verifying new sectional focus values
+! for i=0,7
+! ci=cos(t#i) si=sin(t#i)
+! nd#i=c1+a1*(ci^2-si^2)+2*a12*ci*si
+! loop
+! type 'FITDP$S1: D0-7: ',d0,d1,d2,d3,d4,d5,d6,d7,' target DT: ',dt
+! type '...revised vals: ',nd0,nd1,nd2,nd3,nd4,nd5,nd6,nd7
+
+end
+
+Fitdp$s2()
+! Fit C1,A1,A12 to 8 defocus values in various dirns
+! -------- Data required: D0,D1,D2.. = eff.def in dirns T0,T1,T2..
+! Points ignored if D#N=1e9
+! A1,A12 are also passed back in AST,APHI form
+
+! Theory: Given observed Di = D + A1.(ci^2-si^2) + 2.A12.ci.si
+! for effective defocus in dirn i, with ci,si = cos,sin of relevant
+! azimuth. Defining E = Sum{Di-D-.5A1(ci^2-si^2)-A12cisi}^2, and
+! abbreviating pi=ci^2-si^2, qi=2.ci.si for brevity, minimisation:
+! / 1 pi qi\ / D\ / Di \
+! Sum | pi pi^2 piqi | | A1 | = Sum | piDi |
+! \qi piqi qi^2/ \A12/ \pqDi/
+
+local m11,m12,m13,m21,m22,m23,m31,m32,m33,m31,b1,b2,b3,i,t,p,q
+local e11,e12,e13,e21,e22,e23,e31,e32,e33
+
+! Calculate sums
+m11=0 m12=0 m13=0 m21=0 m22=0 m23=0 m31=0 m32=0 m33=0 b1=0 b2=0 b3=0
+for i=0,7
+  if d#i=1e9 next
+  p=cos(t#i)^2-sin(t#i)^2 q=2*cos(t#i)*sin(t#i)
+  m11=m11+1
+  m12=m12+p
+  m13=m13+q
+  m22=m22+p^2
+  m23=m23+p*q
+  m33=m33+q^2
+  b1=b1+d#i
+  b2=b2+p*d#i
+  b3=b3+q*d#i
+loop
+m21=m12
+m31=m13
+m32=m23
+! type m11,#15,m12,#30,m13,#45,'  =  ',b1
+! type m21,#15,m22,#30,m23,#45,'  =  ',b2
+! type m31,#15,m32,#30,m33,#45,'  =  ',b3
+type 'Focus recorded in ',m11,' directions'
+if m11>=3 jump solve
+type 'Insufficient directions available'
+det=0
+return
+
+solve:
+
+Det=m11*(m22*m33-m23*m32)-m12*(m21*m33-m23*m31)+m13*(m21*m32-m22*m31)
+! c1=(b1*(m22*m33-m23*m32)-m12*(b2*m33-m23*b3)+m13*(b2*m32-m22*b3))/Det
+! a1=(m11*(b2*m33-m23*b3)-b1*(m21*m33-m23*m31)+m13*(m21*b3-b2*m31))/Det
+! a12=(m11*(m22*b3-b2*m32)-m12*(m21*b3-b2*m31)+b1*(m21*m32-m22*m31))/Det
+! x1=c1 x2=a1 x3=a12 type 'Equation set solution: ',x1,x2,x3
+! type 'Check: predicted rhs is'
+! type #20,m11*x1+m12*x2+m13*x3
+! type #20,m21*x1+m22*x2+m23*x3
+! type #20,m31*x1+m32*x2+m33*x3
+
+! inverse matrix
+e11=(m22*m33-m23*m32)/det
+e12=(m13*m32-m12*m33)/det
+e13=(m12*m23-m13*m22)/det
+e21=e12
+e22=(m11*m33-m13*m31)/det
+e23=(m13*m21-m11*m23)/det
+e31=e13
+e32=e23
+e33=(m11*m22-m12*m21)/det
+
+! type 'Inverse E is'
+! type e11,#15,e12,#30,e13
+! type e21,#15,e22,#30,e23
+! type e31,#15,e32,#30,e33
+c1=e11*b1+e12*b2+e13*b3
+a1=e21*b1+e22*b2+e23*b3 a12=e31*b1+e32*b2+e33*b3
+! type 'Solution from $S2 is ',c1,a1,a12
+
+end

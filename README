@@ -1,0 +1,66 @@
+August 11th, 2005: L. D. Marks
+
+This is the beta version of a portable semper. So far it has been compiled and 
+quickly checked using the following combinations:
+        gcc 3.X, g77    Integer*4       Redhat 9 & Cygwin
+        icc, ifort      Integer*4       Redhat 9
+        icc, ifort      Integer*4       Redhat 9
+        cc, f90         Integer*2       HPUX
+
+It appears to work OK, although so far I've only been able to use the full 
+color mode since my laptop linux does not have any pseudo-color or greyscale 
+maps.
+
+The code is a "classic" GNU-like structure. What you can do is:
+        ./configure
+        make
+        make install
+        make help
+
+which will put the code in the default directory /usr/local/semper-7.0b with
+executables in /usr/local/semper-7.0b/bin under names semper7 etc. At the 
+moment you really should know what you are doing in terms of using semper to 
+be able to test it. Some information is in the file GettingStarted, which needs
+a lot more.
+
+Some words of caution:
+
+1) Many systems are broken -- believe me, this is not a joke! If you do not 
+have a correctly setup system the initial .configure step will almost certainly
+not work.
+
+2) There are various options that can be changed how the configure script is 
+run, do "./configure --help" to see them. The most important are the 
+environmental variables CC, F77 which point to your C & Fortran compilers. The 
+current script has a reasonably good idea about optimized values for the 
+compilation flags, so you probably should not tweak these.
+
+3) Often semper installations have an integer mode which is 2bytes. g77 (also
+gfortran) do not appear to have a flag which can force the default integer
+mode to by 2bytes, so the default compilation is for 4byte integer images. 
+
+4) If you REALLY want integer*2 and only have gcc/g77 in the subdirectory f2c 
+are three directories src, libf2c and fort77. Go to the first two, edit
+the "makefile" as appropriate, compile and install. Then go to fort77 and just
+run make install. If this works you have a 99% change of using the flag
+--enable-fort77 when you configure (with F77=fort77) and getting a running
+version. Some things will probably not work right, you're a bit on your own.
+
+5) If you type semper and (after some standard stuff) get a prompt which 
+responds to you, that is a good sign. If it does not, something went wrong.
+
+6) If you run remotely from a bigendian machine (e.g. an SGI) to a 
+littleendian one (e.g. a PC) you may get grey scale images which look yellow 
+(or green or ...). This is a hard one to solve.
+
+7) If you are using gcc/g77 and have not installed g++ you will get some dire
+warnings during the configure step. These don't in fact appear to matter (but
+I'm sure I'll get a lot of emails about them).
+
+8) The online help is OK, but the keyword ordering in the help files needs to
+be updated.
+
+A BIG WORD OF CAUTION. Make copies of any existing semper discs that have 
+useful data on them before you try and assign them. The gods might be with you 
+in terms of being able to read them, who knows! This is one thing that I'd 
+like to find out.

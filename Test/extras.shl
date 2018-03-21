@@ -1,0 +1,727 @@
+$add extras sg Silicon Graphics framestore display cache unix binary file format
+Semper on a Silicon Graphics workstation supports the following features in
+addition to the standard image processing facilities:
+
+Command interface
+-----------------
+
+A scrolling terminal window is created on the screen pointed to by the
+environment variable DISPLAY.  You can enter commands into this window and the
+command line whenever it (or any other window created by Semper) has input
+focus.  Previous commands can be recalled by pressing the up and down cursor
+keys.  Characters can be inserted by first pressing the insert key or
+Control-A.
+
+Processing of commands can be abandoned by pressing Control-C.
+
+You can specify the font and the foreground/background colours for the terminal
+window by setting the environment varibles SEMPER_FONT, SEMPER_FG and SEMPER_BG
+respectively.  Set SEMPER_FONT to the desired font name.  The font must be
+fixed width.  Use the X11 command "xlsfonts" to find out what fixed width fonts
+are available on your system.  SEMPER_FG and SEMPER_BG can be set to X11 colour
+names (e.g. "black", "white", "slate blue", etc.) or to hexadecimal colour
+specification strings.  Type the following Unix commands to make the font and
+foreground/background colours the same as the workstation's Unix shell window:
+
+    setenv SEMPER_FONT Screen15
+    setenv SEMPER_FG   #d6d6d6
+    setenv SEMPER_BG   #00003f
+
+Image display window
+--------------------
+
+You can create a separate window for displaying images with the ASSIGN DISPLAY
+command.  The window emulates a framestore.  You can display monochrome, false
+colour and full colour images, depending on the graphics capapbilities of the
+workstation.  There is support for 8 independent overlays for displaying
+graphical output, rubberband lines and a cursor.  You can control the colour
+and visibilty of each overlay with the OVERLAY command.
+
+Menu interface window
+---------------------
+
+A separate window for displaying menus is created as required.  The window
+supports up to 8 different menu colours.
+
+Caching data in memory
+----------------------
+
+By default, all disc i/o associated with Semper's data storage devices
+(picture discs, program libraries and help libraries) is cached in Semper's
+disc cache in order to speed up access to the data.  The CACHE command allows
+you to control the size and configuration of Semper's disc cache (you can even
+turn off the disc cache by setting the size of the cache to zero) and to
+create a separate memory buffer to cache all of the data in a Semper storage
+device (MEMORY option).  You can also create temporary memory-based devices
+with the ASSIGN MEMORY command.
+
+Executing Unix commands
+-----------------------
+
+You can execute non-interactive Unix commands from within a Semper session
+with the UNIX command.  Any text sent to standard output will be redirected to
+Semper's console output stream.  All dependent processes will br terminated if
+the UNIX command is abandoned.
+
+Image file formats
+------------------
+
+The commands INPUT, OUTPUT, IPUT, IGET, EPUT, EGET, SPUT, SGET, ZPUT, ZGET and
+HPLJ allow you to handle images in various file formats, in particular
+Semper's binary image file format and Sun's raster file format (INPUT and
+OUTPUT) and Silicon Graphics' image file format (IPUT and IGET).  The OUTPUT
+command will also write grey-scale TIFF files.  The HPLJ command outputs
+images to file in Hewlett-Packard's Laserjet format.
+
+Frame grabber support
+---------------------
+
+If your workstation has an Imaging Technology FG100 frame grabber installed,
+you can capture live images from a camera with the GRAB command.  The commands
+VIDEO and ILUT allow you to configure the operation of the frame grabber.
+
+Host-specific commands
+----------------------
+
+Here is a list of the commands which are specific to your Semper installation.
+Consult the documentation for these commands for more details about their
+operation.
+
+    ASSIGN DISPLAY
+    OVERLAY
+    X11
+    CACHE
+    UNIX
+    INPUT, OUTPUT
+    EPUT, EGET
+    IPUT, IGET
+    SPUT, SGET
+    ZPUT, ZGET
+    HPLJ
+    GRAB, ILUT, VIDEO
+$add assign.display.command assign.display assign X framestore display window
+You use the ASSIGN DISPLAY command to create a display window for displaying
+images.  The display window emulates the functioning of a framestore: storing
+image data in the framestore causes the image to be displayed on the screen.
+The colours and intensities used to display images are determined by a display
+look-up table.  There is also support for a number of overlays for displaying
+graphical data, a cursor and rubberband lines on top of images.  The size of
+the framestore is specified with the SIZE and FRAMES keys.  Use the command
+DEASSIGN DISPLAY to destroy the display window.
+
+Exx:  ASSIGN DISPLAY
+        create a false colour display window with the default size of
+        768 by 512 pixels
+      ASSIGN DISPLAY SIZE 400 POSITION 0,0
+        create a display window with size 400 by 400 pixels, positioned at
+        the top left-hand corner of the screen
+      ASSIGN DISPLAY FRAMES 3
+        create a display window with 3 frames for displaying full colour
+        images (if the X server supports this)
+$
+The ASSIGN DISPLAY command assigns the display device to emulate a framestore
+with a frame size given by the SIZE key and the number of frames given by the
+FRAMES key.  If the SIZE key is omitted, the frame size defaults to 768 by 512
+pixels.  If the Y dimension is omitted, it defaults to the X dimension.  The
+largest frame size allowed is 16384 by 16384 pixels.  The initial size of the
+display window is limited to three-quarters of the screen dimensions.  The
+display window may be repositioned at any time and resized within the limits
+imposed by the screen and the window manager.  The initial position of the
+display window may be specified with the POSITION key (the default is to
+position the window at the top left-hand corner of the screen).  If the window
+manager allows it, the window will be positioned as specified.  Failing that,
+the window will have to be manually positioned.
+
+If the display window is not large enough to display the entire frame, the
+view position can be altered with the VIEW command.  The view position is the
+frame position which appears at the centre of the display window.  The default
+for the view poistion is the centre of the frame.  The XWIRES command also
+provides the facility (enabled by pressing the V key) to make the view
+position track the movement of the cursor.  This allows you to roam freely
+around a very large frame.
+
+Image data associated with each display frame and overlay data is separately
+stored in memory buffers so that the information can always be accessed,
+regardless of the visibility of the displayed image.  The image data is stored
+with a maximum resolution of 8 bits (256 levels): the actual resolution
+depends on the depth of any PseudoColor and GrayScale visuals supported by the
+X server (use the X command "xdpyinfo" to list the supported visuals).  The
+minimum suitable depth is 6 bits.  The PseudoColor visual with the greatest
+depth is used in preference to the GrayScale visual with the greatest depth.
+If no suitable visuals are supported, the ASSIGN command will fail.  If the
+depth of the selected visual is greater than 8 bits, the full 256 levels of
+image data can be stored and displayed.  The number of display levels (which
+is equal to the look-up table size) is listed by the SHOW SYSTEM command and
+returned in the variable LSIZE by the command LUT ENQUIRE.
+
+The FRAMES key determines the number of display frames.  The only acceptable
+values are 1 (the default) and 3.  You can display monochrome and false colour
+images with a single frame.  In order to display full colour images (RGB
+pictures with three layers), you must assign three display frames.  The X
+server must support a 24-bit TrueColor visual for this to succeed.  Full
+colour look-up tables are supported by repainting the display window whenever
+changes are made to the current look-up table (the variable CLUT records the
+current look-up table number).  You will also have to create a partition with
+3 frames in order to display RGB images, for example,
+
+    ASSIGN DISPLAY FRAMES 3
+    PARTITION 1 FRAMES 1,3
+    DISPLAY 2:1 TO DIS:1
+
+The resolution for each component of a full colour image (the number of levels
+and the look-up table size) is the same as for a false colour image.
+
+A total of 8 overlays are supported.  You can control the visibility and
+colour of overlays with the OVERLAY command.  The overlays are numbered from 1
+to 8 and where overlay data overlaps, the highest numbered overlay is
+displayed.  Cursor and rubberbanding functions are carried out using one
+overlay each.  Different overlays must be used for displaying graphics, cursor
+and rubberbanding.  The display window is repainted whenever an overlay is
+turned on of off and when the colour of an overlay for a full colour display
+changes.
+
+Interactive input is possible when the display window (or any other window
+created by Semper) has input focus.  If during a command which tracks the
+pointer (for example, LADJUST), the pointer leaves the window, no further
+tracking will take place until it rejoins the window.  Since pointer movement
+is handled incrementally, you can obtain more movement than the window allows
+by circling the pointer around the outside of the window and dragging it
+across the window in the same direction as before.
+
+When image or graphics data is output by a Semper command it is immediately
+stored in the memory buffers associated with the display window.  By default,
+the display window is updated less often than the memory buffers in order to
+reduce the overhead in communicating with the X server.  The rate at which the
+display window is updated is controlled with the X11 command.
+
+See also: assign.display.syntax, deassign, overlay, x11, lut, ladjust, view,
+          show
+$add assign.display.syntax
+Keys:
+  SIZE(2)        frame size in pixels [768,512]
+  FRAMES         number of frames [1]
+  POSITION       initial position of the top left-hand corner of the window
+                 with respect to the top left-hand of the screen [0,0]
+
+Options:
+  DISPLAY        assign the display device
+
+See SYNTAX.NOTATION for explanation of notation used in -.syntax entries.
+$add cache.command cache disc access buffer virtual memory
+You use the CACHE command to manage the way in which disc I/O is buffered in
+memory.  This can lead to significant reductions in the amount of data traffic
+to and from the hard disc and it can reduce the total number of I/O requests.
+Data from a disc device can be buffered in a separate memory buffer allocated
+to that device or it can be buffered in Semper's disc cache.  The disc cache
+is a collection of memory buffers which are shared between all the disc
+devices which are not separately buffered.  With the CACHE command you can
+allocate and free separate memory buffers, display/change the number and size
+of cache buffers and you can force buffered data to be flushed out to disc.
+
+Exx: CACHE SHOW
+       lists the current disc cache settings - number of cache buffers,
+       buffer size and total cache size
+     CACHE NUMBER 200
+       changes the number of cache buffers to 200, keeping the buffer size the
+       same
+     CACHE NUMBER 20 SIZE 65536
+       reconfigures the cache to consist of 20 buffers of 65536 bytes each
+       giving a total cache size of 1310720 bytes
+     CACHE NUMBER 0
+       frees all cache buffers, effectively turning off disc caching
+     CACHE FLUSH
+       causes all data modified in the cache to be written to disc
+     CACHE DEVICE 2 FLUSH
+       causes all modified data associated with device 2 to be written to disc
+     CACHE DEVICE 3 MEMORY
+       causes all data in device 3 to be buffered in a separate dynamically
+       allocated memory buffer
+     CACHE DEVICE 3 FREE
+       flushes and frees separate buffer associated with device 3
+$
+Data can be buffered, either in one or more cache buffers which are drawn from
+a pool of cache buffers (the disc cache), or else in a buffer which is
+permanently allocated to the file with which the data is associated.  The
+first approach allows you to make optimum use of limited memory resources by
+only caching data which needs to be accessed amongst all the disc files that
+are currently open.  The second approach reduces actual disc i/o to an
+absolute minimum - data is read in once only, and written out when the buffer
+is flushed or freed.  On systems which support virtual memory, you must always
+keep in mind the possibility that buffered data will be paged onto disc when
+the amount of allocated virtual memory exceeds the amount of real physical
+memory.
+
+With the CACHE command you can, at any time, allocate and then free a separate
+memory buffer for any disc device which is currently assigned.  You specify
+the device number with the DEVICE key and you allocate or free the memory
+buffer by specifying the MEMORY or FREE options respectively.  The device
+number is determined by the ASSIGN command when you open the disc file.  When
+such a buffer is allocated, all the data on disc is read just once into
+memory.  All subsequent access to the data is made via the memory buffer,
+thereby avoiding all disc I/O, until the buffer is freed or flushed.
+
+There is no point in using the MEMORY option with a temporary or scratch disc
+file unless you specifically intend to use the FREE option later during the
+same Semper session.  If you do not intend to free the memory buffer before
+closing and deleting the file, you may as well use the ASSIGN MEMORY command
+to open a memory-based device which will not tie up space on the hard disc.
+
+The CACHE command allows you to control the number and size of cache buffers
+which make up the disc cache.  The buffer size must be at least a multiple of
+8 bytes and, on some systems, it may also have to be a multiple of the
+operating system's page size or some other unit of size.  The CACHE SHOW
+command will list any constraints on the buffer size.
+
+Semper will automatically create a certain size of disc cache at the start of
+a session.  The default size of the cache will vary according to the host
+system, but it should at least give reasonably good performance when
+processing medium sized images.  Even when the cache is not large enough to
+hold all the data being processed by a particular Semper command, the disc
+cache can still provide some performance benefits because it reduces the
+number of I/O requests.  On some systems, each I/O request can incur large
+operating system overheads.
+
+If the number of buffers or the buffer size is set to zero, disc caching is
+disabled and disc data will be accessed directly from the hard disc.
+
+On systems which support virtual memory, the size of the disc cache needs to
+be managed so that it is not so large that it puts too heavy a burden on the
+operating system.  If the size of the cache exceeds the amount of free
+physical memory, data will be swapped out of memory to make room.  If this
+leads to the point where the code for active processes has to be swapped out,
+the performance of the whole system will suffer.
+
+
+Some indication of the demands being made for memory can be got by invoking
+the Unix command "gr_osview -a".  This continuously displays CPU activity and
+memory usage in graphical form.
+
+On systems which do not support virtual memory, the size of the disc cache
+will be limited by the amount of available memory.  Also, allocating all of
+the available memory to the disc cache may cause problems elsewhere when
+further requests to allocate memory are refused.
+
+With the FLUSH option you can cause all modified data in the cache to be
+written to disc.  With the DEVICE key, you can restrict the operation of the
+FLUSH option to a specified disc device.  Reconfiguring the disc cache causes
+its contents to be written to disc, as if the FLUSH option had been specified.
+If the disc cache is large, this could take a noticeable length of time.
+Likewise, when a disc device is deassigned, its contents are flushed out to
+disc, except when the file is to be deleted (either because the DELETE option
+was specified in the DEASSIGN command or because the device is a temporary or
+scratch disc).
+
+The FLUSH command has the same effect as using the CACHE FLUSH command.
+
+The SHOW option causes the current disc cache parameters to be listed on the
+console output stream.
+
+See also: cache.syntax, assign, deassign, flush
+$add cache.syntax
+Keys:
+  NUMBER         number of cache buffers [current value]
+  SIZE           cache buffer size (bytes) [current value]
+  DEVICE         disc device number for use with FLUSH, MEMORY or FREE options
+
+Options:
+  FLUSH          flush contents of cache buffer or specified device to disc
+  MEMORY         allocate permanent memory buffer for specified device
+  FREE           free memory buffer associated with specified device
+  SHOW           list current settings for disc cache parameters
+
+See SYNTAX.NOTATION for explanation of notation used in -.syntax entries.
+$add input.command input read get files BMP TIFF
+You use INPUT to read pictures created by Semper 6 on workstations or PCs
+(using the OUTPUT command) or by other selected programs.
+
+Exx: INPUT 5 NAME 'newdata'
+       reads picture 5 from the Semper 6 file newdata.pic
+     INPUT 125 RAW NAME 'binary' SIZE 512,512
+       reads picture 125, of size 512 by 512 pixels from the raw binary
+       file binary.bin
+     INPUT 33 RAW INTEGER NAME 'mydata' SIZE 640,480 SWAP
+       reads picture 33, of size 640 by 480 pixels as 16 bit integers with
+       Motorola byte ordering from the file mydata.bin
+     INPUT 1 RAW NAME 'special.pic' SIZE 128,128 SKIP 64
+       reads picture 1, of size 128 by 128 pixels from the raw binary file
+       special.pic, skipping the first 64 bytes of the file
+     INPUT 1 RASTER NAME 'dump.rff' MAP 2
+       reads SunRaster file dump.rff into picture 1, storing any colourmap
+       information in picture 2
+     INPUT 1 BMP NAME 'windows.bmp' MAP 2
+       reads Windows BitMap file windows.bmp into picture 1, storing any
+       colourmap information in picture 2
+     INPUT 1 TIFF NAME 'macphoto.tif' MAP 2
+       reads TIFF file macphoto.tif into picture 1, storing any colourmap
+       information in picture 2
+$
+INPUT expects a Semper 6 data file unless one of the options BMP, RASTER, RAW
+or TIFF are given.
+
+If the option BMP is given, the input file is treated as a Windows BitMap
+image file. Currently only files with 8 or 24 bits per pixel are accepted.
+Only uncompressed images are supported (not RLE compression).
+
+If the option RASTER is given, the input file is treated as a Sun Raster
+image file. Currently only files with 8 bits per pixel are accepted. The
+file packing types supported are the old and new unpacked types 0 (RT_OLD)
+and 1 (RT_STANDARD), and also the byte encoded type 2 (RT_BYTE_ENCODED).
+
+If the option RAW is given, a raw binary file is expected, of size given by
+SIZE(3), with bytes starting with the top left pixel of layer 1, reading along
+the row.
+
+If the option TIFF is given, the input file is treated as a TIFF image file.
+Both the Intel and Motorola packing orders are supported - most Apple
+Macintosh packages produce the Motorola form, Windows packages the Intel form.
+Currently only greyscale and RGB files with 8 bits per sample are accepted.
+Only uncompressed images are supported (not LZW, PackBits or any other
+compression scheme). Both planar and packed RGB images can be read.
+Semper ignores Grey and Colour response correction curves, as these require
+unsigned 16 bit pixels, which Semper does not directly support.
+Any text fields found (e.g Author, Software, Manufacturer etc.) are reported
+to the console output, as are any significant TIFF Tags that are not
+supported. These messages can be suppressed using the NOVERIFY option.
+
+If the keyword MAP is given with the options BMP, RASTER or TIFF it is
+treated as a picture number in which to store any colourmap data present
+in the file. This information can be used to remap the image data read in
+using the Semper MAP or COLOUR commands. For instance, for a SunRaster image,
+if the map data has 3 rows (RGB colormap) you can remap the original image
+as follows:
+
+      INPUT 1 RASTER NAME 'myfile.rff' MAP 2   ; ! read the data
+      COLOUR 1 TO 3 WITH 2                     ; ! create the RGB image
+
+The map information can also be used as a look-up table (LUT) if the LUT
+length of the display system is 256 (use SHOW SYSTEM), but the image will
+only be displayed with the correct false colours if the pixel range is not
+rescaled (option NOSCALE to the DISPLAY command). For example:
+
+      INPUT 1 BMP NAME 'windows.bmp' MAP 2      ; ! read the data
+      LUT 1 FROM 2; PARTITION 1 LUT 1           ; ! prepare the LUT
+      DISPLAY 1 TO DISPLAY:1 NOSCALE            ; ! display the palette image
+
+The default extension for Semper 6 files is .pic, for Raster files is .rff,
+for BitMap files .bmp, for TIFF files .tif and for raw binary is .bin.
+
+The byte ordering for the Semper 6 data file is little-endian (Intel format).
+Files written using the OUTPUT command on a PC can be read into a workstation
+linked over a PC-NFS type network.
+
+The depth of raw binary can be specified using the form options BYTE, INTEGER,
+FP and COMPLEX. The SWAP option specifies that the binary data uses the
+Motorola packing format. The SKIP keyword specifies the offset (in bytes) of
+the start of the data - this is useful for skipping known size headers.
+
+The AGAIN option can be used to read the last file again without having to
+give a filename. (Provided no files have been written since). This option is
+most useful in library procedures used to unpick foreign files formats, and is
+generally used together with the RAW and SKIP options. For instance to read
+a file MYSTYLE.BIN consisting of two 16 bit values giving the size and then
+the raw data in bytes:
+
+           INPUT 999 RAW NAME 'MYSTYLE' SIZE 2,1 INTEGER
+           ORIGIN LEFT; DX = P(0); DY = P(1)
+           INPUT 999 RAW AGAIN SIZE DX,DY BYTE SKIP 4
+
+Files are searched for in the current directory and then throughout the
+PATH (see FILEPATH and SHOW PATH). You can give a full path name to avoid
+the path scan.
+
+See also: input.syntax output read write colour
+$add input.syntax
+Keys:
+  [TO]            picture to be read [SELECT]
+  NAME text       name of file containing picture data  [none; prompts if
+                  interactive unless AGAIN is given]
+
+  SIZE(3)         specifies the size of a raw binary data image [none]
+
+  SKIP            the byte offset of the start of the data within the file [0]
+
+  MAP             picture to hold Sun Raster colormap data
+
+Options:
+  BMP             read an uncompressed Windows BitMap file
+  RASTER          read a Sun Raster file
+  RAW             read a raw binary data file
+  TIFF            read an uncompressed TIFF file
+
+  NOVERIFY        suppress informational messages (TIFF only)
+
+  SWAP            read data in Motorola byte order (RAW only)
+
+  AGAIN           use NAME given in last file read
+
+  BYTE | INTEGER | read data as byte (8 bit), integer (16 bit), floating
+  FP | COMPLEX     or complex
+
+See SYNTAX.NOTATION for explanation of notation used in -.syntax entries.
+$add output.command output write put files TIFF BMP
+You use OUTPUT to output pictures in one of several fast binary forms.
+
+Exx: OUTPUT 23 NAME 'binary' UNLABELLED
+       writes picture 23 to the file binary.pic, excluding the picture label
+     OUTPUT 12 RAW BYTE NAME 'rawdata'
+       writes pictures 12 to the file rawdata.bin as a byte stream
+     OUTPUT 14 RAW NAME 'local.dmp' SWAP
+       writes picture 14 to the file local.dmp using Motorola byte ordering
+     OUTPUT 303 RASTER NAME 'screen'
+       writes picture 303 as a Sun Raster file named screen.rff
+     OUTPUT 42 TIFF NAME 'image'
+       writes picture 42 as a TIFF file named image.tif
+     OUTPUT 1 BMP NAME 'bitmap' MAP 2
+       writes picture 1 as a Windows BitMap file named bitmap.bmp using
+       the contents of picture 2 as a colormap
+
+Pictures produced by OUTPUT can be recovered by INPUT
+$
+OUTPUT writes a Semper 6 data file unless one of the options BMP, RAW,
+RASTER or TIFF are given.
+
+
+If the option BMP is given a Windows BitMap file is produced. If the source
+image has 3 layers the file is output as a 24-bit BitMap (BitpsPerPixel=24).
+Otherwise the file is written with a BitsPerPixel value of 8 (256 colours) and
+a linear greyscale colormap, unless the key MAP is used. If MAP is specified
+it must be a 256 by 3 picture, with the red data in row 1, green in row 2 and
+blue in row 3. (On systems where the LUT length is 256, a suitable picture can
+be generated using the LUT command with the TO key).
+
+If the option RAW is given a raw binary file is produced. A raw data file is
+a byte stream starting with the top left pixel of layer 1, outputting along
+each row. Pixels are written to a raw data file using the form of the output
+picture, unless one of the form options (BYTE, INTEGER, FP or COMPLEX) is
+specified.
+
+If the option RASTER is given a Sun Raster image is produced. Currently these
+are always written with a depth of 8 bits per pixel, using standard packing
+(type 1 - RT_STANDARD) and with no colormap information (RMT_NONE).
+
+If the option TIFF is given a Tagged Image File Format (TIFF) image is
+produced. For a three layer source image an uncompressed RGB file is written,
+each pixel as an RGB triple or as a planar RGB file if the option PLANAR
+is given. Otherwise a greyscale file is written with a depth of 8 bits
+per pixel, black-to-white photometric interpretation and using no compression.
+The data is always written contiguously for simple TIFF readers.
+
+The byte ordering for the Semper 6 data file is little-endian (Intel format).
+Files written using the OUTPUT command on a PC can be read into a workstation
+linked over a PC-NFS type network.
+
+Raw data files can be written using Motorola byte ordering by quoting the
+SWAP option.
+
+Semper 6 data files have the picture label included unless the option
+UNLABELLED is given. The actual data written is as for WRITE, but with
+as binary data with no formatting.
+
+The default extension for Semper 6 files is .pic, for RAW files is .bin, for
+SunRaster files is .RAS, for TIFF files .tif and for BMP files it is .bmp.
+
+Output will not automatically overwrite existing files unless the NEW option
+is given. If NEW is omitted and the session is interactive the user will be
+asked to confirm that the existing file can be overwritten.
+
+See also: output.syntax input read write
+$add output.syntax
+Keys:
+  [FROM]           picture to be written [SELECT]
+  NAME text        name of file to write the data into [none; prompts if
+                   interactive]
+
+Options:
+  NEW              replace output file if it already exists
+
+  BMP |            write an uncompressed Windows BitMap format file
+  RASTER |         write a Sun Raster format file
+  RAW |            write a raw binary data file
+  TIFF             write an uncompressed TIFF file
+
+  PLANAR           write RGB TIFF as three seperate planes
+
+  SWAP             write data in Motorola byte order (RAW only)
+
+  BYTE | INTEGER | write data as byte (8 bit), integer (16 bit), floating
+  FP | COMPLEX     or complex (not BMP, RASTER or TIFF)
+
+  UNLABELLED       write without including picture label information
+
+See SYNTAX.NOTATION for explanation of notation used in -.syntax entries.
+$add overlay.command overlay 4sight sg gl xwindows display framestore extras
+You use the OVERLAY command to control the colour and visibility of the
+display window's eight overlays.  Display annotation or graphics is directed
+to the current graphics overlay, rubberband lines are displayed in the
+rubberband overlay and the cursor is displayed in the cursor overlay.
+Overlays can be turned on and off without affecting the data stored in the
+overlay bitplanes.  Where overlay information is overlapped, the highest
+numbered overlay is displayed.
+
+Exx:  OVERLAY SHOW
+        lists the current overlay settings
+      OVERLAY CYAN
+        sets the colour of overlay 1 to cyan
+      OVERLAY 3 HSV 60,50,100 CURSOR
+        sets the colour of overlay 3 to a desaturated yellow and makes this
+        the cursor overlay
+      OVERLAY 2 OFF
+        turns off overlay 2
+      OVERLAY 5 ERASE
+        erases overlay 5
+$
+The display window has eight overlay bit-planes numbered from 1 to 8.  You use
+the NUMBER key to specify the overlay number.  Note that the NUMBER key always
+defaults to 1.
+
+The SHOW option causes all the current overlay settings to be listed on the
+console.
+
+When the display window is created, overlays 1, 7 and 8 are selected as the
+graphics, rubberband and cursor overlays, all overlays are turned on and
+cleared and the colours for overlays 1 to 8 are set to white, red, green,
+blue, cyan, magenta, yellow and red respectively.
+
+The OVERLAY command changes only the overlay settings that are specified with
+the command.  The remaining overlay settings are left unchanged.
+
+The overlay colour can be specified in one of three ways.  If you need to
+specify the colour exactly, you can specify the RGB components of the colour
+as percentages with the RGB key, or the hue, saturation and brightness of the
+colour with the HSV key.  The saturation and brightness values must also be
+specified as percentages.  If the colour you want is one of the eight primary
+or secondary colours, you can use the corresponding colour option as a
+convenient alternative.  You may not specify more than one of the options
+BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA and YELLOW and the RGB and HSV
+keys at one time.
+
+An overlay can be turned on or off (made visible or invisible) by specifying
+the option ON or OFF.
+
+You may use one of the GRAPHICS, RUBBERBAND or CURSOR options to make the
+specified overlay the current graphics, rubberband or cursor overlay.  You are
+not allowed to specify more than one function for a given overlay.  For
+example, the following would not be allowed:
+
+    OVERLAY 2 GRAPHICS; OVERLAY 2 RUBBERBAND
+
+All display annotation is directed into the current graphics overlay.  Note
+that the ERASE OVERLAY command erases only the current graphics overlay and
+leaves the other seven overlays unchanged.  You can use the ERASE option with
+the OVERLAY command to clear a specified overlay.  To clear all the overlays,
+type the following command line:
+
+    FOR N=1,8; OVERLAY N ERASE; LOOP N
+
+The cursor and any rubberband lines or boxes (see the XWIRES and PDRAW
+commands) are displayed by overwriting and erasing the data in the
+corresponding overlays.  You are recommended to retain the highest numbered
+overlay for displaying the cursor so that it is not obscured by any of the
+other overlays.
+
+See also: xwires, framestore
+$add overlay.syntax
+Keys:
+  [NUMBER]       overlay number [1]
+  RGB(3)         red, green and blue percentages of overlay colour [none]
+  HSV(3)         hue (0 to 360), saturation (percentage) and brightness
+                 (percentage) defining overlay colour [none]
+
+Options:
+  BLACK | WHITE | RED | GREEN | BLUE | CYAN | MAGENTA | YELLOW  overlay colour
+  ON | OFF       overlay visibility
+  GRAPHICS | RUBBERBAND | CURSOR  overlay function
+  ERASE          clear the specified overlay
+  SHOW           list current overlay settings
+
+The keys RGB and HSV and any of the colour options are mutually exclusive.
+
+See SYNTAX.NOTATION for explanation of notation used in -.syntax entries.
+$add unix.command unix shell spawn
+Use the UNIX command to execute non-interactive Unix commands from within a
+Semper session.
+
+Exx: UNIX 'ls .'
+       lists the contents of the current directory
+     UNIX 'rm junk.dat'
+       deletes the file "junk.dat"
+     UNIX 'xclock &'
+       display the X clock
+
+The Unix command string is specified as a Semper textstring immediately
+following the command name.  If it is omitted, Semper prompts for the command
+string.
+
+The string is passed to a separate process running a C shell (csh) and is
+executed by the shell.  Standard input for the shell is connected to
+/dev/null.  Any attempt to read standard input will report an end-of-file
+condition (this means that you can't interact with the C shell - to do that
+you should open a new terminal window using the window manager menus or a Unix
+command like "xterm").  Standard output is copied to Semper's console output
+stream and standard error is connected to Semper's standard error (normally
+the terminal window from which Semper starts up).
+
+The UNIX command waits until the commands passed to the shell are completed
+and return control to the shell.  Some commands (like "xclock" in the last
+example above) do not return to the shell until explicitly terminated by other
+means, in which case they should be invoked as background processes.  If the
+UNIX command is abandoned, all dependent processes will be terminated.
+
+See also unix.syntax
+$add unix.syntax
+Keys:
+  [ ] text       Unix command as textstring [none; prompts if interactive]
+$add x11.command x11 X refresh window
+You use the X11 command to control the rate at which the server display is
+updated from the client (Semper host) machine.
+
+Exx:
+     X11 ILIMIT 8
+        refresh after every eight image writes (the default)
+
+     X11 VLIMIT 0
+        refresh vectors and annotation only at the end of display operations
+        or on display flush (the default)
+
+     X11 VLIMIT 1 ILIMIT 1
+        refresh on every operation
+$
+In order to maintain a non-destructive overlay, Semper maintains seperate
+copies of the contents of the display and overlay and uses them to update the
+visible areas of the window on the server.
+
+To keep the display up to date after every operation involves an additional
+processing time overhead of about 80% (images) and up to 10000% (annotation).
+To reduce this overhead Semper delays writing to the server until one of the
+following occurs:
+
+(a) the number of operations exceeds the appropriate threshold
+
+(b) Semper requires a display flush or display close
+
+(c) the server requests a refresh (e.g. on exposing the window)
+
+(d) the internal table of updates overflows
+
+The X11 command allows the user to set the refresh thresholds or to turn off
+the threshold mechanism.  This allows the user to trade off interactive
+display rate against processor time.  The default thresholds are generally
+acceptable for normal monitoring purposes.  Turning off the display refresh
+threshold will give the impression of very fast display update when the image
+is completed.  The annotation refresh threshold is turned off by default, so
+complex annotation (e.g. YMOD plots) appears to be painted in bands from top
+to bottom.  If you require a more conventional appearance use a VLIMIT of
+(say) 8, but be prepared to wait for the results.
+
+See also: X11.syntax
+$add X11.syntax
+Keys:
+  ILIMIT      Sets the image refresh threshold. A positive value specifies the
+              threshold. A zero or negative value turns off the threshold
+              refresh. (Image only appears when complete).
+
+  VLIMIT      Sets the vector/annotation refresh threshold. A positive value
+              specifies the threshold. A zero or negative value turns off the
+              threshold refresh. (Annotation only appears when complete).
+
+See SYNTAX.NOTATION for explanation of notation used in -.syntax entries.

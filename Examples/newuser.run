@@ -1,0 +1,37 @@
+! Shared Semper 6.4 run file
+! - updated Apr 02
+
+! establish 2.5MB cache (default is 256KB!)
+cache size 256*1024; ! DOES THIS MATTER?
+
+ type 'New user setup'
+ type '--------------'
+
+ type '[1] Your personal picture store pictures.dsk'
+  ask '    Size in MB [RETURN=30]: ' n
+   if ~set(n) n=30
+ assign new name 'pictures' size n*1000 
+ type '..created'
+
+ type
+ type '[2] Your personal program library proglib.plb'
+ assign new program name 'proglib' size 200 slots 100
+ type '..created'
+
+ type
+ type 'Initialisation complete; type stop to quit'
+ type 'In future, just type semper to run'
+ type ' - provided you start from the same dir as you did this time'
+
+ type
+ type 'For ''advanced'' users:'
+ type 'If you want to be able to start from ANY dir'
+ type '   or to move your personal files somewhere else'
+ type '   or to personalise your sessions further'
+ type 'then..'
+ type '[1] Create your own startup file ~/bin/semper.run:'
+ type '      cp /usr/local/semper/semper.run ~/bin'
+ type '[2] mv the files pictures.dsk,proglib.plb where you want them:'
+ type '[3] Edit ~/bin/semper.run including full paths for these files'
+
+end

@@ -1,0 +1,16 @@
+Things to be done
+        1) Make color default mode in partitions/frame
+        2) Provide some sort of information for moving from older systems
+        3) Document dcnvrt, i2+i4 options in input raw
+        4) Document (briefly) how to make
+        5) Seperate edm & semper cvs
+        6) Track down "ic" and compile, add to distribution
+        7) Provide documentation about I/O of DM images
+        8) Work out how to I/O from microdensitometer
+        9) Rationalize libraries
+        10) Rationalize locations of installation files (better newuser file)
+        11) Do windows executable
+        12) Cleanup cursor in windows
+        13) Find appropriate libraries for Mac
+        14) Get 64-bit version working
+        15) Create listserver

@@ -1,0 +1,87 @@
+Things to do
+============
+
+dm2
+---
+Last left ic in middle of doing dm2 writes. Some parts not finished eg
+packed complex?
+rgb
+Maybe 1D doesn't work some cases for these?
+
+packed complex if:
+   ffou = .true.
+   origx = 1 and forigx = .true.
+   ptype = 'c'
+
+Reading in packed complex
+   pbyte = 2*bytes/pixel
+
+See notes on packed complex in red file 20
+
+Also in middle of writing survey routines (in bits.f) needed so sensible
+min and max values can be set for dm2 writes. (Now done)
+
+Also for dm2:
+Title (notes)
+Orig x and y (possibly not possible)
+date and time
+Display min and max (as otherwise both default to 0). (Now done)
+
+Time
+----
+Currently a bit of a mess. Often cannot get time from time string.
+
+
+Problems
+--------
+
+Binary image -> int 1 uns
+Packed complex -> complex 8
+Normal FFT OK (can DM distinguish?)
+RGB doesn't work
+Does DM distinguish image and FFT?
+No title
+Display min and max not set (copy from dm3) (Difficult to get from dm3, survey instead)
+"can't find "series/Co on Si CP.259"" error after reading 128 or so images (OK now)
+
+dm3 reading
+-----------
+
+Images in "AA doesn't work with ic" (diag....dm3)
+Both the preview and the main image are DataType 23 which is currently read as uns i4.
+But the image is an rgb image imported as tiff (I seem to remember).
+For a greyscale image each point contains the same byte repeated 3 times, suggesting
+the format is 0rgb.
+Now OK - just set DataType 23 to be rgb not uns i4 in dm3.f
+Images now in ictests/dm3
+
+Info on which is the preview image may be in the stuff at the beginning of the file.
+There is a block of info about each image "AnnotationGroupList" which may say something
+about which is a preview...
+It is in:
+Thumbnails/ImageIndex
+The number is the index number of the preview image (first=0)
+
+7 Dec 2005 - Making it work on linux
+------------------------------------
+Have converted bits.f, misc.f, syscalls.f, ic.f
+Done gdm from dm2.f (except for the 'any other image' bit, which includes
+most images
+
+dm3.f: have got up to c$$$$$$$ in gdm3, mostly little change.
+
+14 Dec 2005
+Version that works mostly on linux. Now copied back to the mac to test
+
+6 Feb 2006
+----------
+dm3 to dm2, images that don't work (ictests/dm3)
+d3macFFT1dpac.dm3
+d3pfft4.dm3
+d3pfft8.dm3
+t1fftpc.dm3
+
+April 2007
+----------
+Modifications to s6dsk.f to read, write and dump semper discs larger than
+1GB. Also checked it works on Mac Intel.

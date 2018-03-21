@@ -1,0 +1,354 @@
+c----------------------------------------------------------------------
+c
+c     UIF error code parameters
+c     ---------------------------
+c
+c     "No error, all is well!"
+c
+      integer WORKED
+      parameter (WORKED=0)
+c
+c     "UIF is not initialised"
+c
+      integer NOTINI
+      parameter (NOTINI=1)
+c
+c     "Maximum number of windows exceeded"
+c
+      integer NOPATS
+      parameter (NOPATS=2)
+c
+c     "Maximum number of panels exceeded"
+c
+      integer NOPANS
+      parameter (NOPANS=3)
+c
+c     "Maximum number of scrolling areas exceeded"
+c
+      integer NOSCRS
+      parameter (NOSCRS=4)
+c
+c     "Maximum number of cells exceeded"
+c
+      integer NOCELS
+      parameter (NOCELS=5)
+c
+c     "Maximum number of menus exceeded"
+c
+      integer NOMENS
+      parameter (NOMENS=6)
+c
+c     "Maximum number of textfields exceeded"
+c
+      integer NOTEXS
+      parameter (NOTEXS=7)
+c
+c     "Operation cannot be performed while panel is showing"
+c
+      integer PASHOW
+      parameter (PASHOW=8)
+c
+c     "Operation cannot be performed while scrolling area is showing"
+c
+      integer SCSHOW
+      parameter (SCSHOW=9)
+c
+c     "Operation cannot be performed while panel is not showing"
+c
+      integer NOTSHO
+      parameter (NOTSHO=10)
+c
+c     "Error setting variable value"
+c
+      integer VARSET
+      parameter (VARSET=11)
+c
+c     "Error getting variable value"
+c
+      integer VARGET
+      parameter (VARGET=12)
+c
+c     "Error creating window"
+c
+      integer CREWIN
+      parameter (CREWIN=13)
+c
+c     "Error clearing window"
+c
+      integer CLRWIN
+      parameter (CLRWIN=14)
+c
+c     "Error obtaining size of window device"
+c
+      integer SIZDEV
+      parameter (SIZDEV=15)
+c
+c     "Error showing window"
+c
+      integer SHOWIN
+      parameter (SHOWIN=16)
+c
+c     "Error destroying window"
+c
+      integer DESWIN
+      parameter (DESWIN=17)
+c
+c     "Error hiding window"
+c
+      integer HIDWIN
+      parameter (HIDWIN=18)
+c
+c     "Error moving window"
+c
+      integer MOVWIN
+      parameter (MOVWIN=19)
+c
+c     "Error creating panel"
+c
+      integer CREPAN
+      parameter (CREPAN=20)
+c
+c     "Error destroying panel"
+c
+      integer DESPAN
+      parameter (DESPAN=21)
+c
+c     "Error hiding panel"
+c
+      integer HIDPAN
+      parameter (HIDPAN=22)
+c
+c     "Error showing panel"
+c
+      integer SHOPAN
+      parameter (SHOPAN=23)
+c
+c     "Error moving panel"
+c
+      integer MOVPAN
+      parameter (MOVPAN=24)
+c
+c     "Error naming panel"
+c
+      integer NAMPAN
+      parameter (NAMPAN=25)
+c
+c     "Error setting panel/element colours"
+c
+      integer COLOBJ
+      parameter (COLOBJ=26)
+c
+c     "Error clearing device"
+c
+      integer CLRDEV
+      parameter (CLRDEV=27)
+c
+c "Attempt to perform operation on panel when mandatory panel showing"
+c
+      integer MANPAN
+      parameter (MANPAN=28)
+c
+c     "Invalid panel identifier"
+c
+      integer BADPAN
+      parameter (BADPAN=29)
+c
+c     "Invalid scrolling area identifier"
+c
+      integer BADSCR
+      parameter (BADSCR=30)
+c
+c     "Error showing scrolling area"
+c
+      integer SHOSCR
+      parameter (SHOSCR=31)
+c
+c     "Invalid position"
+c
+      integer BADPOS
+      parameter (BADPOS=32)
+c
+c     "String too short for copy/concatenate operation"
+c
+      integer SSHORT
+      parameter (SSHORT=33)
+c
+c     "UIF initialisation failed"
+c
+      integer BADINI
+      parameter (BADINI=34)
+c
+c     "Invalid device requested"
+c
+      integer BADDEV
+      parameter (BADDEV=35)
+c
+c     "Invalid element type"
+c
+      integer BADELE
+      parameter (BADELE=36)
+c
+c     "Invalid action"
+c
+      integer BADACT
+      parameter (BADACT=37)
+c
+c     "Invalid element position/size"
+c
+      integer BADEPO
+      parameter (BADEPO=38)
+c
+c     "Invalid cell identifier"
+c
+      integer BADCEL
+      parameter (BADCEL=39)
+c
+c     "Invalid cell highlighting type"
+c
+      integer BADHIG
+      parameter (BADHIG=40)
+c
+c     "Invalid textfield identifier"
+c
+      integer BADTEX
+      parameter (BADTEX=41)
+c
+c     "Invalid textfield length"
+c
+      integer BADLEN
+      parameter (BADLEN=42)
+c
+c     "Invalid numeric textfield range specifier"
+c
+      integer BADRAN
+      parameter (BADRAN=43)
+c
+c     "Numeric textfield contents out of range"
+c
+      integer OOFRAN
+      parameter (OOFRAN=44)
+c
+c     "Unable to convert numeric textfield contents to number"
+c
+      integer NOTNUM
+      parameter (NOTNUM=45)
+c
+c     "Unable to number to a string"
+c
+      integer NOTCON
+      parameter (NOTCON=46)
+c
+c     "Invalid menu identifier"
+c
+      integer BADMEN
+      parameter (BADMEN=47)
+c
+c     "Invalid menu type"
+c
+      integer BADMTY
+      parameter (BADMTY=48)
+c
+c     "Invalid menu style"
+c
+      integer BADMST
+      parameter (BADMST=49)
+c
+c     "Menu panel has not been created"
+c
+      integer MPNOTC
+      parameter (MPNOTC=50)
+c
+c     "Action string is too long to fit application input buffer"
+c
+      integer ACLONG
+      parameter (ACLONG=51)
+c
+c     "Framestore access error"
+c
+      integer FSERR
+      parameter (FSERR=52)
+c
+c     "UIF is not running"
+c
+      integer NOTRUN
+      parameter (NOTRUN=53)
+c
+c     "Window of requested size/position will not fit device"
+c
+      integer NOTFIT
+      parameter (NOTFIT=54)
+c
+c     "UIF termination failed"
+c
+      integer BADTER
+      parameter (BADTER=55)
+c
+c     "Cursor position stack is empty"
+c
+      integer STKEMP
+      parameter (STKEMP=56)
+c
+c     "Cursor position stack is full"
+c
+      integer STKFUL
+      parameter (STKFUL=57)
+c
+c     "Dynamic memory system not initialised"
+c
+      integer MEMINI
+      parameter (MEMINI=58)
+c
+c     "Dynamic memory system already initialised"
+c
+      integer MEMISI
+      parameter (MEMISI=59)
+c
+c     "Invalid block size of dynamic memory requested"
+c
+      integer MEMBSI
+      parameter (MEMBSI=60)
+c
+c     "Invalid logical index to dynamic memory used"
+c
+      integer MEMBLI
+      parameter (MEMBLI=61)
+c
+c     "Dynamic memory logical index table full"
+c
+      integer MEMLIF
+      parameter (MEMLIF=62)
+c
+c     "Dynamic memory exhausted"
+c
+      integer MEMFUL
+      parameter (MEMFUL=63)
+c
+c     "Invalid positioning point"
+c
+      integer BADPPO
+      parameter (BADPPO=64)
+c
+c     "Invalid mouse button number"
+c
+      integer BADBUT
+      parameter (BADBUT=65)
+c
+c     "Attempt to put windows on framestore when display not assigned"
+c
+      integer DISNOT
+      parameter (DISNOT=66)
+c
+c     "Invalid element identifier"
+c
+      integer BADEID
+      parameter (BADEID=67)
+c
+c     "Invalid panel/scrolling area/element identifier"
+c
+      integer BADOID
+      parameter (BADOID=68)
+c
+c----------------------------------------------------------------------
+c
+c Copyright (C) 1988, 1989:  Synoptics Ltd,  All Rights Reserved
+c

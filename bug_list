@@ -1,0 +1,203 @@
+Consolidated bug list Feb 1999
+==============================
+
+NOISE notes
+-----------
+NOI UNI to two successive pics gives noise with quite extraordinary overlap,
+with a few points where |XCF|~.3, and substantial portions visibly the same!
+While no such problem without UNI, even default (gaussian) noise gives PS
+with a few points near RHS of half-plane ~25 higher than the rest!
+
+
+Status unknown
+--------------
+dis 70001 responds "?90: Device  4 is not a picture storage device@; why 4?
+Does FITCTF work correctly for all 4 combinations of PHY, IPS? Should it?
+Does it say underfocus/overfocus correctly while fitting?
+Could it dump the results safely to a plist itself?
+
+Active bugs
+-----------
+TURN OVER with odd number of rows doesn't write last row, but doesn't fault.
+  [18.10.02]
+SHOW DEV reports pic disc sizes correctly, but reports prog lib and help
+  lib sizes in kB as MB - doubtless local bug introduced in DMANU changes.
+On olympus, semper reports 'Unable to create default disc cache' at start
+  of session, and indeed CACHE SHOW confirms size zero; but it seems to
+  work quite fast in any case (at least for local discs)...
+FT1D source line 11 should read 2*N at the end, not N/2
+LIST DEV 5 NAME 'TEMP' fails - hanging with incomplete output; OK if
+  to terminal; hangs also on standard lib device, and old 4-sight Semper;
+  work-round via ASS FILE NAME 'TEMP'; ECHO CONS DEV N; LIST ALL; DEASS DEV N
+DIS <his> is largely undocumented, but seems buggy; in particular
+ - ignores PRE, taking range from histog and resetting MIN,MAX
+EXA BRIEF prints Space occupied line as well as header line.
+xcf -25 to 301 gives silly err msg "Device 5 is not a pic storage dev' (cd=6)
+Real problems over terminal window background colour...
+olympus hung on attempted ASS NEW SIZE 1000000 (ie 1GB); did create file OK;
+  perhaps connected with SHOW/DMANU bug?  Does it work now?
+FIR help file: claims wrongly that "each point of source is replaced not
+  by kernel but by kernel rotated 180 deg".  In fact, FIR is equiv to
+  direct convolution, and each point of source is indeed replaced by
+  kernel.  [Change doc to fix]
+Local LIB SIM should not use MAGIC as var: OVERLAY has option MAGENTA
+3-fA: IITGEN still does not include this at all (though CTF now does with
+  IPS=2 as well as IPS=1)
+EMFIT help file gives example EMFIT PHYSICAL - but option does not exist;
+  just delete the option
+HELP SCALE.S claims MIN,MAX not reset to output pic range if PRESET; but
+  they are nevertheless reset (to 0,255) by SCA BYTE PRE. [Just fix doc]
+PDRAW 13 PIC DIS treats 13 as image to be modified; but PDRAW 13 treats 13
+  as display!  [Real problem is use of two assumed keys with no stated
+  relative priority]
+SG specific? OVERLAY RED (or other colour) only works if used BEFORE any
+  output; subsequent use cause overlay to disappear permanently.  [Present
+  in 4-sight and X-windows versions however...][HELP OVER.C gives lots
+  of info, describing 8 overlays, and OVER SHOW; but little of it appears
+  to work...]
+OVER OFF appears to WIPE overlay; OVER ON restores workable but blank overlay
+LATTICE: if DIS=1002, LAT MARK FS:4 actually marks 1002 (and leaves DIS
+  set to 1002). Oh dear..
+HELP SURVEY does not say subregions ignored when surveying histograms.
+Following DIS <subregion>, MARK SIZE.. takes TOP/BOT/LEF/RIG relative to
+  edges of displayed subregion, not original picture; MARK POS gets it
+  right, so there is a nasty inconsistency.
+XCF does not complain about complex sources, and correlates the real parts
+  but gets the normalisation wrong.
+
+Prog/Runfile ghastly.  The following line, in a program OR a run file,
+    for n=1,6; x#n=0; loop
+  is faulted (?3 Bad value for n) if n=1234 when LIB or RUN cmd is typed;
+  something is encoding current n in the line before executing the for.
+  This makes RUN cmds unpredictable - catastrophe; for the LIB case, an
+  error msg is produced BUT execution (of the ADD continues), so you can
+  easily miss the error msg and get an incomplete program loaded...
+Prog/Runfile decoding.  The following perfectly legal RUN file
+    ! Matched region coordinates: all pre-registered
+    for n=1,6; x#n=0 y#n=0; loop
+    end
+  fails (?106 FOR with no matching LOOP) unless
+  EITHER spaces are inserted at the start of each line (as here!),
+  OR the colon is removed from the comment,
+  OR a semicolon is inserted before y#n!!
+RUNfile ghastly: the following
+    for n=n1,n2; calc mod(n:n) to out; out=out+1; loop
+  is faulted (?106 FOR with no matching LOOP) unless you split the line
+  so that loop is on the next line; but it's OK with mod(:n) rather than
+  mod(n:n)!!
+Another infelicity... old, WOS's fault, but with no better than a very messy
+  work round.  Suppose CD=2, and you run a lib prog reading
+    ASK 'Pic ' N
+    CALC :N...;
+  If you enter 1, this operates on 2:1 correctly; but if you enter 7:1 it
+  operates on 2:1 instead.  CALC N:N operates on 7:1 correctly in the second
+  case, but on 1:1 in the first!  The only safe course appears to be for the
+  prog to expand all pic nums to include the devnum explicitly, and refer to
+  N:N explicitly in CALC cmds.
+
+Fixed / to be ignored [listed so that we can confirm them fixed]
+---------------------
+Some time while DP fitting, I found FS reset to 5 - the var is fixed but
+  not protected.  I couldn't find any reference in *.f or *.spl...
+Even new CTF has option VERIFY defined in SEMPER.SYN!  Definitely not in
+  current code at least - fixed
+CTF assumes PHY if IPS=2 and protests if KV,CS not set - fixed
+LIB EM should ask for IPS unconditionally; it's difficult to change from
+  LIB SIM otherwise - fixed
+LIB EM with IPS=2 says UNDERfocus when asking for C1 - fixed
+PEAKS: with SRA set, can call , PEAKS2 with zero for adj arr dim.
+   [Fixed long ago]
+GAU: help and docn claim different profile from code; amend code line
+  to read A=-.5/RAD/RAD rather than A=-1./RAD/RAD [Fixed]
+HELP BASE claims display marking lines are from actual posns in dir'n
+   of corresponding fitted lattice site; in fact they are in opposite dir'n,
+   from actual posn but in dirn of local displ't.  [Fixed]
+BASE: does divn overflow if U=V=0 instead of trapping tidily [Fixed]
+HELP BASE.SYN claims no default for TOLERANCE, whereas 0.3 is provided [Fixed]
+1-nov-90: HELP EXT does not list opts NNEI, BICUBIC [Fixed]
+1-nov-90: CALC RE() produces IM() [Fixed]
+BASE reports wrong rms devn [Fixed]
+CREATE crashes if SELECT does not exist [Fixed]
+HELP CTF and SYNTAX CTF list option VERIFY which no longer exists
+  [Fixed in (very different) local version]
+ADD: recognises the line 'TYPE (1-2)*3' as a program entry point; ditto
+  'UNLESS (condition)' etc. [Fixed]
+REINIT: happily reinitialises a program library with a picture if told
+  to do so [Fixed]
+SHOW DEV, DIR (etc?) use f8.2 for size in kB and can't take 1GB [Fixed
+  locally in /sloc/show.f,dmanu.f]
+
+SEP 02 INSERTION - another file BUGS.LIS plus a few lines from elsewhere
+----------------
+6.4 (I believe - it's the old .EXE following reinstallation of 6.4 from disc)
+===
+disc caching in a dangerous state: not apparently flushing cleanly when a
+  device is deassigned?  Thus ASS NAM 'ONE'; DIR DEV N; DEASS; ASS NAM 'TWO';
+  DIR DEV N produces same output twice; EXA ALL produces lots of malformed
+  label messages.. and I got some hangs as if bad numerical opns not trapped !!
+
+PIC cmd faults macros rather than reporting class via C; needs name added to
+  list in SEMOPN of cmds allowed to open macros
+HELP PIC says Hist is class 8, Plist class 9, whereas they are actually the
+  other way round; confirmed present in Imagine System v6.4 Nov 94...
+HELP PIC should also now refer to PIC rather than PCB.
+POST applied to pictures (not display) inserts line ' Warning: ...' followed
+  by pic title or number as line 2 of .ps file, which is then illegal!
+PLEASE add option MANUAL to POSTSCRIPT as in Vax versn
+
+KLC code
+- TSD sets SD to var(), not sd()
+
+No idea of real date, force..
+---------------------------
+hrems.shl needs mandel, apo, merge, dpsmg, dpzero, polyf...
+lots more libprogs.shl...
+APHi in testpars better not on pi/4 exactly
+emfit phy requires CS, but does not complain about its absence (just takes
+  default of 1)
+  - assumes PHY... should have option removed
+SHRIEK! with n=992, dpx.spl will not add, protesting that tx#n has
+  a bad value for n... so the name processing is not being skipped
+  cleanly... REAL SEMPER NASTY - whose fault?
+
+RESUMING MAIN OLIST
+
+
+
+
+
+Infelicities...
+------------
+BASE should suppress ALL printout for NOVER; at present you can't make
+  it shut up about % peaks outside fitting tolerance and # posns retained
+PCB (old) sets FORM which messes up WAIT.  Anything else?
+CTF: IPS=1 takes 3-f azimuth to be that of max OVERfocus,
+  producing same phase shifts as with IPS=2, but inconsistent with 2-fA
+  for which azimuth is that of max UNDERfocus.  Easily fixed in CTF2 (and
+  LIB EM), but it's not worth bothering.
+DIS <histogram> offers no means of controlling EITHER horiz or vert scale
+
+Desirable enhancements (never now likely to happen)
+---------------------------------------------------
+CUT: a TRUNC option would make CUT SIZE 128 work on 129,256 half-plane xform.
+SURVEY FULL could usefully set SKEW (if histogram at least)
+DISPLAY could very usefully letter 1-d graphs!
+FIT polynomial (like POLYF) as well as linear function
+Mark mean,sd on displayed histograms
+REINIT could usefully check for wp pics before wiping device!
+LMIN, LMAX would be useful
+Better ROTATE using column mode display access
+Can DIS TIMES <large> really not set TIMES for itself?
+XWI GRAPH could usefully retain the display form,class
+Picture discs should include LNBLK,CBSIZE in header block so that
+   all the info necessary for decoding is available
+Better 1-D display lettering
+
+
+
+
+
+
+
+
+

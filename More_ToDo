@@ -1,0 +1,14 @@
+LIB DEFPARTS needs to define all partiions as three-frame partitions
+ASS DIS - key SI2 should default to SIZE not 512
+Full Color partitions in various library commands
+Cleanup Greyscale "error" message in primitives call
+Utility which checks if grey/pseudocolor exists? WOS thinks no
+Organise .spl files; document program as in LIBPROGS.SHL 
+Tidy up buglist
+Add list of variables
+Get ic working
+Try and get it so CXX is not needed (LDM)
+Collate Locals from various places
+Get libtiff, pput, etc working
+Add 'bash' command
+Maybe cwd command
