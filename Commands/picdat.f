@@ -69,7 +69,7 @@ C Copy 10 values from Semper variables V0 to V9 into picture label
 C
          DO 20 I=1,10
             VALUE=VAL(NAME(I))
-            CALL CFORM(VALUE,LABEL(LBNCTT-I*4),NFMBYT,NFMINT,I44)
+            CALL CFORMI(VALUE,LABEL(LBNCTT-I*4),NFMBYT,NFMINT,I44)
    20    CONTINUE
 C
 C Store new contents of picture label

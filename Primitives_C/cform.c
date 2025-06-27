@@ -340,3 +340,14 @@ F_integer *N;
         cfpcom_ ( ARRAY_IN, ARRAY_OUT, N );
 }
 
+subroutine cformi ( ARRAY_IN, ARRAY_OUT, FORM_IN, FORM_OUT, N )
+
+F_integer_array ARRAY_IN;
+F_integer_array ARRAY_OUT;  
+F_integer       *FORM_IN;
+F_integer       *FORM_OUT;
+F_longinteger   *N;
+
+{
+    cform_ ( (F_array)ARRAY_IN, (F_array)ARRAY_OUT, FORM_IN, FORM_OUT, N );
+}

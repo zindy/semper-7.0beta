@@ -8,7 +8,7 @@ C key WITH.  The output picture is created to the same row,column
 C size as the position list.  All positions are marked on the display
 C if key MARK is appropraitely set.
 C
-      LOGICAL SEMOPN,SEMROW,MARSET,FSINIT,FSLIST,OPT
+      LOGICAL SEMOPN,SEMROW,SEMROWI,MARSET,FSINIT,FSLIST,OPT
       LOGICAL EXTRNN,EXTRCT,EXTRCB
       INTEGER IVALPN,SEMFRM
 C
@@ -181,7 +181,7 @@ C
 C Output data in appropriate form
 C
                IF (INFORM.EQ.NFMINT) THEN
-                  IF (SEMROW(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
+                  IF (SEMROWI(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
                ELSE IF (FORM.EQ.NFMFP) THEN
                   IF (SEMROW(2,RB2(M),INFORM,JBUF,K,LP2)) GOTO 60
                ELSE

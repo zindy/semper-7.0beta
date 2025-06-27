@@ -429,6 +429,7 @@ C
 C
       REAL C1R,C1I,C2R,C2I,CSR,CSI,CASR,CASI,CWR,CWI,WR,WI,DWR,DWI,D
       INTEGER RVBASE(9),NF,R1,R2,I,J,ROWN1,ROWN2
+      INTEGER IDUMMY(1)
       LOGICAL FWD
 C
 C Global declarations
@@ -551,8 +552,9 @@ C
             R1=ROWN1
             R2=ROWN2
          ELSE
-            R1=MRDGRV(MOD(ROWN1+N(2)/2,N(2)),RVBASE,NF)
-            R2=MRDGRV(MOD(ROWN2+N(2)/2,N(2)),RVBASE,NF)
+            IDUMMY(1) = NF
+            R1=MRDGRV(MOD(ROWN1+N(2)/2,N(2)),RVBASE,IDUMMY)
+            R2=MRDGRV(MOD(ROWN2+N(2)/2,N(2)),RVBASE,IDUMMY)
          ENDIF
 C
          IF (DFTWR(CB1,R1,LPO,LPO,.TRUE.,FWD,FWD,0.0,MSQ,LN)) GOTO 40
@@ -703,7 +705,7 @@ C
 C Take mod squared?
 C
             IF (MSQ.AND..NOT.FWD) THEN
-               CALL FTLMSQ(CB1,N,.FALSE.)
+               CALL FTLMSQ(CB1,N(1),.FALSE.)
             ENDIF
 C
 C X/Y grids

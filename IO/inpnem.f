@@ -491,7 +491,7 @@ C
 C
 C           Read source row from file
 C
-            IF (MRDBIN(FD,IXFR,IB1,INFORM,MOTOR)) GOTO 190
+            IF (MRDBIN(FD,IXFR,IB1(1),INFORM,MOTOR)) GOTO 190
 C
 C           Do we need to bitshift ?
 C

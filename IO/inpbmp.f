@@ -8,7 +8,7 @@ C  dynamically opened.
 C
       INTEGER IPACK,IVALPN,LNBLNK,SEMFRM
       LOGICAL FILSEA,FILSTR,SEMCLS,SEMLAB,SEMOPN
-      LOGICAL SEMROW,SEMSEL,VARSET
+      LOGICAL SEMROW,SEMROWI,SEMSEL,VARSET
       LOGICAL MRDBIN,RBMPI2,RBMPI4
 C
       INTEGER CLASS,FORM
@@ -206,10 +206,10 @@ C
 C Now copy data
 C
             K = 1
-            IF (SEMROW(2,RED,NFMINT,1,1,LP2)) GOTO 140
+            IF (SEMROWI(2,RED,NFMINT,1,1,LP2)) GOTO 140
             IF (NROW2 .EQ. 3) THEN
-               IF (SEMROW(2,GREEN,NFMINT,2,1,LP2)) GOTO 140
-               IF (SEMROW(2,BLUE,NFMINT,3,1,LP2)) GOTO 140
+               IF (SEMROWI(2,GREEN,NFMINT,2,1,LP2)) GOTO 140
+               IF (SEMROWI(2,BLUE,NFMINT,3,1,LP2)) GOTO 140
             ENDIF
 C
 C and close the image
@@ -257,7 +257,7 @@ C
 C     Read source row from file
 C
             IF (EIKBYA(1,FD,IB1,IXFR)) GOTO 120
-            CALL CFORM(IB1,IB1,NFMBYT,NFMINT,I4N)
+            CALL CFORM(IB1(1),IB1,NFMBYT,NFMINT,I4N)
 C
 C     Unpack the pixels
 C
@@ -271,9 +271,9 @@ C
 C
 C     Store the rows to the destination in LP1
 C
-            IF (SEMROW(2,RED,NFMINT,I,1,LP1)) GOTO 140
-            IF (SEMROW(2,GREEN,NFMINT,I,2,LP1)) GOTO 140
-            IF (SEMROW(2,BLUE,NFMINT,I,3,LP1)) GOTO 140
+            IF (SEMROWI(2,RED,NFMINT,I,1,LP1)) GOTO 140
+            IF (SEMROWI(2,GREEN,NFMINT,I,2,LP1)) GOTO 140
+            IF (SEMROWI(2,BLUE,NFMINT,I,3,LP1)) GOTO 140
          ELSE
 C
 C     Read source row from file

@@ -12,7 +12,7 @@ C threshold values are specified, the mid-range value of the source
 C picture is used as a lower limit.  The output picture range is
 C is determined directly and stored in the picture label.
 C
-      LOGICAL VARSET,SEMRNG,SEMOPN,SEMROW
+      LOGICAL VARSET,SEMRNG,SEMOPN,SEMROW,SEMROWI
       INTEGER IPACK,IVALPN
       REAL    VAL
 C
@@ -342,7 +342,7 @@ C
 C
 C Store result in output picture
 C
-            IF (SEMROW(2,IB2,NFMINT,J,K,LP2)) GOTO 270
+            IF (SEMROWI(2,IB2,NFMINT,J,K,LP2)) GOTO 270
   250    CONTINUE
   260 CONTINUE
 C

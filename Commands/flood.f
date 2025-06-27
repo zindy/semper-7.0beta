@@ -10,7 +10,7 @@ C addition, the POSITION,POS keys can be used to specify a single
 C seed point.  The options FG and BG specify which combination of
 C foreground and/or background regions are to br processed.
 C
-      LOGICAL OPT,VARSET,SEMOPN,SEMROW,FLOOD2,LABEL4,SEMRNG
+      LOGICAL OPT,VARSET,SEMOPN,SEMROW,SEMROWI,FLOOD2,LABEL4,SEMRNG
       INTEGER IVALPN,IPACK
       REAL    VAL
 C
@@ -205,7 +205,7 @@ C
 C
 C Store result for this row in temporary picture
 C
-               IF (SEMROW(2,SEED,NFMINT,J,1,LPS)) GOTO 240
+               IF (SEMROWI(2,SEED,NFMINT,J,1,LPS)) GOTO 240
 C
 C Reset seed points for this row
 C
@@ -609,7 +609,7 @@ C
 C
 C Write data to output picture
 C
-            IF (SEMROW(2,IB1,NFMINT,J,1,LPT)) GOTO 240
+            IF (SEMROWI(2,IB1,NFMINT,J,1,LPT)) GOTO 240
          ENDIF
 C
 C Record number of chords at the end of this pass
@@ -645,7 +645,7 @@ C
 C
 C Fetch row of partially labeled data
 C
-         IF (SEMROW(1,IB1,NFMINT,J,1,LPT)) GOTO 240
+         IF (SEMROWI(1,IB1,NFMINT,J,1,LPT)) GOTO 240
 C
 C Relabel data into final form
 C
@@ -667,7 +667,7 @@ C
 C
 C Write final result to output picture
 C
-         IF (SEMROW(2,IB1,NFMINT,J,1,LP2)) GOTO 240
+         IF (SEMROWI(2,IB1,NFMINT,J,1,LP2)) GOTO 240
   230 CONTINUE
 C
 C Store output range in picture label
@@ -698,7 +698,7 @@ C background and/or foreground regions are ultimately to be processed.
 C Chords that do not take part in the flooding process are returned with
 C a zero chord id.
 C
-      LOGICAL SEMROW
+      LOGICAL SEMROW,SEMROWI
 C
       INTEGER NCOL,NROW,I,KN
 C
@@ -747,12 +747,12 @@ C
 C
 C Read in mask picture row
 C
-      IF (SEMROW(1,MASK,NFMINT,ROW,1,LPM)) GOTO 70
+      IF (SEMROWI(1,MASK,NFMINT,ROW,1,LPM)) GOTO 70
 C
 C Read in seed picture row (if seed image exists)
 C
       IF (LPS.NE.0) THEN
-          IF (SEMROW(1,SEED,NFMINT,ROW,1,LPS)) GOTO 70
+          IF (SEMROWI(1,SEED,NFMINT,ROW,1,LPS)) GOTO 70
       ENDIF
 C
 C Initialise chord pointer

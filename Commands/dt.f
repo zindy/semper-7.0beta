@@ -6,11 +6,17 @@ C Calculates distance transform from specified foreground/background
 C region(s) defined by the source picture.
 C
       INTEGER IPACK,IVALPN
-      LOGICAL CONOPT,OPT,SEMOPN,SEMROW,DTRAN1,DTRAN3,SEMRNG,SEMMED
+      LOGICAL CONOPT,OPT,SEMOPN,SEMROW,SEMROWI,DTRAN1,DTRAN3,SEMRNG
+      LOGICAL SEMMED
+      EXTERNAL SEMMED
 C
+      
       INTEGER IOP,NPIC,NCOL,NROW,NLAY,J,K1,K2,FORM,IMAX,MEDIUM
       LOGICAL LBG,LCLOSE,LZERO,LNZERO
       REAL    RMAX
+      
+      INTEGER DEVICE_NUM
+      LOGICAL RESULT
 C
       INCLUDE 'COMMON'
 C
@@ -84,7 +90,11 @@ C
 C
 C Fetch medium associated with output picture
 C
-      IF (SEMMED(DEVN(LP2),MEDIUM)) GOTO 50
+C     IF (SEMMED(DEVN(LP2),MEDIUM)) GOTO 50
+      
+      DEVICE_NUM = DEVN(LP2)
+      RESULT = SEMMED(DEVICE_NUM,MEDIUM)
+      IF (RESULT) GOTO 50
 C
 C If output picture is not suitable for intermediate data storage
 C (wrong size/form or display picture)
@@ -130,8 +140,8 @@ C
 C
 C Store intermediate results in temporary picture
 C
-            IF (SEMROW(2,DX(1,K2),NFMINT,J,1,LP3)) GOTO 50
-            IF (SEMROW(2,DY(1,K2),NFMINT,J,2,LP3)) GOTO 50
+            IF (SEMROWI(2,DX(1,K2),NFMINT,J,1,LP3)) GOTO 50
+            IF (SEMROWI(2,DY(1,K2),NFMINT,J,2,LP3)) GOTO 50
    10    CONTINUE
 C
 C Fault absence of structure in source picture
@@ -203,7 +213,7 @@ C
 C
 C Store intermediate results
 C
-            IF (SEMROW(2,IDIST(1,K2),NFMINT,J,1,LP3)) GOTO 50
+            IF (SEMROWI(2,IDIST(1,K2),NFMINT,J,1,LP3)) GOTO 50
    30    CONTINUE
 C
 C Fault absence of structure in source picture
@@ -239,7 +249,7 @@ C
 C
 C Store final result in output picture
 C
-            IF (SEMROW(2,IDIST(1,K2),NFMINT,J,1,LP2)) GOTO 50
+            IF (SEMROWI(2,IDIST(1,K2),NFMINT,J,1,LP2)) GOTO 50
    40    CONTINUE
 C
 C Set up final range value

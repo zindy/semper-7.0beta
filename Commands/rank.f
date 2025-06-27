@@ -16,7 +16,7 @@ C time saving in a 0/1 binary picture as opposed to a 0/255 picture
 C because of reduced times shifting MDN/NBELOW up and down
 C
       INTEGER IVAL
-      LOGICAL SEMROW,OPT
+      LOGICAL SEMROW,SEMROWI,OPT
 C
       INCLUDE 'COMMON'
 C
@@ -93,7 +93,7 @@ C
 C Read it into buffer KBY of cycled set
 C
       N4=IBPS(KBY)
-      IF (SEMROW(1,IB1LHS(N4),1,ROW,1,LP1)) GOTO 100
+      IF (SEMROWI(1,IB1LHS(N4),1,ROW,1,LP1)) GOTO 100
 C
 C Propagate edge pixels
 C

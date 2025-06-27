@@ -166,15 +166,21 @@ C
 C     Read source row from file
 C
             IF(CNVRTI2)THEN
-                IF (MRDBIN(FD,IXFR,IB2,FORM,LSWAP)) GOTO 70
                 DO JJ=1,NCOL
                         IB1(JJ)=IB2(JJ)
                 ENDDO
+                IF (MRDBIN(FD,IXFR,IB1,FORM,LSWAP)) GOTO 70
+C               DO JJ=1,NCOL
+C                       IB1(JJ)=IB2(JJ)
+C               ENDDO
             ELSE IF(CNVRTI4)THEN
-                IF (MRDBIN(FD,IXFR,IB4,FORM,LSWAP)) GOTO 70
                 DO JJ=1,NCOL
                         IB1(JJ)=IB4(JJ)
                 ENDDO
+                IF (MRDBIN(FD,IXFR,IB1,FORM,LSWAP)) GOTO 70
+C               DO JJ=1,NCOL
+C                       IB1(JJ)=IB4(JJ)
+C               ENDDO
             ELSE
                 IF (MRDBIN(FD,IXFR,IB1,FORM,LSWAP)) GOTO 70
             ENDIF

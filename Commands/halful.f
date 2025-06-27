@@ -5,7 +5,7 @@ C
 C Provides verbs FULL and HALF, interchanging half- and full-plane
 C Fourier transforms
 C
-      LOGICAL SEMOPN,SEMCEN,SEMROW,SEMTFC,HPL,COMPL
+      LOGICAL SEMOPN,SEMCEN,SEMROW,SEMROWI,SEMTFC,HPL,COMPL
       INTEGER IVALPN,SEMFRM
       INTEGER IB1(256),IB2(256),CLASS,FORM,CROW,OUTP,OUTNC
 C
@@ -77,8 +77,8 @@ C
             NCONJ = MOD(NROW-N+1,NROW) + 1
 C
             IF (FORM .EQ. NFMINT) THEN
-               IF (SEMROW(1,IB1(INP),FORM,N,L,LP1)) GOTO 40
-               IF (SEMROW(1,IB2(INP),FORM,NCONJ,L,LP1)) GOTO 40
+               IF (SEMROWI(1,IB1(INP),FORM,N,L,LP1)) GOTO 40
+               IF (SEMROWI(1,IB2(INP),FORM,NCONJ,L,LP1)) GOTO 40
             ELSE
                IF (SEMROW(1,RB1(INP),FORM,N,L,LP1)) GOTO 40
                IF (SEMROW(1,RB2(INP),FORM,NCONJ,L,LP1)) GOTO 40
@@ -133,8 +133,8 @@ C
 C Return rows to disc
 C
             IF (FORM.EQ.NFMINT) THEN
-               IF (SEMROW(2,IB1(OUTP),FORM,N,L,LP2)) GOTO 40
-               IF (SEMROW(2,IB2(OUTP),FORM,NCONJ,L,LP2)) GOTO 40
+               IF (SEMROWI(2,IB1(OUTP),FORM,N,L,LP2)) GOTO 40
+               IF (SEMROWI(2,IB2(OUTP),FORM,NCONJ,L,LP2)) GOTO 40
             ELSE
                IF (SEMROW(2,RB1(OUTP),FORM,N,L,LP2)) GOTO 40
                IF (SEMROW(2,RB2(OUTP),FORM,NCONJ,L,LP2)) GOTO 40

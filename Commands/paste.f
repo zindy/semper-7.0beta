@@ -181,7 +181,7 @@ C Copy source data into output row
 C
             N4COLS = I2 - I1 + 1
             IF (INFORM.EQ.NFMINT) THEN
-               CALL CFORM(IB1(IOFF+I1),IB2(I1),NFMINT,NFMINT,N4COLS)
+               CALL CFORMI(IB1(IOFF+I1),IB2(I1),NFMINT,NFMINT,N4COLS)
             ELSE
                CALL CFORM(RB1(IOFF+I1),RB2(I1),NFMFP,NFMFP,N4COLS)
             ENDIF

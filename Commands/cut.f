@@ -28,7 +28,7 @@ C Local declarations
 C
       REAL VAL
       INTEGER IVAL,IVALPN,SEMFRM
-      LOGICAL SEMOPN,SEMROW,TSTSRG,MRKREG,SEMCEN
+      LOGICAL SEMOPN,SEMROW,SEMROWI,TSTSRG,MRKREG,SEMCEN
 C
       REAL VALUE
       INTEGER IB1(MAXIPB),IB2(MAXIPB),IB3(MAXIPB)
@@ -189,7 +189,8 @@ C
 C Output directly from source
 C
                   IF (INFORM.EQ.NFMINT) THEN
-                     IF (SEMROW(2,IB1(I1),NFMINT,JOUT,KOUT,LP2)) GOTO 70
+                     IF (SEMROWI(2,IB1(I1),NFMINT,JOUT,KOUT,LP2))
+     +                  GOTO 70
                   ELSE
                      IF (SEMROW(2,RB1(I1),INFORM,JOUT,KOUT,LP2)) GOTO 70
                   ENDIF
@@ -198,8 +199,8 @@ C Prefill output buffer and copy strip from source
 C
                ELSE
                   IF (INFORM.EQ.NFMINT) THEN
-                     CALL CFORM(IB3,IB2,NFMINT,NFMINT,NCOL4)
-                     CALL CFORM(IB1(I1),IB2(I1+IOFF),NFMINT,NFMINT,N4)
+                     CALL CFORMI(IB3,IB2,NFMINT,NFMINT,NCOL4)
+                     CALL CFORMI(IB1(I1),IB2(I1+IOFF),NFMINT,NFMINT,N4)
                   ELSE
                      CALL CFORM(RB3,RB2,INFORM,INFORM,NCOL4)
                      CALL CFORM(RB1(I1),RB2(I1+IOFF),INFORM,INFORM,N4)

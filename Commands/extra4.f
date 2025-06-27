@@ -5,7 +5,7 @@ C
 C Performs general extraction, with bi-linear interpolation
 C
       REAL VAL
-      LOGICAL OPT,SEMROW,EXTRNN,EXTRCT,EXTRCB,SEMCON
+      LOGICAL OPT,SEMROW,SEMROWI,EXTRNN,EXTRCT,EXTRCB,SEMCON
 C
       REAL DUMMY(2)
       REAL UX,UY,VX,VY,XSTART,YSTART,X,Y
@@ -156,7 +156,7 @@ C
 C Output data in appropriate form
 C
                IF (INFORM.EQ.NFMINT) THEN
-                  IF (SEMROW(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
+                  IF (SEMROWI(2,IB2(M),INFORM,JBUF,K,LP2)) GOTO 60
                ELSE IF (FORM.EQ.NFMFP) THEN
                   IF (SEMROW(2,RB2(M),INFORM,JBUF,K,LP2)) GOTO 60
                ELSE
