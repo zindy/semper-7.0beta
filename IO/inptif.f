@@ -55,6 +55,8 @@ C
       EQUIVALENCE (I4N,I2)
 C
       INTEGER*4 IWIDTH,HEIGHT,ROWSPS
+
+      INTEGER*2 I2WRK_AND_MASK, ITEMP
 C
       INTEGER*4 I42,I43
       PARAMETER (I42=2,I43=3)
@@ -69,6 +71,8 @@ C     LDM Additions
       Logical endian, IsMotorola
 C     Pick up options and mandatory keys
 C
+      I2WRK_AND_MASK = 32767
+
       QUIET = OPTNO(-3419)
       LMAP = VARSET(20856)
       IF (LMAP) THEN
@@ -110,7 +114,8 @@ C
       ND = NF
 C
       IXFR = 2
-      IF (MRDBIN(FD,IXFR,I,NFMBYT,.FALSE.)) GOTO 340
+      ITEMP = I
+      IF (MRDBIN(FD,IXFR,ITEMP,NFMBYT,.FALSE.)) GOTO 340
       CALL CFORM(I,IB1,NFMBYT,NFMINT,I42)
 C
 C File should start with 'II' or 'MM'
@@ -441,8 +446,8 @@ C
                   IF (RTIFI4(FD,STROFF(I),POSN,MOTOR)) GOTO 340
                ELSE
                   IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
-                  J=I2WRK
-                  STROFF(I) = UNSIGN(J)
+                  ITEMP=I2WRK
+                  STROFF(I) = UNSIGN(ITEMP)
                ENDIF
   100       CONTINUE
          ELSE
@@ -740,19 +745,19 @@ C
             DO 180 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),32767)
+               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
                RED(I) = K
   180       CONTINUE
             DO 190 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),32767)
+               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
                GREEN(I) = K
   190       CONTINUE
             DO 200 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),32767)
+               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
                BLUE(I) = K
   200       CONTINUE
          ENDIF
@@ -964,7 +969,7 @@ C
                IF (EIKBYA(1,FD,IB1,IXFR)) GOTO 340
                ROWLEF = ROWLEF - 1
                POSN = POSN + I4N
-               CALL CFORM(IB1,IB1,NFMBYT,NFMINT,I4N)
+               CALL CFORM(IB1(1),IB1,NFMBYT,NFMINT,I4N)
 C
 C     Unpack the pixels
 C
@@ -999,7 +1004,7 @@ C
 C
 C     Need to reverse order of black to white
 C
-                  CALL CFORM(IB1,IB1,NFMBYT,NFMINT,I4N)
+                  CALL CFORM(IB1(1),IB1,NFMBYT,NFMINT,I4N)
                   DO 260 K = 1,IXFR
                      IB1(K) = 255 - IB1(K)
   260             CONTINUE
@@ -1082,6 +1087,7 @@ C
       LOGICAL FUNCTION RTIFI4(FD,I,POSN,MOTOR)
       INTEGER FD
       INTEGER*4 I, POSN
+      INTEGER*2 ITEMP
       LOGICAL MOTOR
 C
       INCLUDE 'PARAMS'
@@ -1095,7 +1101,8 @@ C
 C
 C Use NFMFP as there isn't an NFMI4
 C
-      RTIFI4 = MRDBIN(FD,N,I,NFMFP,MOTOR)
+      ITEMP = I
+      RTIFI4 = MRDBIN(FD,N,ITEMP,NFMFP,MOTOR)
       RETURN
       END
 C
@@ -1195,9 +1202,12 @@ C
       CHARACTER*(*) FILENM
 C
       INTEGER J,C
+      INTEGER CBUF(1)
+
       INTEGER*4 I41,I4N
       PARAMETER (I41=1)
 C
+      EQUIVALENCE(C, CBUF)
       LOGICAL EIKBYA,RTSEEK
 C
       INCLUDE 'COMMON'
@@ -1214,7 +1224,7 @@ C
 C
 C Read the bytes (up to null pad)
 C
-   10       IF (EIKBYA(1,FD,C,1)) GOTO 20
+   10       IF (EIKBYA(1,FD,CBUF,1)) GOTO 20
             POSN = POSN + I41
             CALL CFORM(C,IB(J),NFMBYT,NFMINT,I41)
             IF (IB(J) .NE. 0) THEN
@@ -1232,7 +1242,7 @@ C Read the bytes (will be null padded)
 C
          IF (EIKBYA(1,FD,IB,J)) GOTO 20
          POSN = POSN + I4N
-         CALL CFORM(IB,IB,NFMBYT,NFMINT,I4N)
+         CALL CFORM(IB(1),IB,NFMBYT,NFMINT,I4N)
       ENDIF
       RTIFAS = .FALSE.
       RETURN
@@ -1245,12 +1255,14 @@ C
 C Convert I2 to I4 unsigned
 C
       INTEGER*4 FUNCTION UNSIGN(J)
-      INTEGER J
+      INTEGER*2 J
 C
       INTEGER*4 I4N
+      INTEGER*2 I2WRK_AND_MASK
+      I2WRK_AND_MASK = 32767
 C
       IF (J .LT. 0) THEN
-         I4N = IAND(J,32767)
+         I4N = IAND(J,I2WRK_AND_MASK)
          I4N = I4N + 32768
          UNSIGN = I4N
       ELSE
