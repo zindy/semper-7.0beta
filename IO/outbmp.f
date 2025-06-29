@@ -216,7 +216,7 @@ C
       IF ( WBMPI4 ( FD,BICLRIMP ) ) GOTO 130
       IF (.NOT.COLOUR) THEN
          IXFR = 256 * 4
-         IF ( MWRBIN ( FD,IXFR,CLRI,NFMBYT,LSWAP ) ) GOTO 130
+         IF ( MWRBIN ( FD,IXFR,CLRI(1),NFMBYT,LSWAP ) ) GOTO 130
       ENDIF
 C
       FORM = NFMBYT
@@ -269,7 +269,7 @@ C
 C        Write source row to file. Straight output can be used
 C        as we don't write RLE at present.
 C
-         IF (MWRBIN(FD,IXFR,IB1,FORM,LSWAP)) GOTO 130
+         IF (MWRBIN(FD,IXFR,IB1(1),FORM,LSWAP)) GOTO 130
    50 CONTINUE
 C
 C     Close file
