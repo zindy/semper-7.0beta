@@ -9,7 +9,7 @@ C  Optionally takes a colour map (LUT) using the MAP keyword.
 C
       INTEGER IPACK,IVALPN,LNBLNK
       LOGICAL FILMAK,FILSEA,FILSTR,OPT,OUTNEW,SEMLNF
-      LOGICAL SEMOPN,SEMROW,VARSET
+      LOGICAL SEMOPN,SEMROW,SEMROWI,VARSET
 C
       INCLUDE 'COMMON'
 C
@@ -103,8 +103,8 @@ C
             J = J + 256
    10    CONTINUE
          I4N = 256
-         CALL CFORM(RED,GREEN,NFMINT,NFMINT,I4N)
-         CALL CFORM(RED,BLUE,NFMINT,NFMINT,I4N)
+         CALL CFORMI(RED,GREEN,NFMINT,NFMINT,I4N)
+         CALL CFORMI(RED,BLUE,NFMINT,NFMINT,I4N)
          DO J=1,256
                 RED2(J)=RED(J)
                 GREEN2(J)=GREEN(J)
@@ -209,7 +209,7 @@ C Determine byte ordering
 C
       POKE(1) = 1
       POKE(2) = 0
-      CALL CFORM(POKE,POKE,NFMINT,NFMBYT,I42)
+      CALL CFORMI(POKE,POKE,NFMINT,NFMBYT,I42)
       LSWAP = POKE(1) .NE. 1
 C
 C Build header
@@ -241,7 +241,7 @@ C       Same as 'II', i.e. little-endian, intel
       ENDIF
 
 361   POKE(2) = POKE(1)
-      CALL CFORM(POKE,IB1,NFMINT,NFMBYT,I42)
+      CALL CFORMI(POKE,IB1,NFMINT,NFMBYT,I42)
 C
 C Version number
 C
@@ -546,17 +546,17 @@ C
                   T = T + 3
    30          CONTINUE
                I4N = IXFR
-               CALL CFORM(IB1,IB1,NFMINT,NFMBYT,I4N)
+               CALL CFORMI(IB1,IB1,NFMINT,NFMBYT,I4N)
 C
 C Write source row to file
 C
-               IF (EIKBYA(2,FD,IB1,IXFR)) GOTO 170
+               IF (EIKBYA(2,FD,IB2,IXFR)) GOTO 170
    40       CONTINUE
 C
 C Write padding byte if required
 C
             IF (I4BPIM .NE. I4NEXT) THEN
-               IF (EIKBYA(2,FD,IB1,1)) GOTO 170
+               IF (EIKBYA(2,FD,IB2,1)) GOTO 170
             ENDIF
    50    CONTINUE
       ELSE
@@ -569,17 +569,17 @@ C
 C Loop over rows
 C
             DO 60 J=1,NROW
-               IF (SEMROW(1,RB1,NFMBYT,J,K,LP1)) GOTO 160
+               IF (SEMROWI(1,RB1(1),NFMBYT,J,K,LP1)) GOTO 160
 C
 C Write source row to file
 C
-               IF (EIKBYA(2,FD,IB1,IXFR)) GOTO 170
+               IF (EIKBYA(2,FD,IB2,IXFR)) GOTO 170
    60       CONTINUE
 C
 C Write padding byte if required
 C
             IF (I4BPIM .NE. I4NEXT) THEN
-               IF (EIKBYA(2,FD,IB1,1)) GOTO 170
+               IF (EIKBYA(2,FD,IB2,1)) GOTO 170
             ENDIF
    70    CONTINUE
       ENDIF
