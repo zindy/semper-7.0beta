@@ -57,6 +57,8 @@ C
       INTEGER*4 IWIDTH,HEIGHT,ROWSPS
 C
       INTEGER*4 I42,I43
+      INTEGER*2 I2WRK_AND_MASK
+
       PARAMETER (I42=2,I43=3)
 C
 C     'C' functions
@@ -69,6 +71,8 @@ C     LDM Additions
       Logical endian, IsMotorola
 C     Pick up options and mandatory keys
 C
+      I2WRK_AND_MASK = 32767
+
       QUIET = OPTNO(-3419)
       LMAP = VARSET(20856)
       IF (LMAP) THEN
@@ -740,19 +744,19 @@ C
             DO 180 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),32767)
+               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
                RED(I) = K
   180       CONTINUE
             DO 190 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),32767)
+               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
                GREEN(I) = K
   190       CONTINUE
             DO 200 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),32767)
+               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
                BLUE(I) = K
   200       CONTINUE
          ENDIF
