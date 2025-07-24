@@ -160,6 +160,7 @@ if test "$F77" = "gfortran" ; then
         [Defined to one if using fort77 with -I2 and other options])
         AC_LIBOBJ(accessf)
         PATCHES="accessf.c"
+	FFLAGS="$FFLAGS -std=legacy -fallow-argument-mismatch"
 fi
 dnl
 dnl *************************************************

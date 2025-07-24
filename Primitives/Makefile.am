@@ -1,4 +1,4 @@
-
+noinst_LIBRARIES = libsPrimitives.a
 
 #noinst_PROGRAMS = a1conv_test cform_test mctime_test mcdc61_test
 noinst_PROGRAMS = cform_test mctime_test mcdc61_test a1conv_test
@@ -8,9 +8,9 @@ cform_test_SOURCES  = cform_test.f cform.c
 mctime_test_SOURCES = mctime_test.f
 mcdc61_test_SOURCES = mcdc61_test.f
 
-a1conv_test_LDADD = @SLIB_ADD@
-mctime_test_LDADD = @SLIB_ADD@
-mcdc61_test_LDADD = @SLIB_ADD@
+a1conv_test_LDADD = libsPrimitives.a @SLIB_ADD@
+mctime_test_LDADD = libsPrimitives.a @SLIB_ADD@
+mcdc61_test_LDADD = libsPrimitives.a @SLIB_ADD@
 
 a1conv_test_LDFLAGS = @SLIB_LOC@
 mctime_test_LDFLAGS = @SLIB_LOC@
@@ -25,7 +25,6 @@ test-mctime: mctime_test
 test-mcdc61: mcdc61_test
 	./mcdc61_test
 
-noinst_LIBRARIES = libsPrimitives.a
 
 EXTRA_DIST = dcache.h  events.h  icset.h fsbuff.h
 
