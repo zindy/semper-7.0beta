@@ -20,15 +20,6 @@ if test "$ok" = "yes"; then
 	CXX=g++
 	echo "Using gcc compilers, default"
 fi
-
-# Append legacy Fortran flags to FFLAGS
-if test -z "$FFLAGS"; then
-  FFLAGS="-std=legacy -fno-automatic"
-else
-  FFLAGS="$FFLAGS -std=legacy -fno-automatic"
-fi
-export FFLAGS
-
 # Some linux/PC flags
 AC_ARG_WITH( CPU,
   [  --with-CPU[=Val]          Defines the cpu in linux],
