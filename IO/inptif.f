@@ -51,14 +51,12 @@ C
       EQUIVALENCE (RB4,BLUE),(RB5,GREEN),(RB6,RED)
 C
       INTEGER*4 I4N,POSN,TARGET,IFDPTR,NXTIFD
-      INTEGER*2 I2(2),I2WRK
+      INTEGER*2 I2(2),I2WRK, I2TMP
       EQUIVALENCE (I4N,I2)
 C
       INTEGER*4 IWIDTH,HEIGHT,ROWSPS
 C
       INTEGER*4 I42,I43
-      INTEGER*2 I2WRK_AND_MASK
-
       PARAMETER (I42=2,I43=3)
 C
 C     'C' functions
@@ -71,8 +69,6 @@ C     LDM Additions
       Logical endian, IsMotorola
 C     Pick up options and mandatory keys
 C
-      I2WRK_AND_MASK = 32767
-
       QUIET = OPTNO(-3419)
       LMAP = VARSET(20856)
       IF (LMAP) THEN
@@ -741,22 +737,23 @@ C Seek to maps and read - since we only handle 8 bpp
 C                         assume 2**8 = 256 entries
 C
             IF (RTSEEK(FD,TAGIND(TAGNO),POSN,FILENM(1:NF))) GOTO 350
+            I2TMP = 32767
             DO 180 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
+               K = IAND(ISHFT(I2WRK,-8),I2TMP) !32767)
                RED(I) = K
   180       CONTINUE
             DO 190 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
+               K = IAND(ISHFT(I2WRK,-8),I2TMP) !32767)
                GREEN(I) = K
   190       CONTINUE
             DO 200 I = 0,255
                IF (RTIFI2(FD,I2WRK,POSN,MOTOR)) GOTO 340
 C               K = IAND(RSHIFT(I2WRK,8),32767)
-               K = IAND(ISHFT(I2WRK,-8),I2WRK_AND_MASK)
+               K = IAND(ISHFT(I2WRK,-8),I2TMP) !32767)
                BLUE(I) = K
   200       CONTINUE
          ENDIF
