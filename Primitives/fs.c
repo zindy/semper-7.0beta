@@ -2035,7 +2035,8 @@ int x,y, w,h;
 
 		    for ( j = 0; j < w; j++ )
 		    {
-			XovRGB [ 0 ] = redMap   [ *rptr++ ] |
+			XovRGB [ 0 ] = 0xFF000000 |
+			           redMap   [ *rptr++ ] |
 				       greenMap [ *gptr++ ] |
 				       blueMap  [ *bptr++ ];
 			*lptr++ = XovRGB [ *optr++ & XovVisibilityMask ];
@@ -2106,7 +2107,8 @@ int x,y, w,h;
 
 		    for ( j = 0; j < w; j++ )
 		    {
-			XovRGB [ 0 ] = redMap   [ *rptr++ ] |
+			XovRGB [ 0 ] = 0xFF000000 | 
+			           redMap   [ *rptr++ ] |
 				       greenMap [ *gptr++ ] |
 				       blueMap  [ *bptr++ ];
 			*lptr++ = XovRGB [ *optr++ & XovVisibilityMask ];
